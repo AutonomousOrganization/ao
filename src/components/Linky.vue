@@ -42,7 +42,9 @@ export default {
 
 </script>
 
-<style lang='stylus' scoped>
+
+<style lang='stylus'>
+// adding scoped causes ui bugs in context rows I do not understand how (ghosts)
 
 .centered
     text-align: center
