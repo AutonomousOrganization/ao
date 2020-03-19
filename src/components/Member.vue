@@ -1,12 +1,12 @@
 <template lang='pug'>
 
 .memberrow.membershipcard
-    bird(v-if='$store.state.upgrades.warp >= 0'  :b='card')
-    .row.center.clearboth(:class='{ pullup : $store.state.upgrades.mode !== "boat" && $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
+    bird(:b='card')
+    .row.center.clearboth(:class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
         img.logindicator(v-if='isLoggedIn', src='../assets/images/loggedIn.svg')
         img.logindicator(v-else, src='../assets/images/loggedOut.svg')
         label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }') {{ m.name }}
-    not-zen(v-if='$store.state.upgrades.mode !== "boat" && dukkha >= 1')
+    not-zen(v-if='$store.state.upgrades.mode === "doge" && dukkha >= 1')
     .bottomleft
       div(@click='goChest')
         img.smallguild(src='../assets/images/chest.svg')
@@ -35,7 +35,7 @@ export default {
     components: {PreviewDeck, Vouch, Bird, NotZen, GiftBox},
     computed:{
         card(){
-            return this.$store.getters.hashMap[this.m.memberId]
+            return this.$store.getters.contextCard
         },
         isLoggedIn(){
             let isLoggedIn

@@ -56,7 +56,9 @@ export default {
               this.$store.commit("setMode", 1)
           }
 
-          this.$router.push("/" + this.$store.state.upgrades.mode)
+          if (this.$store.state.upgrades.dimension !== 'unicorn'){
+              this.$router.push("/" + this.$store.state.upgrades.mode)
+          }
       },
       card(tId) {
           return this.$store.getters.hashMap[tId]

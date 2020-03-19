@@ -115,11 +115,10 @@ function memberCreated(name, fob, secret, callback) {
           fob,
           name,
           secret,
-          active: 1,
+          active: 0,
           balance: 0,
-          badges: [],
-          info: {},
-          lastActivated: 7
+          info: {}, // XXX use?
+          lastActivated: Date.now() // XXX use?
       }
       dctrlDb.insertEvent(newEvent, callback)
 }

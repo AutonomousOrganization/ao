@@ -233,13 +233,6 @@ function resourcesMuts(resources, ev){
 				}
 			})
 			break
-		case "channel-created":
-				resources.forEach((r, i) => {
-						if (r.resourceId == ev.resourceId){
-								r.pubkey = ev.pubkey
-						}
-				})
-				break
 	}
 }
 

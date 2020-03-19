@@ -6,7 +6,7 @@ const connector = require( './connector')
 const calculations = require('../calculations')
 
 const syncLink = new cron.CronJob({
-  cronTime: '0 */1 * * * *',
+  cronTime: '0 */7 * * * *',
   onTick: sync,
   start: false,
   timeZone: 'America/Los_Angeles'

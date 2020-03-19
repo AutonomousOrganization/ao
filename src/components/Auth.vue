@@ -1,11 +1,27 @@
 <template lang='pug'>
 
-#auth
+#auth.container
   div(v-if='!confirmed')
-      input(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createSession', placeholder='dogename')
-      input#password(type='password', v-model='pass', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createSession', placeholder='password')
+      h1 create account
+      .input-container
+          input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
+          label choose name
+          span.focus-border
+      button(@click="createAccount") new account
+      br
+      hr
+      br
+      h1 existing account
+      .input-container
+          input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createSession', :class='{"has-content":!!name}')
+          label choose name
+          span.focus-border
+      .input-container
+          input.input-effect#password(type='password', v-model='pass', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createSession'  :class='{"has-content":!!pass}')
+          label password
+          span.focus-border
       p.red {{ err }}
-      button.primary(@click="createSession") login
+      button(@click="createSession") login
 </template>
 
 <script>
@@ -29,6 +45,12 @@ export default {
       },
   },
   methods: {
+      createAccount(){
+          request.get('/newaccount/' + this.name)
+              .end((err, res) => {
+                  this.setAuth(res.body.token, res.body.session)
+              })
+      },
       createSession(){
           let session = uuidV1()
           let sessionKey = cryptoUtils.createHash(session + cryptoUtils.createHash(this.pass))
@@ -43,31 +65,21 @@ export default {
                       this.pass = ''
                       return this.err = err.message
                   }
+                  this.setAuth(token, session)
 
-                  this.pass = ""
-                  this.$store.commit('setAuth', {
-                      token,
-                      session,
-                  })
-
-                  window.localStorage.setItem("token", token)
-                  window.localStorage.setItem("session", session)
-
-                  this.$store.dispatch('loadCurrent')
               })
       },
-      killSession(){
-          this.$store.dispatch("makeEvent", {
-              type: "session-killed",
-              session: this.$store.state.loader.session
-          })
-          window.localStorage.removeItem("token")
-          window.localStorage.removeItem("session")
-          window.localStorage.clear()
+      setAuth(token, session){
+          this.pass = ""
           this.$store.commit('setAuth', {
-              token: '', session: ''
+              token,
+              session,
           })
-          window.location.replace('/')
+
+          window.localStorage.setItem("token", token)
+          window.localStorage.setItem("session", session)
+
+          this.$store.dispatch('loadCurrent')
       }
   }
 }
@@ -78,29 +90,18 @@ export default {
 @import '../styles/colours'
 @import '../styles/button'
 @import '../styles/input'
+@import '../styles/skeleton'
 
-#auth
-    background-color:accent5
-    margin: 50px auto 50px auto
-    padding: 20px 50px 50px 50px;
-    width:300px
-
-main #auth
-    margin: 0 0 0 50px
-    padding: 20px 20px 20px 20px;
-    width:calc(100% - 90px)
+h1
+    text-align: center
 
 input
     border: 2px solid wrexyellow
     margin-bottom: 0.5em
     border-radius: 0.25em
 
-
 .secret
     -webkit-text-fill-color: transparent; /* sets just the text color */
-
-.container
-    width: 100%
 
 .red
     color: accent2

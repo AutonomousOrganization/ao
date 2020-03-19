@@ -113,7 +113,7 @@ function insertEvent(ev, callback) {
       err = actualErr
     }
     if (callback) {
-        callback(err, result);
+        callback(err, {result,ev});
     }
 }
 

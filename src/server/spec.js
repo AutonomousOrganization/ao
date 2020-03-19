@@ -331,6 +331,7 @@ router.post('/events', (req, res, next)=>{
               validators.isAmount(req.body.charged, errRes) &&
               validators.isNotes(req.body.notes, errRes)
           ){
+              // Access to calculations, reuse from fobtap
               events.resourceUsed(
                 req.body.resourceId,
                 req.body.memberId,

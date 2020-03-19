@@ -178,19 +178,13 @@ export default {
             let foundId = this.matchCard
             let potentialCard = this.task.name.trim()
             if(!foundId) {
-                request
-                    .post('/events')
-                    .set('Authorization', this.$store.state.loader.token)
-                    .send({
-                        type: 'task-created',
-                        name: potentialCard,
-                        color: this.task.color,
-                        deck: [this.$store.getters.member.memberId],
-                        inId: this.taskId,
-                    })
-                    .end((err,res)=>{
-                        if (err) return console.log(err);
-                    })
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-created',
+                    name: potentialCard,
+                    color: this.task.color,
+                    deck: [this.$store.getters.member.memberId],
+                    inId: this.taskId,
+                })
             } else {
                 this.subTaskTask(foundId)
             }

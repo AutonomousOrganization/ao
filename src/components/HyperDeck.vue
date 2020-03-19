@@ -2,8 +2,7 @@
 .deck(:key='$store.getters.contextCard.taskId')
     .paperwrapper.padsides
         .card(:class='{ adjustwidth : !$store.getters.contextMember, closedwidth : $store.state.upgrades.mode === "doge", openwidth : $store.state.upgrades.mode !== "doge" }')
-            auth(v-if='!$store.getters.isLoggedIn')
-            member-row(v-else-if='$store.getters.contextMember', :m='$store.getters.contextMember'  :key='card.taskId')
+            member-row(if='$store.getters.contextMember', :m='$store.getters.contextMember'  :key='card.taskId')
             resource-row(v-if='$store.getters.contextResource'   :r='$store.getters.contextResource'  :key='card.taskId')
             .centerer
                 .more(v-if='panelSplit.before.length > 5') +{{ panelSplit.before.length - 5 }}

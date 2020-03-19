@@ -10,7 +10,7 @@ function access(member, resource){
     if (member.active < 0){
         return false
     }
-    if (resource.charged == 0){
+    if (resource.charged === 0){
         return true
     }
     let newBalance = member.balance - resource.charged

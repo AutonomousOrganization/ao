@@ -9,6 +9,7 @@
     event-feed
     status
     task-create
+    auth(v-if='!$store.getters.isLoggedIn')
     router-view
 </template>
 
@@ -22,6 +23,7 @@ import Helm from './components/Helm'
 import Status from './components/Status'
 import Contexts from './components/Contexts'
 import TaskCreate from './components/TaskCreate'
+import Auth from './components/Auth'
 
 export default {
     mounted() {
@@ -34,7 +36,7 @@ export default {
         this.$store.dispatch('loadCurrent')
     },
     components: {
-        EventFeed, Sun, Bull, Loader, Helm, Status, TaskCreate, Contexts
+        EventFeed, Sun, Bull, Loader, Helm, Status, TaskCreate, Contexts, Auth
     },
 }
 
