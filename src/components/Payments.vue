@@ -29,9 +29,11 @@ export default {
       PayReq, PayAddress,
     },
     mounted() {
-        this.$store.commit('setMode' , 3)
-        this.$store.commit('setDimension' , 0)
-        this.$store.dispatch('loaded')
+        if (this.$router.currentRoute.path.split("/")[1] !== 'dash'){
+            this.$store.commit('setMode' , 3)
+            this.$store.commit('setDimension' , 0)
+            this.$store.dispatch('loaded')
+        }
     },
     data(){
         return {
