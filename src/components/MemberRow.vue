@@ -5,7 +5,7 @@
         .three.grid.ptr(@click='goIn(m.memberId)')
             img(v-if='isLoggedIn', src='../assets/images/loggedIn.svg')
             img(v-else, src='../assets/images/loggedOut.svg')
-            label(:class='{redtx: m.active < 0}') {{ m.name }}
+            label(:class='{redtx: m.active <= 0}') {{ m.name }}
                 br
                 span(v-for='g in rowsGuilds')
                     router-link.yellowtx(:to='"/task/" + g.taskId'  @click='goIn(g.taskId)') {{ g.guild }} -

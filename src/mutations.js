@@ -145,7 +145,7 @@ function membersMuts(members, ev){
       case "member-deactivated":
           members.forEach( member => {
               if (member.memberId === ev.memberId){
-                  if (member.active >= 0){
+                  if (member.active > 0){
                       member.active = -1 * member.active - 1
                   }
               }

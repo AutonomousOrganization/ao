@@ -54,7 +54,7 @@ module.exports = {
   isActiveMemberId(val, errRes){
       let result = false
       state.serverState.members.forEach(member =>{
-          if (val === member.memberId && member.active >= 0){
+          if (val === member.memberId && member.active > 0){
             result = true
           }
       })

@@ -6,7 +6,7 @@
             textarea#card(v-model='debouncedName' type='text'  :class='cardInputSty'  placeholder="idea here"  @keyup.enter.exact='createOrFindTask'  @keydown.enter.exact.prevent  @keyup.esc='closeCreate'  @input='exploring = false' row='10' col='20').paperwrapper
             button(@click='createOrFindTask').fwi create card
       .label
-        .btnpanel
+        #btnpanel.btnpanel
             div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
               button.lit(@click='switchColor("red")'  :class='{ currentColor : showCreate && task.color === "red" }').redwx.paperwrapper
                 img.agedbackground
@@ -57,11 +57,24 @@ export default {
         Current
     },
     mounted() {
-        var el = document.getElementById('createtask')
+        var el = document.getElementById('btnpanel')
         var mc = new Hammer.Manager(el)
 
         var Swipe = new Hammer.Swipe()
-        mc.add(Swipe)
+        let longPress = new Hammer.Press({ time: 400 })
+
+        mc.add([Swipe, longPress])
+
+        mc.on('press', (e) => {
+            navigator.clipboard.readText().then(clippy => {
+                console.log('press', clippy)
+                this.openCreate()
+                if (clippy){
+                  this.task.name += clippy
+                }
+            })
+        })
+
         mc.on('swipeleft', (e) => {
             if(Date.now() - this.swipeTimeout > 100) {
                 this.previousColor()
@@ -84,38 +97,6 @@ export default {
         });
 
         mc.on('swipeup', (e) => {
-            if(Date.now() - this.swipeTimeout > 100) {
-                this.openCreate()
-                this.swipeTimeout = Date.now()
-            }
-        });
-
-        var ca = document.getElementById('card')
-        var mc2 = new Hammer.Manager(ca)
-        var Swipe2 = new Hammer.Swipe()
-        mc2.add(Swipe2)
-        mc2.on('swipeleft', (e) => {
-            if(Date.now() - this.swipeTimeout > 100) {
-                this.previousColor()
-                this.swipeTimeout = Date.now()
-            }
-        });
-
-        mc2.on('swiperight', (e) => {
-            if(Date.now() - this.swipeTimeout > 100) {
-                this.nextColor()
-                this.swipeTimeout = Date.now()
-            }
-        });
-
-        mc2.on('swipedown', (e) => {
-            if(Date.now() - this.swipeTimeout > 100) {
-                this.closeCreate()
-                this.swipeTimeout = Date.now()
-            }
-        });
-
-        mc2.on('swipeup', (e) => {
             if(Date.now() - this.swipeTimeout > 100) {
                 this.openCreate()
                 this.swipeTimeout = Date.now()
@@ -206,7 +187,7 @@ export default {
             this.switchColor(colors[color < 0 ? 4 : color], false)
         },
         openCreate() {
-            this.showCreate = !this.showCreate
+            this.showCreate = true
         },
         closeCreate() {
             this.showCreate = false
@@ -425,12 +406,6 @@ p
     border-color: rgba(0, 0, 0, 0.4)
     height: 12.5em
     padding-top: 5.5em
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 
 .centr
     text-align: center
@@ -450,7 +425,6 @@ p
     position: absolute
     width: 100%
     height: 100%
-    pointer-events: none
     opacity: 0.2
 
 .currentColor

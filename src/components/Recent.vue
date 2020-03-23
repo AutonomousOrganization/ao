@@ -1,8 +1,8 @@
 <template lang='pug'>
 
 #frontrecent
+  h1 Recent
   .container(v-if='recentMembers.length > 0')
-    h1 Recent
     row(v-for="(m, i) in recentMembers", :m="m"  v-if="showTotal > i")
     img.andThen(@click='andThen'  src='../assets/images/loader.svg')
 </template>
