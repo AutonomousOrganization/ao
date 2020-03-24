@@ -22,6 +22,24 @@ router.post('/events', (req, res, next) => {
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+      case "pile-refocused":
+        if (validators.isTaskId(req.body.inId, errRes)) {
+          events.pileRefocused(
+            req.body.inId,
+            req.body.blame,
+            utils.buildResCallback(res)
+          );
+        } else {
+          res.status(400).send(errRes);
+        }
+        break;
+      case "pile-prioritized":
+        if (validators.isTaskId(req.body.inId, errRes)) {
+          events.pilePrioritized(req.body.inId, utils.buildResCallback(res));
+        } else {
+          res.status(200).send(errRes);
+        }
+        break
       case 'ao-linked':
           if (
               validators.isAddress(req.body.address, errRes) &&

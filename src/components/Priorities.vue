@@ -2,7 +2,7 @@
 
 .priorities
     div(v-if='priorities.length < 1')
-        img.bdoge(  src='../assets/images/buddadoge.svg')
+        img.bdoge(src='../assets/images/buddadoge.svg')
         h5 upboat to create priority
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
@@ -15,6 +15,9 @@
               .clearboth.opensubcard
                   hyperpriority(:taskId='st2'  :inId="st"  :inInId='t')
     div.clearboth
+    .boatContainer
+        img.boatAll.faded(v-if='this.$store.getters.contextCard.priorities.length >= 1'  src='../assets/images/downboat.svg'  @click='pileRefocused')
+        img.boatAll.boatR.faded(v-if='this.$store.getters.contextCard.subTasks.length >= 2'  src='../assets/images/upboat.svg'  @click='pilePrioritized')
 </template>
 
 <script>
@@ -51,6 +54,18 @@ export default {
     getCard(taskId){
         return this.$store.getters.hashMap[taskId]
     },
+    pilePrioritized() {
+      this.$store.dispatch("makeEvent", {
+        type: "pile-prioritized",
+        inId: this.$store.getters.contextCard.taskId
+      });
+    },
+    pileRefocused() {
+      this.$store.dispatch("makeEvent", {
+        type: "pile-refocused",
+        inId: this.$store.getters.contextCard.taskId
+      });
+    }
   },
   computed:{
       priorities(){
@@ -229,5 +244,29 @@ img
 
 .open
     top: 36%
+
+.boatContainer
+    display: flex;
+    justify-content: space-between;
+    width:100%
+    height:45px
+
+.boatAll
+    margin: 0 1em 0 1em
+    height: 20px;
+    position: relative
+    margin-top: 1em
+    margin-bottom: 1em
+    opacity: .3
+    z-index:9999999999999
+    cursor: pointer
+
+.boatR
+    position: absolute
+    right: 0px
+    height:20px
+
+.faded
+    opacity: 0.235654
 
 </style>

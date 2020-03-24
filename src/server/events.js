@@ -5,6 +5,23 @@ const crypto = require('crypto')
 const { serverState } = require('./state')
 const dctrlDb = require('./dctrlDb')
 
+function pilePrioritized(inId, callback) {
+  let newEvent = {
+    type: "pile-prioritized",
+    inId
+  };
+  dctrlDb.insertEvent(newEvent, callback);
+}
+
+function pileRefocused(inId, blame, callback) {
+  let newEvent = {
+    type: "pile-refocused",
+    inId,
+    blame
+  };
+  dctrlDb.insertEvent(newEvent, callback);
+}
+
 function highlighted(taskId, memberId, valence, callback){
     let newEvent = {
         type: "highlighted",
@@ -538,4 +555,6 @@ module.exports = {
     invoiceCreated,
     taskBoostedLightning,
     tasksReceived,
+    pilePrioritized,
+    pileRefocused,
 }

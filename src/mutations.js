@@ -276,6 +276,32 @@ function sessionsMuts(sessions, ev){
 
 function tasksMuts(tasks, ev) {
     switch (ev.type) {
+        case "pile-prioritized":
+            tasks.forEach( task => {
+                if (task.taskId === ev.inId){
+                    task.priorities = task.priorities.concat(task.subTasks)
+                    task.subTasks = []
+                }
+            })
+            break
+        case "pile-refocused":
+            tasks.forEach( task => {
+                if (task.taskId === ev.inId){
+                    task.priorities.forEach(stId => {
+                        tasks.forEach(st => {
+                            if (st.taskId === stId){
+                                if(st.claimed && (st.claimed.length >= 1)){
+                                    task.completed.push(stId)
+                                } else {
+                                    task.subTasks.push(stId)
+                                }
+                            }
+                        })
+                        task.priorities = []
+                    })
+                }
+            })
+            break
         case "highlighted":
             tasks.forEach( task => {
                 if (task.taskId === ev.taskId){
