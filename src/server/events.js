@@ -209,12 +209,11 @@ function resourceStocked(resourceId, memberId, amount, paid, notes, callback) {
   dctrlDb.insertEvent(newEvent, callback)
 }
 
-function resourceUsed(resourceId, memberId, amount, charged, notes, callback) {
+function resourceUsed(resourceId, memberId, charged, notes, callback) {
   let newEvent = {
       type: 'resource-used',
       resourceId,
       memberId,
-      amount,
       charged,
       notes
   }

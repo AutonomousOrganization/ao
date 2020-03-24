@@ -111,6 +111,7 @@ const actions = {
                 } else {
                     commit("setPing", Date.now() - startTs)
                     commit("setReqStatus", "ready")
+                    console.log("make event res", res.body)
                 }
             })
     }

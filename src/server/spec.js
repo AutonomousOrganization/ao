@@ -324,18 +324,20 @@ router.post('/events', (req, res, next)=>{
           }
           break
       case 'resource-used':
+          let member = validators.isActiveMemberId(req.body.memberId, errRes)
+          let resource = validators.isResourceId(req.body.resourceId, errRes)
+          let memberTask = validators.isTaskId(member.memberId, errRes)
+          let canAccess = calculations.access(member.active, memberTask.boost, resource.charged)
           if (
-              validators.isActiveMemberId(req.body.memberId, errRes) &&
-              validators.isResourceId(req.body.resourceId, errRes) &&
-              validators.isAmount(req.body.amount, errRes) &&
+              member &&
+              resource &&
               validators.isAmount(req.body.charged, errRes) &&
-              validators.isNotes(req.body.notes, errRes)
+              validators.isNotes(req.body.notes, errRes) &&
+              canAccess
           ){
-              // Access to calculations, reuse from fobtap
               events.resourceUsed(
                 req.body.resourceId,
                 req.body.memberId,
-                req.body.amount,
                 req.body.charged,
                 req.body.notes,
                 utils.buildResCallback(res)

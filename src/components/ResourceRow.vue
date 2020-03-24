@@ -3,7 +3,7 @@
 .memberrow.membershipcard(@dblclick='goIn')
     .row.center
         label.hackername {{ r.name }}
-        button(v-if='!isAnyOptions' @click='resourcePurged')
+        img.goodbye(v-if='!isAnyOptions' @click='resourcePurged'  src='../assets/images/goodbye.svg')
         button(v-for='o in optionList'  @click='use(o[0])'  :class='cardInputSty(o[2])') {{ o[1] }}
     .bottomleft(v-if='card.boost')
     .bottomright(@click='goIn')
@@ -220,4 +220,7 @@ label
 
 ul.left
     text-align: left
+
+.goodbye
+    height: 2em
 </style>

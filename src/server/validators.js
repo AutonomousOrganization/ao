@@ -28,10 +28,9 @@ module.exports = {
       return isField
   },
   isAddress(val, errRes){
-      let result = false
-      state.serverState.ao.forEach(ao =>{
+      let result = state.serverState.ao.some(ao =>{
           if (val === ao.address){
-            result = true
+            return true
           }
       })
       if (!result) {
@@ -40,40 +39,44 @@ module.exports = {
       return result
   },
   isMemberId(val, errRes){
-      let result = false
-      state.serverState.members.forEach(member =>{
-          if (val === member.memberId){
-            result = true
+      let member = false
+      let result = state.serverState.members.some(m =>{
+          if (val === m.memberId){
+            member = m
+            return true
           }
       })
       if (!result) {
           errRes.push('invalid member')
       }
-      return result
+      return member
   },
+
   isActiveMemberId(val, errRes){
-      let result = false
-      state.serverState.members.forEach(member =>{
-          if (val === member.memberId && member.active > 0){
-            result = true
+      let member = false
+      let result = state.serverState.members.some(m =>{
+          if (val === m.memberId && m.active > 0){
+              member = m
+              return true
           }
       })
       if (!result) {
           errRes.push('invalid member')
       }
-      return result
+      return member
   },
   isTaskId(val, errRes){
-      let result = false
-      state.serverState.tasks.forEach(task =>{
-          if (val == task.taskId){
-            result = true
+      let task = false
+      let result = state.serverState.tasks.some(t =>{
+          if (val === t.taskId){
+            task = t
+            return true
           }
       })
       if (!result) {
           errRes.push('invalid task')
       }
-      return result
+      return task
   },
   isSession(val, errRes){
       let result = false
@@ -88,16 +91,17 @@ module.exports = {
       return result
   },
   isResourceId(val, errRes){
-      let result = false
-      state.serverState.resources.forEach(resource =>{
-          if (val === resource.resourceId){
-            result = true
+      let resource
+      let result = state.serverState.resources.some(r =>{
+          if (val === r.resourceId){
+            resource = r
+            return true
           }
       })
       if (!result) {
           errRes.push('invalid resource')
       }
-      return result
+      return resource
   },
   isNewResourceId(val, errRes){
       let isNew = true

@@ -52,11 +52,8 @@ function reactions(ev){
                             console.log("using custom price, ", customPrice)
                             defaultPrice = customPrice
                         }
-                        if (defaultPrice > 0 && amount > 0){
-                            amount = amount / defaultPrice
-                        }
-                        let hopper = t.name.slice(0,1)
-                        events.resourceUsed(resourceId, '', amount, 0, hopper, console.log)
+                        let hopper = t.name.split(':')[0]
+                        events.resourceUsed(resourceId, '', defaultPrice, hopper, console.log)
                         return true
                     }
                 })

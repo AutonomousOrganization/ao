@@ -1,6 +1,7 @@
 <template lang='pug'>
 
 .upgrades
+    h5(v-if='b.boost > 0 && !$store.getters.contextMember') Total funds raised: {{ b.boost }}
     div(v-if='$store.state.cash.info.alias')
         .togglepayments
             img.max(@click='togglePayment(0)'  src='../assets/images/bitcoin.svg'  :class='{thickborder: $store.state.upgrades.payment === "bitcoin"}')
@@ -99,6 +100,9 @@ export default {
 @import '../styles/button'
 @import '../styles/tooltips'
 @import '../styles/spinners'
+
+h5
+    text-align: center
 
 .thickborder
     background: main

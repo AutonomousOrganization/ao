@@ -3,6 +3,15 @@ const satsPerBtc = 100000000 // one hundred million per btc
 const _ = require('lodash')
 const cryptoUtils = require('./crypto')
 
+function access(active, memberBoost, charged){
+    console.log({active, memberBoost, charged})
+    if (active <= 0  || charged < 0){
+        return false
+    }
+    let newBalance = memberBoost - charged
+    return newBalance >= 0
+}
+
 function crawlerHash(tasks, taskId){
     return cryptoUtils.createHash(Buffer.from(crawler(tasks, taskId)))
 }
@@ -166,4 +175,5 @@ module.exports = {
   safeMerge,
   crawler,
   crawlerHash,
+  access,
 }

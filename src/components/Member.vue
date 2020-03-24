@@ -13,7 +13,7 @@
         label.stash(v-if='card.boost') {{ card.boost.toFixed(2) }}
         label.stash(v-else) 0
         div(v-if='m.active > 0') active
-        div(v-else) inactive
+        div(v-else  @click='activate') inactive
     .bottomright
         div(@click='goBadge')
             img.smallguild(src='../assets/images/badge.svg')
