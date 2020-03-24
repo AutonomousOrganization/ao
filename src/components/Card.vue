@@ -107,7 +107,8 @@ export default {
             if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
                 this.$store.commit("setMode", 1)
             }
-            if (this.$store.state.upgrades.dimension !== 'unicorn'){
+            let shouldRouter = this.$router.currentRoute.path !== "/" + this.$store.state.upgrades.mode
+            if (shouldRouter){
                 this.$router.push("/" + this.$store.state.upgrades.mode)
             }
         },
