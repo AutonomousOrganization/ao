@@ -145,13 +145,6 @@ export default {
     width: 100%
     opacity: 0.5
 
-.buffer
-    padding-right: 1em
-    padding-top: 1em
-
-.padbottom
-    margin-bottom: 2em
-
 .upgradesbar
     height: fit-content
     background-color: rgba(21, 21, 21, 0.25)
@@ -178,7 +171,6 @@ export default {
     min-height: 2em
     position: relative
     margin-top: 1em
-    margin-bottom: 1em
     clear: both
 
 .completedfadey
@@ -230,9 +222,9 @@ export default {
     left: 0
     bottom: 0
     right: 0
-    position: absolute
+    position: fixed
     width: 100%
-    height: 142%
+    height: 100%
     pointer-events: none
 
 .freshpaperbg

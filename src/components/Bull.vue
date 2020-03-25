@@ -22,6 +22,7 @@ div
             img(src='../assets/images/loggedOut.svg')
             span
     div(v-if='isBull')
+        status
         .satspot 1 = {{ $store.getters.satPointSpot.toLocaleString() }}&#12471;
             //- span  1BTC = ${{ $store.state.cash.spot.toLocaleString() }}
         .logout(v-if='$store.getters.isLoggedIn'  @click="killSession") log out
@@ -30,8 +31,10 @@ div
 <script>
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
+import Status from './Status'
 
 export default {
+  components: { Status },
   computed: {
       isBull(){
           return this.$store.state.upgrades.dimension === "bull"

@@ -7,10 +7,10 @@
     bull
     loader
     event-feed
-    status
     task-create
     auth(v-if='!$store.getters.isLoggedIn')
     router-view
+    .breathingroom
 </template>
 
 <script>
@@ -20,7 +20,6 @@ import Sun from './components/Sun'
 import Bull from './components/Bull'
 import Loader from './components/Loader'
 import Helm from './components/Helm'
-import Status from './components/Status'
 import Contexts from './components/Contexts'
 import TaskCreate from './components/TaskCreate'
 import Auth from './components/Auth'
@@ -36,7 +35,7 @@ export default {
         this.$store.dispatch('loadCurrent')
     },
     components: {
-        EventFeed, Sun, Bull, Loader, Helm, Status, TaskCreate, Contexts, Auth
+        EventFeed, Sun, Bull, Loader, Helm, TaskCreate, Contexts, Auth
     },
 }
 
@@ -46,6 +45,9 @@ export default {
 
 @import "./styles/normalize"
 @import "./styles/colours"
+
+.breathingroom
+    margin-bottom: 7em
 
 .app
     color: accent1
