@@ -387,6 +387,17 @@ function taskPrioritized(taskId, inId, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
+
+function taskPopped(taskId, inId, callback){
+    let newEvent = {
+      type: "task-popped",
+      taskId,
+      inId,
+    }
+    dctrlDb.insertEvent(newEvent, callback)
+}
+
+
 function taskRefocused(taskId, inId, blame, callback) {
   let newEvent = {
     type: "task-refocused",
@@ -546,6 +557,7 @@ module.exports = {
     pileGrabbed,
     pileDropped,
     taskPrioritized,
+    taskPopped,
     taskDropped,
     taskPassed,
     taskGuilded,

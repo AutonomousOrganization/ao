@@ -276,6 +276,25 @@ function sessionsMuts(sessions, ev){
 
 function tasksMuts(tasks, ev) {
     switch (ev.type) {
+        case "task-popped":
+            let explodingTask, absorbingTask
+            tasks.forEach( task => {
+                if (task.taskId === ev.taskId){
+                    explodingTask = task
+                }
+                if (task.taskId === ev.inId){
+                    absorbingTask = task
+                }
+            })
+            if (explodingTask, absorbingTask){
+              absorbingTask.priorities = _.filter(absorbingTask.priorities, taskId => taskId !== ev.taskId )
+              absorbingTask.subTasks = _.filter(absorbingTask.subTasks, taskId => taskId !== ev.taskId )
+              absorbingTask.completed = _.filter(absorbingTask.completed, taskId => taskId !== ev.taskId )
+              absorbingTask.subTasks = absorbingTask.subTasks.concat(explodingTask.subTasks)
+              absorbingTask.priorities = absorbingTask.priorities.concat(explodingTask.priorities)
+              absorbingTask.completed = absorbingTask.completed.concat(explodingTask.completed)
+            }
+            break
         case "pile-prioritized":
             tasks.forEach( task => {
                 if (task.taskId === ev.inId){

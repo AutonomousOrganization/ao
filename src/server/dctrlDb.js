@@ -110,6 +110,7 @@ function insertEvent(ev, callback) {
     try{
       result = preparedStmts.insertEvent.run(JSON.stringify(ev), ev.timestamp);
     } catch(actualErr) {
+      console.log("insertEvent try", {actualErr, ev})
       err = actualErr
     }
     if (callback) {

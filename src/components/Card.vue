@@ -73,7 +73,6 @@ export default {
 
         mc.on('press', (e) => {
             this.copyCardToClipboard()
-            e.stopPropagation()
         })
     },
     methods: {

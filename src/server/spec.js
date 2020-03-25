@@ -22,6 +22,20 @@ router.post('/events', (req, res, next) => {
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+      case "task-popped":
+          if (
+            validators.isTaskId(req.body.taskId, errRes) &&
+            validators.isTaskId(req.body.inId, errRes)
+          ) {
+            events.taskPopped(
+              req.body.taskId,
+              req.body.inId,
+              utils.buildResCallback(res)
+            );
+          } else {
+            res.status(400).send(errRes);
+          }
+          break
       case "pile-refocused":
         if (validators.isTaskId(req.body.inId, errRes)) {
           events.pileRefocused(
@@ -37,7 +51,7 @@ router.post('/events', (req, res, next)=>{
         if (validators.isTaskId(req.body.inId, errRes)) {
           events.pilePrioritized(req.body.inId, utils.buildResCallback(res));
         } else {
-          res.status(200).send(errRes);
+          res.status(400).send(errRes);
         }
         break
       case 'ao-linked':
@@ -47,7 +61,7 @@ router.post('/events', (req, res, next)=>{
           ){
               events.aoLinked(req.body.address, req.body.taskId, utils.buildResCallback(res))
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'highlighted':
@@ -58,7 +72,7 @@ router.post('/events', (req, res, next)=>{
           ){
               events.highlighted(req.body.taskId, req.body.memberId, req.body.valence, utils.buildResCallback(res))
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'ao-disconnected':
@@ -68,14 +82,14 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'ao-named':
           if (validators.isNotes(req.body.alias, errRes)){
               events.aoNamed(req.body.alias, utils.buildResCallback(res))
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'rent-set':
@@ -87,7 +101,7 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'cap-set':
@@ -99,7 +113,7 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'ao-outbound-connected':
@@ -130,7 +144,7 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'ao-relay':
@@ -164,7 +178,7 @@ router.post('/events', (req, res, next)=>{
                       res.status(200).send("attempt failed")
                   });
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'member-created':
@@ -338,7 +352,7 @@ router.post('/events', (req, res, next)=>{
               utils.buildResCallback(res)
             )
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'resource-used':
@@ -361,7 +375,7 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'resource-stocked':
@@ -381,7 +395,7 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
             )
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'resource-booked':
@@ -405,7 +419,7 @@ router.post('/events', (req, res, next)=>{
               utils.buildResCallback(res)
             )
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'resource-purged':
@@ -430,7 +444,7 @@ router.post('/events', (req, res, next)=>{
               utils.buildResCallback(res)
             )
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'address-updated':
@@ -444,7 +458,7 @@ router.post('/events', (req, res, next)=>{
                       res.status(200).send("attempt failed")
                   });
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'task-created':
@@ -462,7 +476,7 @@ router.post('/events', (req, res, next)=>{
               utils.buildResCallback(res)
             )
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'task-guilded':
@@ -476,7 +490,7 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'task-sub-tasked':
@@ -491,7 +505,7 @@ router.post('/events', (req, res, next)=>{
               utils.buildResCallback(res)
             )
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'task-de-sub-tasked':
@@ -506,7 +520,7 @@ router.post('/events', (req, res, next)=>{
               utils.buildResCallback(res)
             )
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'task-claimed':
@@ -565,7 +579,7 @@ router.post('/events', (req, res, next)=>{
               utils.buildResCallback(res)
             )
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'task-passed':
@@ -596,7 +610,7 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'pile-grabbed':
@@ -611,7 +625,7 @@ router.post('/events', (req, res, next)=>{
                   utils.buildResCallback(res)
               )
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'task-dropped':
@@ -625,7 +639,7 @@ router.post('/events', (req, res, next)=>{
                   utils.buildResCallback(res)
               )
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'pile-dropped':
@@ -639,7 +653,7 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'task-swapped':
@@ -656,7 +670,7 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       case 'task-prioritized':
@@ -670,7 +684,7 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else {
-              res.status(200).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'tasks-received':
@@ -680,7 +694,7 @@ router.post('/events', (req, res, next)=>{
                 req.body.blame,
                 utils.buildResCallback(res))
           } else {
-            res.status(200).send(errRes)
+            res.status(400).send(errRes)
           }
           break
       default:

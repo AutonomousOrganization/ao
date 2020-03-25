@@ -108,6 +108,7 @@ const actions = {
             .end((err, res)=>{
                 if (err || !res.body) {
                     commit("setReqStatus", "failed", res.body)
+                    console.log({err, res})
                 } else {
                     commit("setPing", Date.now() - startTs)
                     commit("setReqStatus", "ready")

@@ -24,7 +24,8 @@ export default {
         let mc = Propagating(new Hammer.Manager(el))
 
         let Tap = new Hammer.Tap({ time: 400 })
-        mc.add(Tap)
+        let Press = new Hammer.Press({ time: 500 })
+        mc.add([Tap, Press])
         mc.on('tap', (e) => {
             let parentId = this.$store.state.context.parent[this.$store.state.context.parent.length-1]
             if (this.$store.state.context.action === this.b.taskId){
@@ -72,13 +73,12 @@ export default {
             }
             e.stopPropagation()
         })
-
-        let Press = new Hammer.Press({ time: 500 })
-        mc.add(Press)
         mc.on('press', (e) => {
-            this.$router.push('/archive')
-            window.scrollTo(0, 0)
-            e.stopPropagation()
+            this.$store.dispatch("makeEvent", {
+              type: 'task-popped',
+              taskId: this.b.taskId,
+              inId: this.$store.getters.contextCard.taskId,
+            })
         })
     },
 }
