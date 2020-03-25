@@ -4,7 +4,7 @@
     img.checkmark.clickable(v-if='isCompleted' src='../assets/images/completed.svg'   @click='uncheck')
     img.checkmark.clickable(v-else  src='../assets/images/uncompleted.svg'  @click='complete')
     span.completedmarks
-        span.name(@click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ name }}
+        span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ name }}
         span(v-for='c in checkmarks'  :key='c.taskId')
             span.tooltip.plain(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
                 img.completedcheckmark(src='../assets/images/completed.svg')
@@ -20,7 +20,7 @@ export default {
   components: { Linky },
   methods: {
     goIn(taskId){
-        let parents = [this.memberId]
+        let parents = [this.$store.getters.contextCard.taskId, this.memberId]
         let panel = [taskId]
         let top = 0
         this.$store.dispatch("goIn", {panel, top, parents})
