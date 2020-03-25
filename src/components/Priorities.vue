@@ -6,7 +6,7 @@
         h5 upboat to create priority
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
-          img.singleship(@click='allocate(t)'  src='../assets/images/boat.svg'  :class='{ openboat : $store.state.context.action === t }')
+          img.singleship(@click='allocate(t)'  src='../assets/images/boatbtnselected.svg'  :class='{ openboat : $store.state.context.action === t }')
           hyperpriority.closedcard(:taskId='t'  :inId='$store.getters.contextCard.taskId')
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard

@@ -9,15 +9,15 @@
         #btnpanel.btnpanel
             div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
               button.lit(@click='switchColor("red")'  :class='{ currentColor : showCreate && task.color === "red" }').redwx.paperwrapper
-                img.agedbackground
+                img(:class='{ down : showCreate && task.color === "red" }')
               button.lit(@click='switchColor("yellow")'  :class='{ currentColor : showCreate && task.color === "yellow" }').yellowwx.paperwrapper
-                img.agedbackground
+                img(:class='{ down : showCreate && task.color === "yellow" }')
               button.lit(@click='switchColor("green")'  :class='{ currentColor : showCreate && task.color === "green" }').greenwx.paperwrapper
-                img.agedbackground
+                img(:class='{ down : showCreate && task.color === "green" }')
               button.lit(@click='switchColor("purple")'  :class='{ currentColor : showCreate && task.color === "purple" }').purplewx.paperwrapper
-                img.agedbackground
+                img(:class='{ down : showCreate && task.color === "purple" }')
               button.lit(@click='switchColor("blue")'  :class='{ currentColor : showCreate && task.color === "blue" }').bluewx.paperwrapper
-                img.agedbackground
+                img(:class='{ down : showCreate && task.color === "blue" }')
       .scrollbarwrapper(v-show='showCreate && task.search.length >= 2 && (matchCards.guilds.length + matchCards.doges.length + matchCards.cards.length) > 0'  v-model='task.search')
           .searchresults
               .result(v-for='t in matchCards.guilds'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)')
@@ -426,6 +426,18 @@ p
     width: 100%
     height: 100%
     opacity: 0.2
+
+.down
+    background-image: url('../assets/images/down.svg')
+    background-size: cover
+    background-position: center center
+    top: 0
+    left: 0
+    right: 0
+    position: absolute
+    width: 100%
+    height: 100%
+    opacity: 0.9
 
 .currentColor
     opacity: 1
