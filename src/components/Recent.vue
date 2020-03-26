@@ -5,14 +5,18 @@
   .container(v-if='recentMembers.length > 0')
     row(v-for="(m, i) in recentMembers", :m="m"  v-if="showTotal > i")
     img.andThen(@click='andThen'  src='../assets/images/loader.svg')
+  .container
+    missions
 </template>
 
 <script>
 
 import Row from './MemberRow'
+import Missions from './Missions'
+
 export default {
   components:{
-      Row,
+      Row, Missions
   },
   data(){
       return {showTotal: 11}

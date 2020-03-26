@@ -45,7 +45,10 @@ const mutations = {
         for(let i = 0; i < 2; i++) newBubble.randomXs.push(Math.floor(Math.random() * 100) + '%')
         for(let i = 0; i < 2; i++) newBubble.randomYs.push(Math.floor(Math.random() * 100) + '%')
 
-        state.push(newBubble)
+        let notTheseOnes = ["funds-set", "get-node-info"]
+        if (notTheseOnes.indexOf(newBubble.type) === -1){
+            state.push(newBubble)
+        }
     },
     hide(state){
         state[0].showEvent = false
