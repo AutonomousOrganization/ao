@@ -1,17 +1,50 @@
 <template lang='pug'>
-.contexts
+.contexts#contexts
     div(:class='{suncontext: isSun, bullcontext: isBull}')
         .transparentsides
     .spacer
-    .narrow(v-for='(n, i) in $store.state.context.parent'  @click='goToParent(n)'  :style="{ marginLeft: (($store.state.context.parent.length - i) * 0.5) + 'em', marginRight: (($store.state.context.parent.length - i) * 0.5) + 'em' }")
+    .narrow(v-for='(n, i) in $store.state.context.parent'  :key='n'  @click='goToParent(n)'  :style="{ marginLeft: (($store.state.context.parent.length - i) * 0.5) + 'em', marginRight: (($store.state.context.parent.length - i) * 0.5) + 'em' }")
         context-row(:taskId ='n')
 </template>
 
 <script>
 
+import Hammer from 'hammerjs'
+import Propagating from 'propagating-hammerjs'
+
 import ContextRow from './ContextRow'
 
 export default {
+    data(){
+        return {
+            selfPropagating: false
+        }
+    },
+    mounted(){
+        let el = document.getElementById('contexts')
+        let mc = Propagating(new Hammer.Manager(el))
+        let longPress = new Hammer.Press({ time: 400 })
+
+        mc.add(longPress)
+
+        mc.on('press', (e) => {
+            console.log('press on context')
+            this.$store.state.tasks.forEach(t => {
+                if (
+                    t.subTasks.indexOf(this.$store.getters.contextCard.taskId) !== -1  ||
+                    t.priorities.indexOf(this.$store.getters.contextCard.taskId) !== -1 ||
+                    t.completed.indexOf(this.$store.getters.contextCard.taskId) !== -1
+                ){
+                    if(this.$store.state.context.parent.indexOf(t.taskId) === -1){
+                        this.$store.commit("addParent", t.taskId)
+                    }
+                }
+            })
+            this.selfPropagating = true
+            setTimeout(()=> this.selfPropagating = false,1234)
+            e.stopPropagation() // XXX requires propagating-hammerjs??
+        })
+    },
     components: { ContextRow },
     computed: {
         cardInputSty() {
@@ -34,7 +67,7 @@ export default {
     },
     methods:{
       goToParent(target){
-          console.log('gotopar', target)
+          if (this.selfPropagating) return console.log('not today')
           if (this.$store.state.upgrades.dimension !== "unicorn"){
               this.$router.push('/' + this.$store.state.upgrades.mode)
           }

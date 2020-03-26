@@ -19,7 +19,6 @@
 </template>
 
 <script>
-
 import Linky from './Linky'
 
 export default {
