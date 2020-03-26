@@ -3,7 +3,7 @@
   div(v-if='isCard')
       transition(name="slide-fade")
         .cc(v-show='showCreate')
-            textarea#card(v-model='debouncedName' type='text'  :class='cardInputSty'  placeholder="idea here"  @keyup.enter.exact='createOrFindTask'  @keydown.enter.exact.prevent  @keyup.esc='closeCreate'  @input='exploring = false' row='10' col='20').paperwrapper
+            textarea#card(v-model='debouncedName' type='text'  :class='cardInputSty'  placeholder="textarea"  @keyup.enter.exact='createOrFindTask'  @keydown.enter.exact.prevent  @keyup.esc='closeCreate'  @input='exploring = false' row='10' col='20').paperwrapper
             button(@click='createOrFindTask').fwi create card
       .label
         #btnpanel.btnpanel

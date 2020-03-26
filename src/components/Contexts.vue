@@ -28,7 +28,6 @@ export default {
         mc.add(longPress)
 
         mc.on('press', (e) => {
-            console.log('press on context')
             this.$store.state.tasks.forEach(t => {
                 if (
                     t.subTasks.indexOf(this.$store.getters.contextCard.taskId) !== -1  ||

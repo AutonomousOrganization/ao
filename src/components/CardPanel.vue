@@ -25,7 +25,9 @@
             .tooltiptext(v-if='$store.getters.member.muted')
                 p.suggest next
     .open(v-if='open')
-        hypercard(v-for='b in c'  :b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
+        div(v-for='(b, i) in c'  :key="b.taskId")
+            img.orby(v-if='i > 0'  src='../assets/images/orb.svg'  @click='orbswap(b.taskId)')
+            hypercard(:b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
     .box(v-else)
         hypercard(:b="c[top]"  :key="componentKey"  :inId='taskId'  :c='panelIds')
 </template>
@@ -167,6 +169,16 @@ export default {
 
         this.top = this.c.length - 1
     },
+    orbswap(swapId1){
+        let swapId2 = this.panelIds[ this.panelIds.indexOf(swapId1) - 1 ]
+        this.$store.dispatch("makeEvent", {
+            type: 'task-swapped',
+            taskId: this.taskId,
+            swapId1,
+            swapId2,
+            direction: 'up',
+        })
+    },
     swap(direction){
         let cardIndex
         this.c.forEach((t, i) => {
@@ -235,6 +247,12 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/tooltips'
+
+.orby
+    height: 2.2em
+    margin-top: -1em
+    margin-bottom: -1em
+    margin-left: 4.45em
 
 #tasks
     width: 100%
