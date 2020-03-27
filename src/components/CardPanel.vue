@@ -39,7 +39,6 @@ import Propagating from 'propagating-hammerjs'
 
 import Hypercard from "./Card"
 
-
 export default {
   props: ['c', 'taskId'],
   mounted(){

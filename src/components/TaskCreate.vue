@@ -20,6 +20,9 @@
                 img(:class='{ down : showCreate && task.color === "blue" }')
       .scrollbarwrapper(v-show='showCreate && task.search.length >= 2 && (matchCards.guilds.length + matchCards.doges.length + matchCards.cards.length) > 0'  v-model='task.search')
           .searchresults
+              .boatContainer
+                  img.boatAll.faded(src='../assets/images/downboat.svg'  @click='deBoatAll')
+                  img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='boatAll')
               .result(v-for='t in matchCards.guilds'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)')
                   img.smallguild(src='../assets/images/badge.svg')
                   span {{ t.guild }}
@@ -104,6 +107,38 @@ export default {
         });
     },
     methods: {
+        boatAll(){
+            this.matchCards.cards.forEach(t => {
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-prioritized',
+                    taskId: t.taskId,
+                    inId: this.$store.getters.contextCard.taskId,
+                })
+            })
+            this.matchCards.guilds.forEach(t => {
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-prioritized',
+                    taskId: t.taskId,
+                    inId: this.$store.getters.contextCard.taskId,
+                })
+            })
+        },
+        deBoatAll(){
+            this.matchCards.cards.forEach(t => {
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-de-sub-tasked',
+                    subTask: t.taskId,
+                    taskId: this.$store.getters.contextCard.taskId,
+                })
+            })
+            this.matchCards.guilds.forEach(t => {
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-de-sub-tasked',
+                    subTask: t.taskId,
+                    taskId: this.$store.getters.contextCard.taskId,
+                })
+            })
+        },
         toCardMode(){
             this.$store.commit("setDimension", 0)
             this.$router.push('/' + this.$store.state.upgrades.mode)
@@ -456,9 +491,9 @@ p
 .scrollbarwrapper
     width: 37vw
     height: calc(100% - 2em)
-    position: fixed
-    top: 0
-    left: 22em
+    position: absolute
+    top: calc(-100% - 0.5em)
+    left: 0
     background: rgba(22, 22, 22, 0.8)
     padding: 1em 0
     border-radius: 20px
@@ -466,9 +501,6 @@ p
 @media only screen and (max-width: 68em)
     .scrollbarwrapper
         width: 100%
-        position: absolute
-        top: calc(-100% - 0.5em)
-        left: 0
 
 .searchresults
     overflow: auto
@@ -511,4 +543,29 @@ p
     height: 5.5555555555em
     cursor: pointer
     z-index: 9002
+
+.boatContainer
+    display: flex;
+    justify-content: space-between;
+    width:100%
+    height:45px
+
+.boatAll
+    margin: 0 1em 0 1em
+    height: 20px;
+    position: relative
+    margin-top: 1em
+    margin-bottom: 1em
+    opacity: .3
+    z-index:9999999999999
+    cursor: pointer
+
+.boatR
+    position: absolute
+    right: 0px
+    height:20px
+
+.faded
+    opacity: 0.235654
+
 </style>
