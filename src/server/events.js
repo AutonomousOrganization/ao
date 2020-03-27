@@ -22,6 +22,8 @@ function pileRefocused(inId, blame, callback) {
   dctrlDb.insertEvent(newEvent, callback);
 }
 
+
+
 function highlighted(taskId, memberId, valence, callback){
     let newEvent = {
         type: "highlighted",
@@ -378,6 +380,14 @@ function taskDeSubTasked(taskId, subTask, memberId, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
+function pileDeSubTasked(inId, callback){
+    let newEvent = {
+      type: "pile-de-sub-tasked",
+      inId
+    }
+    dctrlDb.insertEvent(newEvent, callback)
+}
+
 function taskPrioritized(taskId, inId, callback){
     let newEvent = {
       type: "task-prioritized",
@@ -569,4 +579,5 @@ module.exports = {
     tasksReceived,
     pilePrioritized,
     pileRefocused,
+    pileDeSubTasked,
 }

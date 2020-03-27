@@ -54,6 +54,13 @@ router.post('/events', (req, res, next)=>{
           res.status(400).send(errRes);
         }
         break
+      case "pile-de-sub-tasked":
+        if (validators.isTaskId(req.body.inId, errRes)) {
+          events.pileDeSubTasked(req.body.inId, utils.buildResCallback(res));
+        } else {
+          res.status(400).send(errRes);
+        }
+        break
       case 'ao-linked':
           if (
               validators.isAddress(req.body.address, errRes) &&

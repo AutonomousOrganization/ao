@@ -321,6 +321,13 @@ function tasksMuts(tasks, ev) {
                 }
             })
             break
+        case "pile-de-sub-tasked":
+            tasks.forEach( task => {
+                if (task.taskId === ev.inId){
+                    task.subTasks = []
+                }
+            })
+            break
         case "highlighted":
             tasks.forEach( task => {
                 if (task.taskId === ev.taskId){

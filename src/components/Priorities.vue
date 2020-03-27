@@ -3,7 +3,7 @@
 .priorities
     div(v-if='priorities.length < 1')
         img.bdoge(src='../assets/images/buddadoge.svg')
-        h5 upboat to create priority
+        h5 no present boats
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           img.singleship(@click='allocate(t)'  src='../assets/images/boatbtnselected.svg'  :class='{ openboat : $store.state.context.action === t }')

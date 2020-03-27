@@ -22,8 +22,11 @@
     .fadey(:class='{ cardInputSty, onestack : $store.state.upgrades.stacks === 1, completedfadey : $store.state.context.completed }')
         panels
         .faded
-            img.adjtooltip.toggleStack(@click='toggleStacks' src='../assets/images/orb.svg')
+            img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
             .tooltiptext.correctspotleft(v-if='$store.getters.member.muted')
+                p.suggest scuttle
+            img.adjtooltip.scuttled(@click='toggleStacks' src='../assets/images/orb.svg')
+            .tooltiptext.correctspotmid(v-if='$store.getters.member.muted')
                 p.suggest one or five piles
             img.completed.adjtooltip(src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
             .tooltiptext.correctspot(v-if='$store.getters.member.muted')
@@ -52,6 +55,12 @@ export default {
       ResourceRow, Context, Auth, GiftBox
   },
   methods:{
+      pileDeSubTasked(){
+          this.$store.dispatch('makeEvent', {
+              type: 'pile-de-sub-tasked',
+              inId: this.$store.getters.contextCard.taskId
+          })
+      },
       goWithinPanel(n){
           let i = this.$store.state.context.panel.indexOf(n)
           if (i > -1){
@@ -262,6 +271,16 @@ export default {
     right: 0.5em
     bottom: 0.25em
 
+.scuttled
+    color: white
+    float: right
+    cursor: pointer
+    height: 1.35em
+    font-weight: bold
+    position: absolute
+    right: 50% - 1em
+    bottom: 0.25em
+
 .toggleStack
     height: 1.35em
     cursor: pointer
@@ -331,6 +350,12 @@ export default {
     // max-width: 100%
     // max-width: 29.8em
     // max-width: 39.333333333333%
+
+
+.tooltiptext.correctspotleft
+    position: absolute
+    top: calc(100% - 1.75em)
+    left: calc(50% - 1.75em)
 
 .tooltiptext.correctspotleft
     position: absolute
