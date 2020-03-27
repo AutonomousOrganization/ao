@@ -6,18 +6,20 @@
         h5 no present boats
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
-          img.singleship(@click='allocate(t)'  src='../assets/images/boatbtnselected.svg'  :class='{ openboat : $store.state.context.action === t }')
-          hyperpriority.closedcard(:taskId='t'  :inId='$store.getters.contextCard.taskId')
+          .priorityContainer
+              img.boatAll.faded(v-if='$store.getters.contextCard.priorities.length >= 1'  src='../assets/images/downboat.svg'  @click='refocused(t)')
+              hyperpriority.closedcard(:taskId='t'  :inId='$store.getters.contextCard.taskId')
+              img.boatAll.boatR.faded(v-if='$store.getters.contextCard.subTasks.length >= 2'  src='../assets/images/upboat.svg'  @click='prioritized(t)')
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
-              hyperpriority(:taskId='st'  :inId="t")
+              hyperpriority.closedcard(:taskId='st'  :inId="t")
           .row.subsubpriority(v-for='(st2, k) of getSubPriorities(st)'  :key='st2')
               .clearboth.opensubcard
-                  hyperpriority(:taskId='st2'  :inId="st"  :inInId='t')
+                  hyperpriority.closedcard(:taskId='st2'  :inId="st"  :inInId='t')
     div.clearboth
     .boatContainer
-        img.boatAll.faded(v-if='this.$store.getters.contextCard.priorities.length >= 1'  src='../assets/images/downboat.svg'  @click='pileRefocused')
-        img.boatAll.boatR.faded(v-if='this.$store.getters.contextCard.subTasks.length >= 2'  src='../assets/images/upboat.svg'  @click='pilePrioritized')
+        img.boatAll.faded(v-if='$store.getters.contextCard.priorities.length >= 1'  src='../assets/images/downboat.svg'  @click='pileRefocused')
+        img.boatAll.boatR.faded(v-if='$store.getters.contextCard.subTasks.length >= 2'  src='../assets/images/upboat.svg'  @click='pilePrioritized')
 </template>
 
 <script>
@@ -44,7 +46,14 @@ export default {
           return card.priorities.slice().reverse()
       }
     },
-    allocate(taskId){
+    refocused(taskId){
+      this.$store.dispatch("makeEvent", {
+        type: 'task-refocused',
+        inId: this.$store.getters.contextCard.taskId,
+        taskId,
+      })
+    },
+    prioritized(taskId){
       this.$store.dispatch("makeEvent", {
         type: 'task-prioritized',
         inId: this.$store.getters.contextCard.taskId,
@@ -211,8 +220,8 @@ img
     margin-top: 1em
 
 .priority
-    margin-left: 4em
-    width: calc(100% - 4em)
+    margin-left: 0em
+    width: 100%
     position: relative
 
 .subpriority
@@ -251,6 +260,11 @@ img
     width:100%
     height:45px
 
+.priorityContainer
+    display: flex;
+    justify-content: space-between;
+    width:100%
+
 .boatAll
     margin: 0 1em 0 1em
     height: 20px;
@@ -268,5 +282,9 @@ img
 
 .faded
     opacity: 0.235654
+
+.closedcard
+    padding-right:3em
+    width: 100%
 
 </style>
