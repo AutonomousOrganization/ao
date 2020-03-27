@@ -19,7 +19,11 @@ module.exports = {
           val === 'name' ||
           val === 'email' ||
           val === 'secret' ||
-          val === 'fob'
+          val === 'fob' ||
+          val === 'muted' ||
+          val === 'tooltips' ||
+          val === 'piles' ||
+          val === 'payments'
       )
       if (!isField) {
           errRes.push('invalid field')

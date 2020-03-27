@@ -2,7 +2,7 @@
 div
     div(ref='bull')
         img.r(src="../assets/images/bull.svg"    :class='{ bigger : isBull }')
-    .bullmenu(v-if='isBull && $store.getters.member.muted')
+    .bullmenu(v-if='isBull && $store.getters.member.tooltips')
         p(@click='goDash("doge")'  :class='{ dabstination : $store.state.upgrades.mode === "doge" }')
             img.lil(src='../assets/images/buddadoge.svg')
             span Access

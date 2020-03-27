@@ -5,7 +5,7 @@
         .three.grid.tooltip(ref='previous')
             span &nbsp;
             img.fl(v-if='!open'  src='../assets/images/back.svg')
-            .tooltiptext(v-if='$store.getters.member.muted')
+            .tooltiptext(v-if='$store.getters.member.tooltips')
                 p.suggest previous
         .one.grid.horizcenter()
             .box.verticalcenter
@@ -13,7 +13,7 @@
         .four.grid.horizcenter()
             .mandalign.tooltip(ref='mandelorb')
                 img(src='../assets/images/orb.svg')
-                .tooltiptext(v-if='$store.getters.member.muted')
+                .tooltiptext(v-if='$store.getters.member.tooltips')
                     p(v-if='!open').suggest show all
                     p(v-else).suggest show stack
         .one.grid.horizcenter()
@@ -22,7 +22,7 @@
         .three.grid.tooltip(ref='next')
             span &nbsp;
             img.fr(v-if='!open'  src='../assets/images/forward.svg')
-            .tooltiptext(v-if='$store.getters.member.muted')
+            .tooltiptext(v-if='$store.getters.member.tooltips')
                 p.suggest next
     .open(v-if='open')
         div(v-for='(b, i) in c'  :key="b.taskId")

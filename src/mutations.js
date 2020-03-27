@@ -106,7 +106,6 @@ function membersMuts(members, ev){
           break
       case "member-created":
           ev.lastUsed = ev.timestamp
-          ev.muted = true
           members.push(ev)
           break
       case "member-activated":
@@ -165,7 +164,6 @@ function membersMuts(members, ev){
               }
           })
           break
-
       case "member-field-updated":
           members.forEach( member => {
               if (member.memberId === ev.memberId){
@@ -173,32 +171,13 @@ function membersMuts(members, ev){
               }
           })
           break
-
       case "doge-barked":
           members.forEach( member => {
-              // this should only bump up for mutual doges
               if (member.memberId === ev.memberId){
                   member.lastUsed = ev.timestamp
-                  // then bark
               }
           })
           break
-
-      case "doge-muted":
-        members.forEach( member => {
-            if (member.memberId === ev.memberId){
-                member.muted = true
-            }
-        })
-        break
-
-      case "doge-unmuted":
-        members.forEach( member => {
-            if (member.memberId === ev.memberId){
-                member.muted = false
-            }
-        })
-        break
   }
 }
 

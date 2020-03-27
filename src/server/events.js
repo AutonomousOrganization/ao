@@ -131,13 +131,15 @@ function memberCreated(name, fob, secret, callback) {
       let newEvent = {
           type: "member-created",
           memberId,
-          fob,
           name,
+          fob,
           secret,
           active: 0,
-          balance: 0,
-          info: {}, // XXX use?
-          lastActivated: Date.now() // XXX use?
+          lastUsed: 0,
+          muted: true,
+          tooltips: true,
+          piles: 1,
+          payments: false,
       }
       dctrlDb.insertEvent(newEvent, callback)
 }
@@ -180,22 +182,6 @@ function memberFieldUpdated(memberId, field, newfield, callback){
 function dogeBarked(memberId, callback) {
     let newEvent ={
         type: "doge-barked",
-        memberId,
-    }
-    dctrlDb.insertEvent(newEvent, callback)
-}
-
-function dogeMuted(memberId, callback) {
-    let newEvent ={
-        type: "doge-muted",
-        memberId,
-    }
-    dctrlDb.insertEvent(newEvent, callback)
-}
-
-function dogeUnmuted(memberId, callback) {
-    let newEvent ={
-        type: "doge-unmuted",
         memberId,
     }
     dctrlDb.insertEvent(newEvent, callback)
@@ -546,8 +532,6 @@ module.exports = {
     memberActivated,
     memberFieldUpdated,
     dogeBarked,
-    dogeMuted,
-    dogeUnmuted,
     resourceCreated,
     resourceUsed,
     resourceStocked,

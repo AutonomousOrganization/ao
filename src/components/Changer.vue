@@ -20,6 +20,14 @@
         img.checkmark(v-else, src='../assets/images/uncompleted.svg')
         span - repeat correctly
     button(@click='update') update account
+    .check(@click='toggleMuted')
+        img.checkmark(v-if='$store.getters.member.muted', src='../assets/images/completed.svg')
+        img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+        span ~ muted
+    .check(@click='toggleTooltips')
+        img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
+        img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+        span ~ tooltips
 </template>
 
 <script>
@@ -59,6 +67,8 @@ export default {
         inputType(){
             if (this.change.field === 'secret'){
                 return 'password'
+            } else if (this.change.field === 'muted') {
+                return 'boolean'
             } else {
                 return 'text'
             }
@@ -74,6 +84,22 @@ export default {
         }
     },
     methods: {
+        toggleMuted(){
+            this.$store.dispatch('makeEvent', {
+                type: "member-field-updated",
+                field: 'muted',
+                newfield: !this.$store.getters.member.muted,
+                memberId: this.$store.getters.member.memberId
+            })
+        },
+        toggleTooltips(){
+            this.$store.dispatch('makeEvent', {
+                type: "member-field-updated",
+                field: 'tooltips',
+                newfield: !this.$store.getters.member.tooltips,
+                memberId: this.$store.getters.member.memberId
+            })
+        },
         empty(){
             this.change.newfield = ''
             this.change.confirmNewfield = ''

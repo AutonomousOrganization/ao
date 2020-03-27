@@ -23,13 +23,13 @@
         panels
         .faded
             img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
-            .tooltiptext.correctspotleft(v-if='$store.getters.member.muted')
+            .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
                 p.suggest scuttle
             img.adjtooltip.scuttled(@click='toggleStacks' src='../assets/images/orb.svg')
-            .tooltiptext.correctspotmid(v-if='$store.getters.member.muted')
+            .tooltiptext.correctspotmid(v-if='$store.getters.member.tooltips')
                 p.suggest one or five piles
             img.completed.adjtooltip(src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
-            .tooltiptext.correctspot(v-if='$store.getters.member.muted')
+            .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
                 p.suggest completed or not
     .agedbackground.translucent(:class='cardInputSty')
     .agedbackground.freshpaperbg(v-if='cardAge < 8')
@@ -351,11 +351,10 @@ export default {
     // max-width: 29.8em
     // max-width: 39.333333333333%
 
-
-.tooltiptext.correctspotleft
+.tooltiptext.correctspotmid
     position: absolute
     top: calc(100% - 1.75em)
-    left: calc(50% - 1.75em)
+    left: 50%
 
 .tooltiptext.correctspotleft
     position: absolute

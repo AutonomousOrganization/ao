@@ -269,26 +269,6 @@ router.post('/events', (req, res, next)=>{
             res.status(400).send(errRes)
           }
           break
-      case 'doge-muted':
-          if (validators.isMemberId(req.body.memberId, errRes)){
-            events.dogeMuted(
-              req.body.memberId,
-              utils.buildResCallback(res)
-            )
-          } else {
-            res.status(400).send(errRes)
-          }
-          break
-      case 'doge-unmuted':
-          if (validators.isMemberId(req.body.memberId, errRes)){
-            events.dogeUnmuted(
-              req.body.memberId,
-              utils.buildResCallback(res)
-            )
-          } else {
-            res.status(400).send(errRes)
-          }
-          break
       case 'doge-migrated':
           let tasks = []
           let memberCard

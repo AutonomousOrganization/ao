@@ -51,8 +51,11 @@ const mutations = {
         }
     },
     hide(state){
-        state[0].showEvent = false
-        state.shift()
+        let canHide = state[0]
+        if (canHide){
+            canHide.showEvent = false
+            state.shift()
+        }
     }
 }
 

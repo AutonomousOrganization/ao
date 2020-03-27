@@ -3,7 +3,7 @@
 .tally.tooltip
     img(v-for='n in b.claimed'  src='../assets/images/mark.svg')
     .tooltiptext
-        p(v-if='$store.getters.member.muted') completed by:
+        p(v-if='$store.getters.member.tooltips') completed by:
         current.block(v-for='memberId in b.claimed', :memberId='memberId')
 </template>
 
