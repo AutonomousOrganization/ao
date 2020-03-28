@@ -7,9 +7,9 @@
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
-              img.boatAll.faded(v-if='$store.getters.contextCard.priorities.length >= 1'  src='../assets/images/downboat.svg'  @click='refocused(t)')
+              img.boatAll.faded(src='../assets/images/downboat.svg'  @click='refocused(t)')
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId')
-              img.boatAll.boatR.faded(v-if='$store.getters.contextCard.subTasks.length >= 2'  src='../assets/images/upboat.svg'  @click='prioritized(t)')
+              img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='prioritized(t)')
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
               hyperpriority.closedcard(:taskId='st'  :inId="t")
