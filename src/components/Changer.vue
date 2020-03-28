@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .changer
-    h2 Update {{$store.getters.member.name}}:
+    h2 Update info:
         select(v-model='change.field', @change='empty')
             option(value='name') name
             option(value='secret') password
@@ -19,15 +19,16 @@
         img.checkmark(v-if='matched', src='../assets/images/completed.svg')
         img.checkmark(v-else, src='../assets/images/uncompleted.svg')
         span - repeat correctly
-    button(@click='update') update account
-    .check(@click='toggleMuted')
-        img.checkmark(v-if='$store.getters.member.muted', src='../assets/images/completed.svg')
-        img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-        span ~ muted
-    .check(@click='toggleTooltips')
+    button(@click='update') update info
+    h2 Preferences
+    .check.click(@click='toggleTooltips')
         img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
         img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-        span ~ tooltips
+        span.space tips
+    .check.click(@click='toggleMuted')
+        img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
+        img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+        span.space sounds
 </template>
 
 <script>
@@ -117,6 +118,12 @@ export default {
 @import '../styles/button'
 @import '../styles/skeleton'
 @import '../styles/input'
+
+.space
+    padding-left: .654321em
+
+.click
+    cursor: pointer
 
 img
     float: left

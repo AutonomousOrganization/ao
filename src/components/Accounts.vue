@@ -1,11 +1,12 @@
 <template lang='pug'>
 
 #accounts
-  h1 {{activeAccounts}} Accounts
+  h1 Accounts
   .container
     .row
         member-create.six.columns
         changer.six.columns
+    h2.yellowtx {{ activeAccounts }} active
     members
 </template>
 

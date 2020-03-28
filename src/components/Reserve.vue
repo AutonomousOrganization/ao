@@ -3,30 +3,35 @@
 #home
   .container
     h1 Reserve
+    div
+        h4.yellowtx(v-if='coreMembers.length > 0 ') active
+        span(v-for='(mId, i) in coreMembers')
+            current(:memberId='mId')
+            br(v-if='i % 3 === 2')
+        h4(v-if='pendingDeactivations.length > 0 ') deactivating
+        span(v-for='(mId, i) in pendingDeactivations')
+            current(:memberId='mId')
+            br(v-if='i % 3 === 2')
+        h4.redtx(v-if='nonMembers.length > 0 ') inactive
+        span(v-for='(mId, i) in nonMembers')
+            current(:memberId='mId')
+            br(v-if='i % 3 === 2')
+    .row.space
+        .six.columns
+          rent-set
+          ul
+              li Rent deducted from active accounts
+        .six.columns
+          cap-set
     .row.center
         .seven.grid
-            p.underline.padd Monthly Cost - {{ parseInt($store.state.cash.rent) }}
-            p  {{ activeMembers }} Active
+            p.underline.padd {{ parseInt($store.state.cash.rent) }} Rent
+            p {{ activeMembers }} Active
         .one.grid
             .equals =
         .four.grid.equals2
             p {{ parseInt(perMonth) }} each
-            p.redtx.equals2 [{{ $store.state.cash.cap }} max]
-    .row
-        .six.columns
-          p.input-instructions Set Monthly Cost
-          rent-set
-        .six.columns
-          p.input-instructions Set Maximum
-          cap-set
-    ul
-      li Each month the node cost is split between accounts
-      li Activate account at the treasure chest on your deck
-    div(v-if='pendingDeactivations.length > 0  && $store.state.cash.rent > 0')
-        h4 Pending Deactivation:
-        span(v-for='(mId, i) in pendingDeactivations')
-            current(:memberId='mId')
-            br(v-if='i % 3 === 2')
+            p.redtx [{{ $store.state.cash.cap }} max]
     points
 </template>
 
@@ -42,6 +47,16 @@ export default {
         Points, RentSet, CapSet, Current
     },
     computed: {
+        nonMembers(){
+            return this.$store.state.members
+              .filter(m => m.active <= 0)
+              .map(m => m.memberId)
+        },
+        coreMembers(){
+            return this.$store.state.members
+              .filter(m => m.active > 0 && this.$store.getters.hashMap[m.memberId].boost > 0)
+              .map(m => m.memberId)
+        },
         pendingDeactivations(){
             return this.$store.state.members
               .filter(m => m.active > 0 && this.$store.getters.hashMap[m.memberId].boost <= 0)
@@ -73,8 +88,12 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/skeleton'
+@import '../styles/grid'
 @import '../styles/breakpoints'
 @import '../styles/title'
+
+.space
+    margin-top: 1.7em
 
 .fw
     width: 100%

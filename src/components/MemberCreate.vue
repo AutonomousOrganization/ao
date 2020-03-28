@@ -1,7 +1,8 @@
 <template lang='pug'>
 
 #newmember
-		h1 Add new
+		h1
+				current(:memberId='$store.getters.member.memberId')
 		.input-container
 				input.input-effect(v-model='member.name' type='text'  :class='{"has-content":!!member.name}')
 				label new account
@@ -18,8 +19,10 @@
 
 <script>
 import cryptoUtils from '../crypto'
+import Current from './Current'
 
 export default {
+	components:{Current},
   data() {
     return {
       member: {
@@ -63,10 +66,14 @@ export default {
     color:accent1
     font-family: 'Open Sans', light, sans-serif;
 
+h1
+		margin-bottom: 1em
+
 li
   color:white
   font-size:18px
   font-family: 'Open Sans', light, sans-serif;
+
 
 h3
   font-family: 'Open Sans', light, sans-serif;

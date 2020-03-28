@@ -49,7 +49,7 @@ export default {
             } else if(this.b.guild && this.task.guild) {
                 return "rename"
             }
-            return "mission"
+            return "tag"
         }
     },
 }

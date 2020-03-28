@@ -2,8 +2,6 @@
 
 #points
     .center
-        h4 {{ totalPointsSum.toFixed(0) }} total points ({{ satPoint.toFixed(0) }} &#12471;)
-    .center
         img(src='../assets/images/loggedIn.svg')
         span {{ totalMembers.toFixed(0) }} in accounts
         img(src='../assets/images/loader.svg')
@@ -23,6 +21,8 @@
         span {{ n.boost.toFixed(0) }}
         currentr(:resourceId='n.taskId')
     h3(v-for='n in funded.guilds.sort((a, b) => parseInt(a.boost) < parseInt(b.boost))') {{ n.boost.toFixed(0) }} - {{ n.guild }}
+    .center
+      h4.yellowtx backing: {{ satPoint }} &#12471;
 </template>
 
 <script>
@@ -35,7 +35,7 @@ export default {
     methods: {
         burn(taskId){
             this.$store.dispatch('makeEvent', {
-                type: 'task-removed', taskId
+                type: 'task-removed', taskId // xxx DON'T REMOVE CARD, REMOVE POINTS
             })
         }
     },
@@ -93,7 +93,6 @@ export default {
         },
         satPoint(){
             let sp = this.$store.getters.totalWallet / this.totalPointsSum
-            console.log({sp})
             return sp ? sp : 0
         }
     }
