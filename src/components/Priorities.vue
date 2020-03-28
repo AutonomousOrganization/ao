@@ -8,7 +8,7 @@
       .row.priority
           .priorityContainer
               img.boatAll.faded(v-if='$store.getters.contextCard.priorities.length >= 1'  src='../assets/images/downboat.svg'  @click='refocused(t)')
-              hyperpriority.closedcard(:taskId='t'  :inId='$store.getters.contextCard.taskId')
+              hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId')
               img.boatAll.boatR.faded(v-if='$store.getters.contextCard.subTasks.length >= 2'  src='../assets/images/upboat.svg'  @click='prioritized(t)')
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
@@ -94,6 +94,8 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/button'
+.fw
+    width: 100%
 
 h5
     text-align: center
@@ -224,7 +226,7 @@ img
     width: 100%
     position: relative
 
-.subpriority
+  .subpriority
     margin-left: calc(3.3724em * 2)
     width: calc(100% - (3.3724em* 2))
 
@@ -285,6 +287,5 @@ img
 
 .closedcard
     padding-right:3em
-    width: 100%
 
 </style>
