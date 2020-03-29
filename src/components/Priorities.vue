@@ -19,7 +19,6 @@
     div.clearboth
     .boatContainer
         img.boatAll.faded(v-if='$store.getters.contextCard.priorities.length >= 1'  src='../assets/images/downboat.svg'  @click='pileRefocused')
-        img.boatAll.boatR.faded(v-if='$store.getters.contextCard.subTasks.length >= 2'  src='../assets/images/upboat.svg'  @click='pilePrioritized')
 </template>
 
 <script>

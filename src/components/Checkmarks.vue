@@ -3,9 +3,9 @@
 .upgrades
     projects
     div(v-if='$store.getters.contextMember')
+        h5 vouches
         div(v-for='n in $store.getters.contextCard.deck' )
             current(:memberId='n')
-            //- coin(:b='$store.getters.hashMap[n]') XXX absolute wrong place
     div(v-else)
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
         current-checks(:memberId='n')

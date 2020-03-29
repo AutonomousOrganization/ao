@@ -181,6 +181,7 @@ export default {
         },
         resetCard(){
             this.task.name = ''
+            this.task.search = ''
         },
         subTaskTask(taskId) {
             this.$store.dispatch("makeEvent", {
@@ -193,6 +194,7 @@ export default {
         createOrFindTask(){
             let foundId = this.matchCard
             let potentialCard = this.task.name.trim()
+            this.resetCard()
             if(!foundId) {
                 this.$store.dispatch("makeEvent", {
                     type: 'task-created',
@@ -204,7 +206,6 @@ export default {
             } else {
                 this.subTaskTask(foundId)
             }
-            this.resetCard()
         },
         isGrabbed(taskId){
             return this.$store.getters.hashMap[taskId].deck.indexOf( this.$store.getters.member.memberId ) > -1

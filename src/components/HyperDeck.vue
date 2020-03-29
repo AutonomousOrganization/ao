@@ -19,18 +19,21 @@
         .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"')
             gift-box
             slot
-    .fadey(:class='{ cardInputSty, onestack : $store.state.upgrades.stacks === 1, completedfadey : $store.state.context.completed }')
-        panels
-        .faded
-            img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
-            .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
-                p.suggest scuttle
-            img.adjtooltip.scuttled(@click='toggleStacks' src='../assets/images/orb.svg')
-            .tooltiptext.correctspotmid(v-if='$store.getters.member.tooltips')
-                p.suggest one or five piles
-            img.completed.adjtooltip(src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
-            .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                p.suggest completed or not
+    div
+        .boatContainer
+            img.boatAll.boatR.faded(v-if='$store.getters.contextCard.subTasks.length >= 2'  src='../assets/images/upboat.svg'  @click='pilePrioritized')
+        .fadey(:class='{ cardInputSty, onestack : $store.state.upgrades.stacks === 1, completedfadey : $store.state.context.completed }')
+            panels
+            .faded
+                img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
+                .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
+                    p.suggest scuttle
+                img.adjtooltip.scuttled(@click='toggleStacks' src='../assets/images/orb.svg')
+                .tooltiptext.correctspotmid(v-if='$store.getters.member.tooltips')
+                    p.suggest one or five piles
+                img.completed.adjtooltip(src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
+                .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
+                    p.suggest completed or not
     .agedbackground.translucent(:class='cardInputSty')
     .agedbackground.freshpaperbg(v-if='cardAge < 8')
     .agedbackground.weekoldpaperbg(v-else-if='cardAge < 30')
@@ -55,6 +58,12 @@ export default {
       ResourceRow, Context, Auth, GiftBox
   },
   methods:{
+      pilePrioritized() {
+        this.$store.dispatch("makeEvent", {
+          type: "pile-prioritized",
+          inId: this.$store.getters.contextCard.taskId
+        });
+      },
       pileDeSubTasked(){
           this.$store.dispatch('makeEvent', {
               type: 'pile-de-sub-tasked',
@@ -156,7 +165,6 @@ export default {
 
 .upgradesbar
     height: fit-content
-    background-color: rgba(21, 21, 21, 0.25)
     border-radius: 30px
     margin-left: 1em
     float: right
@@ -175,7 +183,6 @@ export default {
     opacity: 0.11
 
 .fadey
-    background-color: rgba(255,255,255,0.1)
     margin: 0 1em 0 1em
     min-height: 2em
     position: relative
@@ -365,4 +372,32 @@ export default {
     position: absolute
     top: calc(100% - 1.75em)
     right: 2em
+
+.boatContainer
+    display: flex;
+    justify-content: space-between;
+    width:100%
+    height:45px
+
+.priorityContainer
+    display: flex;
+    justify-content: space-between;
+    width:100%
+
+.boatAll
+    margin: 0 1em 0 1em
+    height: 20px;
+    position: relative
+    margin-top: 1em
+    margin-bottom: 1em
+    opacity: .3
+    z-index:9999999999999
+    cursor: pointer
+
+.boatR
+    position: absolute
+    right: 0px
+    height:20px
+
+
 </style>
