@@ -22,11 +22,11 @@
     div
         .boatContainer
             img.boatAll.boatR.faded(v-if='$store.getters.contextCard.subTasks.length >= 2'  src='../assets/images/upboat.svg'  @click='pilePrioritized')
-        .fadey(:class='{ cardInputSty, onestack : $store.state.upgrades.stacks === 1, completedfadey : $store.state.context.completed }')
+        .fadey(:class='{ cardInputSty, onestack : $store.state.upgrades.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
             panels
             .faded
-                img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
-                .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
+                img.adjtooltip.toggleStack(v-if='!$store.state.context.completed  && $store.getters.contextCard.subTasks.length > 1'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
+                .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips  && !$store.state.context.completed  && $store.getters.contextCard.subTasks.length > 1')
                     p.suggest scuttle
                 img.adjtooltip.scuttled(@click='toggleStacks' src='../assets/images/orb.svg')
                 .tooltiptext.correctspotmid(v-if='$store.getters.member.tooltips')
@@ -85,6 +85,15 @@ export default {
       }
   },
   computed: {
+      requireFiveStacks(){
+          let usedPiles = 0
+          if (this.$store.getters.green.length > 0) usedPiles++
+          if (this.$store.getters.red.length > 0) usedPiles++
+          if (this.$store.getters.blue.length > 0) usedPiles++
+          if (this.$store.getters.purple.length > 0) usedPiles++
+          if (this.$store.getters.yellow.length > 0) usedPiles++
+          return usedPiles > 1
+      },
       panelSplit(){
           let before = []
           let after = []

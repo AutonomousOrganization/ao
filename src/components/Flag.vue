@@ -147,11 +147,19 @@ export default {
                       taskId: this.b.taskId,
                       inId: parentId,
                     })
-                    this.$store.dispatch('goUp', {
-                        target: parentId,
-                        panel: [parentId],
-                        top: 0
-                    })
+
+                    let p = _.filter(this.$store.state.context.panel,(p)=> p !==  this.b.taskId)
+
+                    if (p.length < 1){
+                        this.$store.dispatch('goUp', {
+                          target: parentId,
+                          panel: [parentId],
+                          top: 0
+                        })
+                    } else {
+                        this.$store.commit('setPanel', p)
+                        this.$store.commit('setTop', this.$store.state.context.top % p.length)
+                    }
                 }
                 if(this.$store.state.upgrades.mode === 'doge') {
                     this.$store.commit("setMode", 1)

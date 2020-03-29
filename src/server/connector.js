@@ -3,6 +3,7 @@ const router = express.Router()
 const tr = require('tor-request');
 const crypto = require('../crypto')
 const calculations = require('../calculations')
+const request = require('superagent')
 
 function postEvent(address, secret, body, callback){
   tr.request({

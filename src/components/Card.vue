@@ -19,8 +19,8 @@
           .cardhud(v-if='cardStart')
               img.smallguild(src='../assets/images/timecube.svg')
               span {{ cardStart.days.toFixed(1) }} days
-          linky.cardhud(:x='b.name' v-if='!dogeCard')
-          .cardhud(v-if='dogeCard') {{ dogeCard.name }}
+          linky.cardhud(:x='b.name' v-if='!member')
+          current(v-else  :memberId='member.memberId')
     simple-priorities(:taskId="b.taskId", :inId='b.taskId')
     passed(:b='b')
     linked(:b='b')
@@ -162,7 +162,7 @@ export default {
           let days = msSince / (1000 * 60 * 60 * 24)
           return days
         },
-        dogeCard(){
+        member(){
           let mc
           this.$store.state.members.forEach( m => {
               if (this.b.name === m.memberId ){

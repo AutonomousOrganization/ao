@@ -206,6 +206,8 @@ export default {
             } else {
                 this.subTaskTask(foundId)
             }
+            // XXX searchbar finding created 
+            setTimeout( ()=> { this.resetCard() }, 7)
         },
         isGrabbed(taskId){
             return this.$store.getters.hashMap[taskId].deck.indexOf( this.$store.getters.member.memberId ) > -1

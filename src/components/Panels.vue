@@ -1,7 +1,7 @@
 <template lang='pug'>
 
-.panel(:class='{ fullwidth : $store.state.upgrades.stacks === 1 }')
-    div(v-if='$store.state.upgrades.stacks === 5')
+.panel(:class='{ fullwidth : $store.state.upgrades.stacks === 1 || !requireFiveStacks }')
+    div(v-if='$store.state.upgrades.stacks === 5 && requireFiveStacks')
         .row(v-if='$store.getters.red.length + $store.getters.green.length + $store.getters.blue.length > 0')
           .four.columns.minheight
               card-panel(v-if='$store.getters.red.length > 0'  :c='$store.getters.red', :taskId='$store.state.context.panel[$store.state.context.top]')
@@ -15,7 +15,7 @@
               card-panel(:c='$store.getters.yellow', :taskId='$store.state.context.panel[$store.state.context.top]')
           .four.columns(v-if='$store.getters.purple.length > 0')
               card-panel(:c='$store.getters.purple', :taskId='$store.state.context.panel[$store.state.context.top]')
-    .padonestack(v-else-if='$store.state.upgrades.stacks === 1')
+    .padonestack(v-else)
         card-panel(v-if='$store.getters.all.length > 0'  :c='$store.getters.all', :taskId='$store.state.context.panel[$store.state.context.top]')
 </template>
 
@@ -28,7 +28,15 @@ export default {
       CardPanel,
   },
   computed: {
-    
+      requireFiveStacks(){
+          let usedPiles = 0
+          if (this.$store.getters.green.length > 0) usedPiles++
+          if (this.$store.getters.red.length > 0) usedPiles++
+          if (this.$store.getters.blue.length > 0) usedPiles++
+          if (this.$store.getters.purple.length > 0) usedPiles++
+          if (this.$store.getters.yellow.length > 0) usedPiles++
+          return usedPiles > 1
+      }
   }
 }
 
@@ -44,6 +52,7 @@ export default {
     margin: 0 1em 1em 1em
     clear: both
     padding-bottom: 1.5em
+    min-height: 5.9em
 
 .card
     padding: 2em
