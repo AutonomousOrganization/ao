@@ -6,7 +6,6 @@
     .row
         member-create.six.columns
         changer.six.columns
-    h2.yellowtx {{ activeAccounts }} active
     members
 </template>
 

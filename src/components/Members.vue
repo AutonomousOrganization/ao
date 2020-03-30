@@ -2,14 +2,12 @@
 
 #member
     .list
-        row(v-for="m in showingPanel"  :m='m')
-        .row.menu(v-if='sortedMembers.length > 5')
-            .inline(@click='showBack')
-                img(src='../assets/images/back.svg')
-            .inline
-                p.mt {{showStart + 1}} - {{showStart + 5}}  of {{ showTotal }}
-            .inline(@click='showNext')
-                img(src='../assets/images/forward.svg')
+        h4.yellowtx ({{coreMembers.length}}) active
+        row(v-for="m in coreMembers"  :m='m')
+        h4.bluetx ({{pendingDeactivations.length}}) deactivating
+        row(v-for="m in pendingDeactivations"  :m='m')
+        h4.redtx ({{nonMembers.length}}) inactive
+        row(v-for="m in nonMembers"  :m='m')
 </template>
 
 <script>
@@ -38,6 +36,18 @@ export default {
         },
     },
     computed: {
+        nonMembers(){
+            return this.sortedMembers
+              .filter(m => m.active <= 0)
+        },
+        coreMembers(){
+            return this.sortedMembers
+              .filter(m => m.active > 0 && this.$store.getters.hashMap[m.memberId].boost > 0)
+        },
+        pendingDeactivations(){
+            return this.sortedMembers
+              .filter(m => m.active > 0 && this.$store.getters.hashMap[m.memberId].boost <= 0)
+        },
         showingPanel(){
             return this.sortedMembers.slice(this.showStart, this.showStart + 5)
         },

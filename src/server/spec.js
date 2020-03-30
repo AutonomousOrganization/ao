@@ -460,6 +460,7 @@ router.post('/events', (req, res, next)=>{
               req.body.color,
               req.body.deck,
               req.body.inId,
+              req.body.blame,
               utils.buildResCallback(res)
             )
           } else {

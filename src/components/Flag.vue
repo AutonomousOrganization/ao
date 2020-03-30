@@ -37,7 +37,11 @@ export default {
         let Tap = new Hammer.Tap({ time: 400 })
         mc.add(Tap)
         mc.on('tap', (e) => {
-            switch(this.$store.state.upgrades.mode) {
+            let mode = this.$store.state.upgrades.mode
+            if (this.$store.state.context.action === this.b.taskId){
+                mode = 'chest'
+            }
+            switch(mode) {
                 case 'doge':
                 case 'boat':
                     if(this.isOracle) {

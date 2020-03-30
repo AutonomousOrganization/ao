@@ -275,7 +275,7 @@ function sessionKilled(session, callback) {
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function taskCreated(name, color, deck, inId, callback) {
+function taskCreated(name, color, deck, inId, memberId, callback) {
   let h = crypto.createHash('sha256')
   h.update(name)
   let hash = h.digest('hex')
@@ -297,6 +297,7 @@ function taskCreated(name, color, deck, inId, callback) {
           deck,
           hash,
           inId,
+          memberId,
       }
       dctrlDb.insertEvent(newEvent, callback)
   }

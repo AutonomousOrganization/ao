@@ -280,6 +280,7 @@ then
 	echo configuration.js already exists
 else
 	CONFIG="module.exports = {
+		openAo: true,
     bitcoind: {
         network: 'mainnet'
     },

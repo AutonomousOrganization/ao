@@ -3,19 +3,6 @@
 #home
   .container
     h1 Reserve
-    div
-        h4.yellowtx(v-if='coreMembers.length > 0 ') active
-        span(v-for='(mId, i) in coreMembers')
-            current(:memberId='mId')
-            br(v-if='i % 3 === 2')
-        h4(v-if='pendingDeactivations.length > 0 ') deactivating
-        span(v-for='(mId, i) in pendingDeactivations')
-            current(:memberId='mId')
-            br(v-if='i % 3 === 2')
-        h4.redtx(v-if='nonMembers.length > 0 ') inactive
-        span(v-for='(mId, i) in nonMembers')
-            current(:memberId='mId')
-            br(v-if='i % 3 === 2')
     .row.space
         .six.columns
           rent-set
@@ -47,21 +34,6 @@ export default {
         Points, RentSet, CapSet, Current
     },
     computed: {
-        nonMembers(){
-            return this.$store.state.members
-              .filter(m => m.active <= 0)
-              .map(m => m.memberId)
-        },
-        coreMembers(){
-            return this.$store.state.members
-              .filter(m => m.active > 0 && this.$store.getters.hashMap[m.memberId].boost > 0)
-              .map(m => m.memberId)
-        },
-        pendingDeactivations(){
-            return this.$store.state.members
-              .filter(m => m.active > 0 && this.$store.getters.hashMap[m.memberId].boost <= 0)
-              .map(m => m.memberId)
-        },
         activeMembers(){
             let a = 0
             this.$store.state.members.forEach(m => {

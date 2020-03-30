@@ -157,6 +157,13 @@ function membersMuts(members, ev){
               }
           })
           break
+      case "task-created":
+          members.forEach( member => {
+              if (member.memberId === ev.memberId){
+                  member.lastUsed = ev.timestamp
+              }
+          })
+          break
       case "resource-used":
           members.forEach( member => {
               if (member.memberId === ev.memberId){
