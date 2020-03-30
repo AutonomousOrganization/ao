@@ -169,7 +169,7 @@ export default {
     height: 40px
     text-align: center
     font-weight:lighter
-    font-size: .7em
+    font-size: .4em
     border-style:solid
     color:darkteal
 .date

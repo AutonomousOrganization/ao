@@ -8,6 +8,8 @@ let memes = [
     'wow',
     'very happen',
     'much do',
+    'no spoon',
+    'wow',
 ]
 
 let colors = [
@@ -47,7 +49,9 @@ const mutations = {
 
         let notTheseOnes = ["funds-set", "get-node-info"]
         if (notTheseOnes.indexOf(newBubble.type) === -1){
-            state.push(newBubble)
+            if (state.every(e => e.timestamp !== ev.timestamp)){
+                state.push(newBubble)
+            }
         }
     },
     hide(state){

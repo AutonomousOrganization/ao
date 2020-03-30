@@ -3,9 +3,13 @@
 .upgrades
     projects
     div(v-if='$store.getters.contextMember')
-        h5 vouches
-        div(v-for='n in $store.getters.contextCard.deck' )
-            current(:memberId='n')
+        div(v-if='$store.getters.contextCard.deck < 1')
+            img.bdoge(src='../assets/images/buddadoge.svg')
+            h5 no vouches
+        div(v-else)
+            h5 vouches
+            div(v-for='n in $store.getters.contextCard.deck' )
+                current(:memberId='n')
     div(v-else)
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
         current-checks(:memberId='n')
@@ -31,5 +35,14 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
+h5
+    text-align: center
+    color: lightGrey
+    opacity: 0.77
 
+.bdoge
+    width: 100%
+    opacity: 0.77
+    height: 5em
+    margin-top: 1em
 </style>

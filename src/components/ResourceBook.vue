@@ -1,27 +1,32 @@
 <template lang='pug'>
 
 #newresource
-    label select day
-    input(v-model='ymd' type='date')
-    label select hour
-    .row.padd
-        select.eight.grid(v-model='hour')
-            option(value='1') 1
-            option(value='2') 2
-            option(value='3') 3
-            option(value='4') 4
-            option(value='5') 5
-            option(value='6') 6
-            option(value='7') 7
-            option(value='8') 8
-            option(value='9') 9
-            option(value='10') 10
-            option(value='11') 11
-            option(value='12') 12
-        select.four.grid(v-model='meridiem')
-            option(value='am') am
-            option(value='pm') pm
-    button(@click='book') set time
+    div(v-if='showSetTime')
+        label select day
+        input(v-model='ymd' type='date')
+        label select hour
+        .row.padd
+            select.eight.grid(v-model='hour')
+                option(value='1') 1
+                option(value='2') 2
+                option(value='3') 3
+                option(value='4') 4
+                option(value='5') 5
+                option(value='6') 6
+                option(value='7') 7
+                option(value='8') 8
+                option(value='9') 9
+                option(value='10') 10
+                option(value='11') 11
+                option(value='12') 12
+            select.four.grid(v-model='meridiem')
+                option(value='am') am
+                option(value='pm') pm
+    button(@click='book')
+        span(v-if='!showSetTime && this.$store.getters.contextCard.book.startTs') change
+        span(v-else-if='this.calcTime.start < 0 && showSetTime && this.$store.getters.contextCard.book.startTs') clear
+        span(v-else) set
+        span {{' '}} time
 </template>
 
 <script>
@@ -33,6 +38,8 @@ export default {
     props:['tId'],
     methods: {
         book(){
+            console.log("current start", this.calcTime.start)
+            if (!this.showSetTime) return this.showSetTime = true
             this.$store.dispatch('makeEvent', {
                 type: 'resource-booked',
                 resourceId: this.tId,
@@ -40,6 +47,7 @@ export default {
                 startTs: this.calcTime.start,
                 endTs: this.calcTime.end,
             })
+            this.showSetTime = false
         }
     },
     mounted(){
@@ -50,7 +58,9 @@ export default {
     },
     data(){
         let d = new Date()
+
         return {
+            showSetTime: false,
             ymd: '',
             hour: 1,
             meridiem : 'pm',

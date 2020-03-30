@@ -33,7 +33,8 @@
                       label {{a}}
     payments
   .row(v-else)
-      p <em>unable to read info from lightning node</em>
+      img.bdoge(src='../assets/images/buddadoge.svg')
+      h5 no lightning node
 </template>
 
 <script>
@@ -99,7 +100,6 @@ h3
     text-align: center
 
 option
-    // background: wrexblue
     color: white
 
 a
@@ -188,4 +188,14 @@ p
     float: right
     font-size: .77em
 
+h5
+    text-align: center
+    color: lightGrey
+    opacity: 0.77
+
+.bdoge
+    width: 100%
+    opacity: 0.77
+    height: 5em
+    margin-top: 1em
 </style>

@@ -5,7 +5,8 @@
       .feed.wiggle(v-if='e.showEvent'  v-bind:style="{ left: e.randomX }"  @click='goTo(e)')
           img.bubble(src='../assets/images/down.svg')
           .float(:style='{ color: e.randomColors[0], left: e.randomXs[0], top: e.randomYs[0] }') {{ e.type.replace('-', ' ') }}
-          .float(:style='{ color: e.randomColors[1], left: e.randomXs[1], top: e.randomYs[1] }') {{ e.meme }}
+              br
+              span(:style='{ color: e.randomColors[1], left: e.randomXs[1], top: e.randomYs[1] }') {{ e.meme }}
           .float(v-if='e.type==="task-created"') {{ e.name }}
       div(v-else) test
 </template>
@@ -68,13 +69,13 @@ label
     color: white
     top: 100vh - 20em
     left: 45%
-    height: 10em
-    width: 10em
+    height: 4em
+    width: 4em
     z-index: 10000000
 
 .feed img
-    height: 10em
-    width: 10em
+    height: 4em
+    width: 4em
 
 img
     height: 170px
@@ -83,14 +84,14 @@ img
     left: 0
 
 .fade-enter-active
-    transition: top 10s
+    transition: top 7s
 
 .fade-leave-active
-    transition: top 10s
+    transition: top 7s
     top: -11em
 
 .fade-enter
-    top: calc(100% + 10em)
+    top: 99%
 
 .fade-leave-to /* .fade-leave-active below version 2.1.8 */
     top: -10em
@@ -119,7 +120,7 @@ img
 .float
     position: relative
     left: 30%
-    top: 80%
+    top: 40%
     color: white
     font-family: "Comic Sans MS"
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5)

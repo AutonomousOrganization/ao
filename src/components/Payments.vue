@@ -16,7 +16,9 @@
                 label Change amount
                 input(v-model='payreqAmount')
             button.submode(@click='invoiceCreate') ♻️
-    div.suggest(v-else) no lightning node :(
+    div(v-else)
+        img.bdoge(src='../assets/images/buddadoge.svg')
+        h5 no lightning node
 </template>
 
 <script>
@@ -137,10 +139,15 @@ h5
     height: 5.3333em
     width: 5.333em
 
-.suggest
-    color: rgba(255, 255, 255, 0.4)
-    font-style: italic
-    font-size: 1.2em
+h5
     text-align: center
+    color: lightGrey
+    opacity: 0.77
+
+.bdoge
+    width: 100%
+    opacity: 0.77
+    height: 5em
+    margin-top: 1em
 
 </style>

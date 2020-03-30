@@ -2,8 +2,9 @@
 
 .upgrades
     task-calendar(:inId='$store.getters.contextCard.taskId')
-    .gui(v-if='calcTime') {{ calcTime.slice(0,24) }}
+    .gui(v-if='calcTime') {{ calcTime }}
     resource-book(:tId='$store.getters.contextCard.taskId')
+    button set location
 </template>
 
 <script>
@@ -24,8 +25,8 @@ export default {
     computed: {
         calcTime(){
             if (this.$store.getters.contextCard.book.startTs){
-                let now = new Date(this.$store.getters.contextCard.book.startTs)
-                return now.toString()
+                let mer = calcs.getMeridienTime(this.$store.getters.contextCard.book.startTs)
+                return mer.month + '/' + mer.date + '/' + mer.year + " at " + mer.hour +  mer.meridien
             }
         },
     },
@@ -34,6 +35,11 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
+@import '../styles/button'
+
+button
+    margin-top: 2em
+    opacity: 0.4
 
 .upgrades
     width: 100%
