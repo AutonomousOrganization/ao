@@ -16,12 +16,10 @@
     .buffertop
       preview-deck(:task='b')
       .cardbody
-          .cardhud(v-if='cardStart')
-              img.smallguild(src='../assets/images/timecube.svg')
-              span {{ cardStart.days.toFixed(1) }} days
           linky.cardhud(:x='b.name' v-if='!member')
           current(v-else  :memberId='member.memberId')
-    simple-priorities(:taskId="b.taskId", :inId='b.taskId')
+    div(v-if='b.taskId !== $store.state.context.action')
+        simple-priorities(:taskId="b.taskId", :inId='b.taskId')
     passed(:b='b')
     linked(:b='b')
     .spacer
@@ -129,20 +127,6 @@ export default {
         },
     },
     computed: {
-        cardStart(){
-            if ( this.b.book.startTs ){
-              let now = Date.now()
-              let msTill = this.b.book.startTs - now
-              let days = msTill / (1000 * 60 * 60 * 24)
-              let hours = 0
-              let minutes = 0
-              return {
-                  days,
-                  hours,
-                  minutes
-              }
-            }
-        },
         cardInputSty(){
           if(!this.b) {
             return
