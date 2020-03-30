@@ -1,15 +1,17 @@
 <template lang='pug'>
 .flag(v-if="$store.getters.memberCard")
     .flaggy(:id='uuid'  :class='flagClass')
-        img(v-if='(isOracle || $store.state.upgrades.mode === "chest" || $store.state.context.action === b.taskId) && isCompleted' src='../assets/images/completed.svg' )
-        img(v-else-if='($store.state.upgrades.mode === "chest" || isOracle || $store.state.context.action === b.taskId) && !isCompleted'  src='../assets/images/uncompleted.svg')
+        img(v-if='(isOracle || $store.state.context.action === b.taskId) && isCompleted' src='../assets/images/completed.svg' )
+        img(v-else-if='(isOracle || $store.state.context.action === b.taskId) && !isCompleted'  src='../assets/images/uncompleted.svg')
         img(v-else-if='$store.state.upgrades.mode === "badge"'  src='../assets/images/badge.svg')
+        img(v-else-if='$store.state.upgrades.mode === "chest"'  src='../assets/images/chest.svg')
         img(v-else-if='$store.state.upgrades.mode === "timecube"' src='../assets/images/timecube.svg')
         img(v-else-if='($store.state.upgrades.mode === "boat" || $store.state.upgrades.mode === "doge") && isDoged'  src='../assets/images/sun.svg')
         img.svgwhite.faded(v-else, src='../assets/images/upboat.svg')
     .opened
         resource-book(v-if='isCubeOpen'  :tId='b.taskId')
         guild-create(:editing='isPayOpen'  :b='b' )
+        points-set(v-if='isChestOpen'  :b='b')
 </template>
 
 <script>
@@ -18,13 +20,15 @@ import Propagating from 'propagating-hammerjs'
 import uuidv1 from 'uuid/v1'
 import ResourceBook from './ResourceBook'
 import GuildCreate from './GuildCreate'
+import PointsSet from './PointsSet'
 
 export default {
-    components: { ResourceBook, GuildCreate },
+    components: { ResourceBook, GuildCreate , PointsSet},
     data(){
         return {
             isPayOpen: false,
             isCubeOpen: false,
+            isChestOpen:false,
             uuid: uuidv1(),
         }
     },
@@ -39,7 +43,12 @@ export default {
         mc.on('tap', (e) => {
             let mode = this.$store.state.upgrades.mode
             if (this.$store.state.context.action === this.b.taskId){
-                mode = 'chest'
+                if(!this.isCompleted) {
+                    this.complete()
+                } else {
+                    this.uncheck()
+                }
+                return
             }
             switch(mode) {
                 case 'doge':
@@ -57,11 +66,7 @@ export default {
                     }
                     break
                 case 'chest':
-                    if(!this.isCompleted) {
-                        this.complete()
-                    } else {
-                        this.uncheck()
-                    }
+                    this.toggleChest()
                     break
                 case 'badge':
                     this.togglePay()
@@ -125,9 +130,18 @@ export default {
         },
         togglePay(){
             this.isPayOpen = !this.isPayOpen
+            this.isChestOpen = false
+            this.isCubeOpen = false
+        },
+        toggleChest(){
+            this.isChestOpen = !this.isChestOpen
+            this.isPayOpen = false
+            this.isCubeOpen = false
         },
         toggleCube(){
             this.isCubeOpen = !this.isCubeOpen
+            this.isChestOpen = false
+            this.isPayOpen = false
         },
         deckIt(){
             this.$store.dispatch("makeEvent", {

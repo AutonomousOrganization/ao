@@ -9,8 +9,7 @@
     img.front(v-if='card.guild'  src="../assets/images/badge.svg")
     img.front(v-if='isMember' src="../assets/images/loggedIn.svg")
     div.right.front(v-if='card.book.startTs')
-        span {{ cardStart.days.toFixed(1) }} days
-        img(src="../assets/images/timecube.svg")
+        tally(:b='card')
     .hyperpaper.freshpaper(v-if='cardAge < 8')
     .hyperpaper.weekoldpaper(v-else-if='cardAge < 30')
     .hyperpaper.montholdpaper(v-else-if='cardAge < 90')
@@ -20,10 +19,11 @@
 
 <script>
 import Linky from './Linky'
+import Tally from './Tally'
 
 export default {
     props: ['taskId'],
-    components: { Linky },
+    components: { Linky, Tally },
     computed: {
         isMember(){
             let is = false

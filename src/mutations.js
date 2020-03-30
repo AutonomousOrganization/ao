@@ -264,6 +264,13 @@ function sessionsMuts(sessions, ev){
 
 function tasksMuts(tasks, ev) {
     switch (ev.type) {
+        case "task-valued":
+            tasks.forEach(task => {
+                if(task.taskId === ev.taskId) {
+                    task.completeValue = Number(ev.value)
+                }
+            })
+            break
         case "task-popped":
             let explodingTask, absorbingTask
             tasks.forEach( task => {

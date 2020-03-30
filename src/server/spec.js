@@ -22,6 +22,21 @@ router.post('/events', (req, res, next) => {
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+      case "task-valued":
+        if (
+          validators.isTaskId(req.body.taskId, errRes) &&
+          validators.isAmount(req.body.value, errRes)
+        ) {
+          events.taskValued(
+            req.body.taskId,
+            req.body.value,
+            req.body.blame,
+            utils.buildResCallback(res)
+          );
+        } else {
+          res.status(400).send(errRes);
+        }
+        break
       case "task-popped":
           if (
             validators.isTaskId(req.body.taskId, errRes) &&

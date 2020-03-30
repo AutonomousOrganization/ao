@@ -12,8 +12,6 @@
       img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg' ref='checkbox')
       img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg' ref='checkbox')
       tally.right.front.lesspadding(:b='card')
-      span.right.front(v-if='card.book.startTs') {{ cardStart.days.toFixed(1) }} days
-      img.right.front(v-if='card.book.startTs' src="../assets/images/timecube.svg")
       linky.cardname.front(:x='card.name'  :key='name')
 </template>
 

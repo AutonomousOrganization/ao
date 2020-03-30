@@ -13,8 +13,6 @@
         img.left.front.cancel(v-if='isMember' src="../assets/images/loggedIn.svg")
         checkbox(:b='card'  :inId='inId')
         tally.right.front.lesspadding.buffer(:b='card')
-        span.right.front(v-if='card.book.startTs'  :class='{ buffertwo : !card.claimed || card.claimed.length < 1 }') {{ cardStart.days.toFixed(1) }} days
-        img.right.front.cancel(v-if='card.book.startTs' src="../assets/images/timecube.svg")
         linky.front(:x='name'  :key='name')
 </template>
 
