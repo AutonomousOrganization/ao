@@ -1,7 +1,10 @@
 <template lang='pug'>
 
 .panel(:class='{ fullwidth : $store.state.upgrades.stacks === 1 || !requireFiveStacks }')
-    div(v-if='$store.state.upgrades.stacks === 5 && requireFiveStacks')
+    div(v-if='$store.getters.all.length < 1')
+        img.bdoge(src='../assets/images/buddadoge.svg')
+        h5 no present cards
+    div(v-else-if='$store.state.upgrades.stacks === 5 && requireFiveStacks')
         .row(v-if='$store.getters.red.length + $store.getters.green.length + $store.getters.blue.length > 0')
           .four.columns.minheight
               card-panel(v-if='$store.getters.red.length > 0'  :c='$store.getters.red', :taskId='$store.state.context.panel[$store.state.context.top]')
@@ -47,6 +50,17 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/button'
+
+.bdoge
+    width: 100%
+    opacity: 0.77
+    height: 5em
+    margin-top: 1em
+
+h5
+    text-align: center
+    color: lightGrey
+    opacity: 0.77
 
 .panel
     margin: 0 1em 1em 1em

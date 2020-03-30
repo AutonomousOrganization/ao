@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.app
+.app(:class='{sunbord: $store.state.upgrades.dimension === "sun", bullbord: $store.state.upgrades.dimension === "bull"}')
     contexts
     sun
     helm
@@ -52,6 +52,13 @@ export default {
 .app
     color: accent1
     font-weight: lighter
+
+.sunbord
+    margin: 11px;
+    box-shadow: 11px 11px 11px 11px softYellow;
+.bullbord
+    margin: 11px;
+    box-shadow: 11px 11px 11px 11px lightteal;
 
 body
     background: main

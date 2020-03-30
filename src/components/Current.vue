@@ -23,7 +23,6 @@ export default {
   computed:{
     isPresent(){
         let isP = this.$store.getters.presentIds.indexOf(this.memberId) > -1
-        console.log(this.memberId, this.name, isP)
         return isP
     },
     m(){

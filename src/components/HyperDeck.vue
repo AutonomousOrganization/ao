@@ -59,6 +59,10 @@ export default {
   },
   methods:{
       pilePrioritized() {
+        if (this.$store.state.upgrades.mode !== 'boat'){
+            this.$router.push('/boat')
+        }
+        if (this.$store.getters.all.length === 0) return
         this.$store.dispatch("makeEvent", {
           type: "pile-prioritized",
           inId: this.$store.getters.contextCard.taskId

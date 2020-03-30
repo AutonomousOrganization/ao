@@ -99,6 +99,7 @@ export default {
 h5
     text-align: center
     color: lightGrey
+    opacity: 0.77
 
 .priorities
     padding-bottom: 0.6em
@@ -217,7 +218,7 @@ img
 .bdoge
     width: 100%
     opacity: 0.77
-    height: 7em
+    height: 5em
     margin-top: 1em
 
 .priority
