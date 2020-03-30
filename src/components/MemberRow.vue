@@ -3,7 +3,7 @@
 .memberrow(@dblclick='goIn(m.memberId)'  :key='m.memberId')
     .row(v-if='b')
         .three.grid.ptr(@click='goIn(m.memberId)')
-            img(v-if='m.active > 0 && $store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')
+            img(v-if='$store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')
             img(v-else, src='../assets/images/loggedOut.svg')
             label(:class='{redtx: m.active <= 0}') {{ m.name }}
                 br

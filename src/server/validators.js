@@ -12,7 +12,7 @@ module.exports = {
           errRes.push('amount must be positive')
           return false
       }
-      return true
+      return parsed > 0
   },
   isField(val, errRes){
       let isField = (

@@ -3,7 +3,7 @@
 .memberrow.membershipcard
     bird(:b='card')
     .row.center.clearboth(:class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
-        img.logindicator(v-if='isLoggedIn', src='../assets/images/loggedIn.svg')
+        img.logindicator(v-if='$store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')
         img.logindicator(v-else, src='../assets/images/loggedOut.svg')
         label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }') {{ m.name }}
     not-zen(v-if='$store.state.upgrades.mode === "doge" && dukkha >= 1')

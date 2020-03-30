@@ -3,11 +3,11 @@
 #member
     .list
         h4.yellowtx ({{coreMembers.length}}) active
-        row(v-for="m in coreMembers"  :m='m')
+        row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')
         h4.bluetx ({{pendingDeactivations.length}}) deactivating
-        row(v-for="m in pendingDeactivations"  :m='m')
+        row(v-for="m in pendingDeactivations"  :m='m'  :key='m.memberId')
         h4.redtx ({{nonMembers.length}}) inactive
-        row(v-for="m in nonMembers"  :m='m')
+        row(v-for="m in nonMembers"  :m='m'  :key='m.memberId')
 </template>
 
 <script>

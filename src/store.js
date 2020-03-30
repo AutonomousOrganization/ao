@@ -145,7 +145,9 @@ export default new Vuex.Store({
       },
       presentIds(state, getters){
           let now = Date.now()
-          return state.members.filter(c => !(now - c.lastUsed < 3600000 * 4)).map(c => c.memberId)
+          return state.members
+              .filter(c => c.memberId && now - c.lastUsed < 3600000 * 4)
+              .map(c => c.memberId)
       },
       resourceIds(state, getters){
           return state.resources.map(c => c.resourceId)

@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 span.current
-    img.onlineicon(v-if='m.active > 0 && isPresent', src='../assets/images/loggedIn.svg')
+    img.onlineicon(v-if='isPresent', src='../assets/images/loggedIn.svg')
     img.onlineicon(v-else src='../assets/images/loggedOut.svg')
     span.clickable(v-if='memberId && name'  @click='goIn') {{ name }}
     img.onlineicon(v-if='!memberId', src='../assets/images/lightning.svg')
@@ -22,12 +22,12 @@ export default {
   },
   computed:{
     isPresent(){
-        let isP = this.$store.getters.presentIds.indexOf(this.m.memberId) > -1
-        console.log({isP} , this.$store.getters.presentIds)
+        let isP = this.$store.getters.presentIds.indexOf(this.memberId) > -1
+        console.log(this.memberId, this.name, isP)
         return isP
     },
     m(){
-        let m
+        let m = false
         this.$store.state.members.forEach(member => {
             if (member.memberId == this.memberId){
                 m = member
@@ -36,7 +36,7 @@ export default {
         return m
     },
     name(){
-        return this.m.name
+        if (this.m) return this.m.name
     },
     isLoggedIn(){
         let isLoggedIn

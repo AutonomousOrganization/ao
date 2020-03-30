@@ -127,6 +127,7 @@ function membersMuts(members, ev){
                   } else {
                       member.active ++
                   }
+                  member.lastUsed = ev.timestamp
               }
           })
           break
@@ -138,6 +139,7 @@ function membersMuts(members, ev){
                   } else {
                       member.active ++
                   }
+                  member.lastUsed = ev.timestamp
               }
           })
           break
