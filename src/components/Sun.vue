@@ -17,9 +17,13 @@ div
       p(@click='goFront("timecube")'  :class='{ dabstination : $store.state.upgrades.mode === "timecube" }')
           img.lil(src='../assets/images/timecube.svg')
           span Upcoming
-      p.closemenu(@click='close(false)')
-          img(src='../assets/images/loggedOut.svg')
-          span
+      p(@click='close(false)')
+          img.lil(src='../assets/images/uni.svg')
+          span close
+      p.check.click(@click='toggleTooltips')
+          img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
+          img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+          span.space tips
 </template>
 
 <script>
@@ -33,6 +37,14 @@ export default {
       },
   },
   methods: {
+    toggleTooltips(){
+        this.$store.dispatch('makeEvent', {
+            type: "member-field-updated",
+            field: 'tooltips',
+            newfield: !this.$store.getters.member.tooltips,
+            memberId: this.$store.getters.member.memberId
+        })
+    },
     nextMode() {
         this.$store.commit('nextMode')
     },
@@ -174,5 +186,18 @@ p:hover
 
 .bigger
     height: 5.5555555555em
+
+
+.space
+    padding-left: .654321em
+
+.click
+    cursor: pointer
+
+.checkmark
+    height: 1.58em
+.check
+    padding: 0.5em
+
 
 </style>
