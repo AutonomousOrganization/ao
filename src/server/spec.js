@@ -63,10 +63,13 @@ router.post('/events', (req, res, next)=>{
         }
         break;
       case "pile-prioritized":
-        if (validators.isTaskId(req.body.inId, errRes)) {
-          events.pilePrioritized(req.body.inId, utils.buildResCallback(res));
+        if (
+            validators.isTaskId(req.body.inId, errRes) &&
+            req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
+        ) {
+            events.pilePrioritized(req.body.inId, req.body.tasks, utils.buildResCallback(res));
         } else {
-          res.status(400).send(errRes);
+            res.status(400).send(errRes);
         }
         break
       case "pile-de-sub-tasked":

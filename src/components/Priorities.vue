@@ -65,7 +65,8 @@ export default {
     pilePrioritized() {
       this.$store.dispatch("makeEvent", {
         type: "pile-prioritized",
-        inId: this.$store.getters.contextCard.taskId
+        inId: this.$store.getters.contextCard.taskId,
+        tasks: this.$store.getters.contextCard.subTasks
       });
     },
     pileRefocused() {

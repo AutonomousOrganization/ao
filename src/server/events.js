@@ -5,10 +5,11 @@ const crypto = require('crypto')
 const { serverState } = require('./state')
 const dctrlDb = require('./dctrlDb')
 
-function pilePrioritized(inId, callback) {
+function pilePrioritized(inId, tasks, callback) {
   let newEvent = {
     type: "pile-prioritized",
-    inId
+    inId,
+    tasks,
   };
   dctrlDb.insertEvent(newEvent, callback);
 }
@@ -146,8 +147,9 @@ function memberCreated(name, fob, secret, callback) {
           lastUsed: 0,
           muted: true,
           tooltips: true,
-          piles: 1,
-          payments: false,
+          stacks: 1,
+          payments: 0,
+          boats: true,
       }
       dctrlDb.insertEvent(newEvent, callback)
 }
