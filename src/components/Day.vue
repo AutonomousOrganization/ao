@@ -4,17 +4,19 @@
     router-link(to='/doge')
         img.today(v-if='isToday'  src='../assets/images/uni.svg')
     .tooltip.upgrade(v-for='t in ev')
-        img.upgrade(@click="goIn(t.taskId)"  src='../assets/images/timecube.svg'  :class='styl(t.color)')
-        .tooltiptext
+        img.upgrade(v-if='t.type !== "task-claimed"'  @click="goIn(t.taskId)"  src='../assets/images/timecube.svg'  :class='styl(t.color)')
+        img.upgrade(v-else  @click="goIn(t.taskId)"  src='../assets/images/completed.svg')
+        .tooltiptext(v-if='t.type !== "task-claimed"')
             .until {{ cardDate(t) }}
             linky(:x='t.name')
-        .guild(v-if='t.funderGuild !== "test"') {{ t.funderGuild }}
+        .tooltiptext(v-else)
+            current(:memberId='t.memberId')
 </template>
 
 <script>
 import _ from 'lodash'
 import Linky from './Linky'
-
+import Current from './Current'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -27,7 +29,7 @@ function getDMY(ts){
 }
 
 export default {
-    components: { Linky },
+    components: { Linky, Current },
     props: ['day', 'month', 'year', 'inId', 'ev', 'isToday'],
     methods: {
         styl(color){
@@ -59,7 +61,7 @@ export default {
             this.$router.push("/" + this.$store.state.upgrades.mode)
         },
         cardDate(b){
-            if ( b.book.startTs ) {
+            if ( b.book && b.book.startTs ) {
                let DMY = getDMY(b.book.startTs)
                return DMY.hour + ":" + DMY.minute.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
             }
@@ -78,8 +80,9 @@ export default {
     font-size: 0.5em
 
 .upgrade
+  img
     display: inline
-    width: 29%
+    width: 1.55em
     cursor: pointer
 
 .today

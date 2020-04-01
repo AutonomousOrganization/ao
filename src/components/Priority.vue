@@ -100,10 +100,12 @@ export default {
             })
         },
         cardAge(){
-          let now = Date.now()
-          let msSince = now - this.card.timestamp
-          let days = msSince / (1000 * 60 * 60 * 24)
-          return days
+          if (this.card){
+              let now = Date.now()
+              let msSince = now - this.card.timestamp
+              let days = msSince / (1000 * 60 * 60 * 24)
+              return days
+          }
         },
         cardStart(){
             // XXX recalc on nav

@@ -9,7 +9,8 @@
           .priorityContainer
               img.boatAll.faded(src='../assets/images/downboat.svg'  @click='refocused(t)')
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId')
-              img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='prioritized(t)')
+              img.boatAll.boatR.faded(v-if='!hasCompleted(t)'  src='../assets/images/upboat.svg'  @click='prioritized(t)')
+              img.boatAll.boatR.faded(v-else  src='../assets/images/completed.svg'  @click='completed(t)')
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
               hyperpriority.closedcard(:taskId='st'  :inId="t")
@@ -39,6 +40,13 @@ export default {
       }
   },
   methods:{
+    hasCompleted(tId){
+        let card = this.$store.getters.hashMap[tId]
+        if(card && card.claimed){
+            return card.claimed.length > 0
+        }
+        return false
+    },
     getSubPriorities(taskId){
       let card = this.$store.getters.hashMap[taskId]
       if(card && card.priorities){
@@ -55,6 +63,13 @@ export default {
     prioritized(taskId){
       this.$store.dispatch("makeEvent", {
         type: 'task-prioritized',
+        inId: this.$store.getters.contextCard.taskId,
+        taskId,
+      })
+    },
+    completed(taskId){
+      this.$store.dispatch("makeEvent", {
+        type: 'task-completed',
         inId: this.$store.getters.contextCard.taskId,
         taskId,
       })

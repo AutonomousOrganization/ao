@@ -1,18 +1,20 @@
 <template lang="pug">
 
-#calendar(:key='inId'  v-if='areEvs')
+#calendar(:key='inId')
     .row.menu
         .inline(@click='prevMonth')
             img(src='../assets/images/back.svg')
         .inline
-            //- .yellowtx(v-if='card.guild') {{card.guild}}
             .soft {{ monthName }} - {{year}}
         .inline(@click='nextMonth')
             img(src='../assets/images/forward.svg')
-    .calmonth
+    .calmonth(v-if='areEvs')
         .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
         .placeholder(v-for='placeholder in firstDay')
         day(v-for='day in days', :day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
+    div(v-else)
+        img.bdoge(src='../assets/images/buddadoge.svg')
+        h5 none {{monthName}}
     .buffer
 </template>
 
@@ -76,6 +78,16 @@ export default {
         let evs = {}
         if (this.inId){
             this.todaysEvents.forEach(t => {
+                t.claims.forEach(cl => {
+                    let date = getDMY(cl.timestamp)
+                    if (date.month === this.month && date.year === this.year){
+                        if (!evs[date.day]){
+                            evs[date.day] = []
+                        }
+                        evs[date.day].push(cl)
+                    }
+                })
+
                 if (t && t.book && t.book.startTs){
                     let date = getDMY(t.book.startTs)
                     if (date.month === this.month && date.year === this.year){
@@ -102,7 +114,7 @@ export default {
         } else {
             allTasks = []
         }
-
+        allTasks.push(this.inId)
         return allTasks.map(tId => {
             return this.$store.getters.hashMap[tId]
         })
@@ -137,16 +149,29 @@ export default {
 @import '../styles/colours';
 @import '../styles/skeleton';
 
+h5
+    text-align: center
+    color: lightGrey
+    opacity: 0.77
+
+.bdoge
+    width: 100%
+    opacity: 0.77
+    height: 5em
+    margin-top: 1em
+
 .soft
     color: softGrey
 
 .inline
   display:inline-block
   margin:15px
+  img
+      height: 1.6em
+      cursor: pointer
 
 #calendar
     color: main
-    font-size:2em
 
 .menu
     text-align: center
@@ -209,10 +234,6 @@ tr, td
 
 .do
     color: green
-
-img
-    height: 0.6em
-    cursor: pointer
 
 .calmonth
     margin: 0 2% 2% 2%

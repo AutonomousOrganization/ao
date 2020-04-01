@@ -6,7 +6,7 @@
     span.completedmarks
         span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ name }}
         span(v-for='c in checkmarks'  :key='c.taskId')
-            span.tooltip.plain(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
+            span.tooltip.plain.completedcheckmark(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
                 img.completedcheckmark(src='../assets/images/completed.svg')
                 linky.tooltiptext.bigger(:x='c.name')
 </template>
@@ -20,7 +20,7 @@ export default {
   components: { Linky },
   methods: {
     goIn(taskId){
-        let parents = [this.$store.getters.contextCard.taskId, this.memberId]
+        let parents = [this.memberId, this.$store.getters.contextCard.taskId]
         let panel = [taskId]
         let top = 0
         this.$store.dispatch("goIn", {panel, top, parents})
@@ -46,7 +46,7 @@ export default {
             redwx : c === 'red',
             bluewx : c === 'blue',
             greenwx : c === 'green',
-            yellotwx : c === 'yellow',
+            yellowwx : c === 'yellow',
             purplewx : c === 'purple',
             blackwx : c === 'black',
         }
@@ -117,6 +117,7 @@ img.checkmark
 img.completedcheckmark
     height: 1.5em
 
+
 .completedcheckmarks
     min-height: 1.5em
 
@@ -126,6 +127,9 @@ img.completedcheckmark
 
 .plain
     text-decoration: none
+    margin-right: 0.13em
+    height: 1.5em
+
 
 .tooltiptext.bigger
     z-index: 153

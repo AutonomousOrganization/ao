@@ -525,13 +525,18 @@ function tasksMuts(tasks, ev) {
               }
             })
             break
+        case "task-completed":
+            tasks.forEach( task => {
+              if (task.taskId === ev.inId){
+                  task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId )
+                  task.subTasks = _.filter(task.subTasks, taskId => taskId !== ev.taskId )
+                  task.completed = _.filter(task.completed, taskId => taskId !== ev.taskId )
+                  task.completed.push(ev.taskId)
+              }
+            })
+            break
         case "task-refocused":
             let claimed
-            tasks.forEach( task => {
-                if (task.taskId === ev.taskId) {
-                    claimed = task.claimed
-                }
-            })
             tasks.forEach( task => {
                 if (task.taskId === ev.inId){
                     task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId )
@@ -585,36 +590,6 @@ function tasksMuts(tasks, ev) {
         case "task-claimed":
             let bounty = 0
             tasks.forEach(task => {
-                let found = false
-                if(task.taskId === ev.memberId) {
-                    task.boost += parseFloat(ev.paid)
-                }
-
-                task.priorities.some(taskId => {
-                    if(taskId !== ev.taskId) {
-                        return false
-                    } else {
-                        found = true
-                        return true
-                    }
-                })
-
-                task.subTasks.some(taskId => {
-                    if(taskId !== ev.taskId) {
-                        return false
-                    } else {
-                        found = true
-                        return true
-                    }
-                })
-
-                if(found) {
-                    if(task.priorities.indexOf(ev.taskId) === -1) {
-                        task.subTasks = _.filter(task.subTasks, tId => tId !== ev.subTask )
-                        task.completed = _.filter(task.completed, tId => tId !== ev.subTask )
-                        task.completed.push(ev.taskId)
-                    }
-                }
                 if (task.taskId === ev.taskId) {
                     task.passed = _.filter( task.passed, d => d[1] !== ev.memberId )
                     if(task.deck.indexOf(ev.memberId) === -1) {
@@ -625,7 +600,11 @@ function tasksMuts(tasks, ev) {
                     if(task.claimed.indexOf(ev.memberId) === -1) {
                         task.claimed.push(ev.memberId)
                     }
-                    task.lastClaimed = ev.timestamp
+                    if (!task.claims){
+                        console.log('no claims: ', task)
+                    }else {
+                        task.claims.push(ev)
+                    }
                 }
             })
             break

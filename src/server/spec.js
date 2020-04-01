@@ -693,6 +693,20 @@ router.post('/events', (req, res, next)=>{
               res.status(400).send(errRes)
           }
           break
+      case 'task-completed':
+          if (
+              validators.isTaskId(req.body.inId, errRes) &&
+              validators.isTaskId(req.body.taskId, errRes)
+          ){
+              events.taskCompleted(
+                req.body.taskId,
+                req.body.inId,
+                utils.buildResCallback(res)
+              )
+          } else {
+              res.status(400).send(errRes)
+          }
+          break
       case 'tasks-received':
           if (true) { // XXX
               events.tasksReceived(
