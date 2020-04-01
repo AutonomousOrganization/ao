@@ -1,6 +1,7 @@
 <template lang='pug'>
 
 #tasks(@contextmenu.capture.prevent)
+    .spaceroom(v-if='c.length < 2')
     .row.ptr(v-show="topCard  &&  c.length > 1"  ref='swipebar')
         .three.grid.tooltip(ref='previous')
             span &nbsp;
@@ -210,12 +211,16 @@ export default {
       }
     },
     toggleStacks(){
-        if(this.$store.state.upgrades.stacks === 1) {
-
-        } else {
-
+        let newfield = 5
+        if (this.$store.getters.member.stacks === 5){
+            newfield = 1
         }
-        this.$store.commit('toggleStacks')
+        this.$store.dispatch('makeEvent', {
+            type: "member-field-updated",
+            field: 'stacks',
+            newfield,
+            memberId: this.$store.getters.member.memberId
+        })
     },
   },
   computed: {
@@ -246,6 +251,8 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/tooltips'
+
+
 
 .orby
     height: 2.2em
@@ -323,17 +330,24 @@ img
     -webkit-user-select: none;
     -ms-user-select: none;
 
+.spaceroom
+    height:2.9em
+
 .ptr
-    margin-bottom: 0
-    margin: 1em 0 0.5em 0
-    background-color: rgba(51, 51, 51, 0.3)
-    border-radius: 40px
-    opacity: 0.77
+    margin: 0
+    margin-bottom: -.6em
+    opacity: 0.4;
+    margin-bottom: -.6em;
+    border-top: solid;
+    border-left: solid;
+    border-right: solid;
+    border-bottom: 20px;
+    border-radius: 40px 40px 0px 0px;
+
 .fr
     float: right
     margin-left: 0.5em
     margin-top: 0.5em
-    //margin-bottom: 0.8em
     margin-right: 0.5em
     cursor: pointer
 

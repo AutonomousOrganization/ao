@@ -105,8 +105,7 @@ function membersMuts(members, ev){
       case "ao-disconnected":
           break
       case "member-created":
-          ev.lastUsed = ev.timestamp
-          members.push(ev)
+          members.push(calculations.blankMember(ev.memberId, ev.name, ev.fob, ev.secret, ev.timestamp))
           break
       case "member-activated":
           members.forEach( member => {

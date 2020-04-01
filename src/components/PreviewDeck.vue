@@ -3,9 +3,6 @@
 .preview(v-if='deck.length > 0 || topPriorities.length > 0')
     .row
         .four.grid
-            .tooltip(v-for="(tId, i) in topPriorities")
-                img.tinyboat(v-if="i < 5", @click='goto(tId)', src='../assets/images/boatbtnselected.svg')
-                linky.tooltiptext(:x='tId? shortName(card(tId).name) : "unknown card"')
             .bead.redwx.tooltip(v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
         .four.grid
@@ -87,7 +84,7 @@ export default {
           return tasks
       },
       red(){
-          return this.deck.filter( c => { if(!c) { return false } return c.color === 'red' } ).reverse().slice(0, 5 - this.topPriorities.length)
+          return this.deck.filter( c => { if(!c) { return false } return c.color === 'red' } ).reverse().slice(0, 5)
       },
       yellow(){
           return this.deck.filter( c => { if(!c) { return false } return c.color === 'yellow' } ).reverse().slice(0, 5)

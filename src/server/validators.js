@@ -22,7 +22,7 @@ module.exports = {
           val === 'fob' ||
           val === 'muted' ||
           val === 'tooltips' ||
-          val === 'piles' ||
+          val === 'stacks' ||
           val === 'payments'
       )
       if (!isField) {

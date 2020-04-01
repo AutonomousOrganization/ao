@@ -1,23 +1,20 @@
 <template lang='pug'>
 
-.panel(:class='{ fullwidth : $store.state.upgrades.stacks === 1 || !requireFiveStacks }')
+.panel(:class='{ fullwidth : $store.getters.member.stacks === 1 || !requireFiveStacks }')
     div(v-if='$store.getters.all.length < 1')
         img.bdoge(src='../assets/images/buddadoge.svg')
         h5 no present cards
-    div(v-else-if='$store.state.upgrades.stacks === 5 && requireFiveStacks')
-        .row(v-if='$store.getters.red.length + $store.getters.green.length + $store.getters.blue.length > 0')
-          .four.columns.minheight
-              card-panel(v-if='$store.getters.red.length > 0'  :c='$store.getters.red', :taskId='$store.state.context.panel[$store.state.context.top]')
-          .four.columns.minheight
-              card-panel(v-if='$store.getters.green.length > 0'  :c='$store.getters.green', :taskId='$store.state.context.panel[$store.state.context.top]')
-          .four.columns(v-if='$store.getters.blue.length > 0')
-              card-panel(:c='$store.getters.blue', :taskId='$store.state.context.panel[$store.state.context.top]')
-        .row(v-if='$store.getters.yellow.length + $store.getters.purple.length > 0')
-          .two.columns.minheight
-          .four.columns.minheight(v-if='$store.getters.yellow.length > 0')
-              card-panel(:c='$store.getters.yellow', :taskId='$store.state.context.panel[$store.state.context.top]')
-          .four.columns(v-if='$store.getters.purple.length > 0')
-              card-panel(:c='$store.getters.purple', :taskId='$store.state.context.panel[$store.state.context.top]')
+    .row(v-else-if='$store.getters.member.stacks === 5 && requireFiveStacks')
+        .four.columns(v-if='$store.getters.red.length > 0')
+            card-panel(:c='$store.getters.red', :taskId='$store.state.context.panel[$store.state.context.top]')
+        .four.columns(v-if='$store.getters.green.length > 0')
+            card-panel(:c='$store.getters.green', :taskId='$store.state.context.panel[$store.state.context.top]')
+        .four.columns(v-if='$store.getters.blue.length > 0')
+            card-panel(:c='$store.getters.blue', :taskId='$store.state.context.panel[$store.state.context.top]')
+        .four.columns(v-if='$store.getters.yellow.length > 0'  :class='{"offset-by-two": usedStacks === 5}')
+            card-panel(:c='$store.getters.yellow', :taskId='$store.state.context.panel[$store.state.context.top]')
+        .four.columns(v-if='$store.getters.purple.length > 0')
+            card-panel(:c='$store.getters.purple', :taskId='$store.state.context.panel[$store.state.context.top]')
     .padonestack(v-else)
         card-panel(v-if='$store.getters.all.length > 0'  :c='$store.getters.all', :taskId='$store.state.context.panel[$store.state.context.top]')
 </template>
@@ -32,13 +29,16 @@ export default {
   },
   computed: {
       requireFiveStacks(){
-          let usedPiles = 0
-          if (this.$store.getters.green.length > 0) usedPiles++
-          if (this.$store.getters.red.length > 0) usedPiles++
-          if (this.$store.getters.blue.length > 0) usedPiles++
-          if (this.$store.getters.purple.length > 0) usedPiles++
-          if (this.$store.getters.yellow.length > 0) usedPiles++
-          return usedPiles > 1
+          return this.usedStacks > 1
+      },
+      usedStacks(){
+          let usedStacks = 0
+          if (this.$store.getters.green.length > 0) usedStacks++
+          if (this.$store.getters.red.length > 0) usedStacks++
+          if (this.$store.getters.blue.length > 0) usedStacks++
+          if (this.$store.getters.purple.length > 0) usedStacks++
+          if (this.$store.getters.yellow.length > 0) usedStacks++
+          return usedStacks
       }
   }
 }
@@ -79,9 +79,6 @@ h5
     width: 100%
     opacity: 0.5
 
-.minheight
-    min-height: 0.5em
-
 .padonestack
     padding-top: 0.001em
     max-width: calc(100vw - 4em)
@@ -89,6 +86,4 @@ h5
 .fullwidth
     width: 100%
 
-.minheight
-    min-height: 0.001em
 </style>

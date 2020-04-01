@@ -29,6 +29,10 @@
         img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
         img.checkmark(v-else, src='../assets/images/uncompleted.svg')
         span.space sounds
+    .check.click(@click='toggleStacks')
+        img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
+        img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+        span.space split stacks
 </template>
 
 <script>
@@ -85,6 +89,18 @@ export default {
         }
     },
     methods: {
+        toggleStacks(){
+            let newfield = 5
+            if (this.$store.getters.member.stacks === 5){
+                newfield = 1
+            }
+            this.$store.dispatch('makeEvent', {
+                type: "member-field-updated",
+                field: 'stacks',
+                newfield,
+                memberId: this.$store.getters.member.memberId
+            })
+        },
         toggleMuted(){
             this.$store.dispatch('makeEvent', {
                 type: "member-field-updated",

@@ -5,10 +5,8 @@ const dimensions = ["unicorn", "sun", "bull"]
 
 const state = {
     mode: modes[0],
-    payment: false,
     dimension: dimensions[0],
     bird: false,
-    stacks: 1,
     barking: false,
     pinging: false,
     flashClasses: {
@@ -40,13 +38,6 @@ const mutations = {
     },
     toggleBird(state){
         state.bird = !state.bird
-    },
-    toggleStacks(state){
-        if(state.stacks === 5) {
-            state.stacks = 1
-        } else {
-            state.stacks = 5
-        }
     },
     nextMode(state) {
         let currentIndex = modes.indexOf(state.mode)

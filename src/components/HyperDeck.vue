@@ -20,17 +20,17 @@
             gift-box
             slot
     div
-        .fadey(:class='{ cardInputSty, onestack : $store.state.upgrades.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
+        .fadey(:class='{ cardInputSty, onestack : $store.getters.member.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
             .boatContainer
+                img.boatAll.faded(@click='toggleStacks' src='../assets/images/orb.svg')
+                .tooltiptext.correctspotmid(v-if='$store.getters.member.tooltips')
+                    p.suggest split
                 img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='pilePrioritized')
             panels
             .faded
                 img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
                 .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips  && !$store.state.context.completed  && $store.getters.contextCard.subTasks.length > 1')
                     p.suggest scuttle
-                img.adjtooltip.scuttled(@click='toggleStacks' src='../assets/images/orb.svg')
-                .tooltiptext.correctspotmid(v-if='$store.getters.member.tooltips')
-                    p.suggest one or five piles
                 img.completed.adjtooltip(src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
                 .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
                     p.suggest completed or not
@@ -86,7 +86,16 @@ export default {
           this.$store.commit("toggleCompleted")
       },
       toggleStacks(){
-          this.$store.commit('toggleStacks')
+          let newfield = 5
+          if (this.$store.getters.member.stacks === 5){
+              newfield = 1
+          }
+          this.$store.dispatch('makeEvent', {
+              type: "member-field-updated",
+              field: 'stacks',
+              newfield,
+              memberId: this.$store.getters.member.memberId
+          })
       }
   },
   computed: {

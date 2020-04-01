@@ -58,6 +58,24 @@ function cardColorCSS(color) {
     }
 }
 
+function blankMember(memberId, name, fob, secret, lastUsed){
+    return {
+      memberId,
+      name,
+      fob,
+      secret,
+      lastUsed,
+      active: 0,
+      lastUsed: 0,
+      muted: true,
+      tooltips: true,
+      stacks: 1,
+      payments: 0,
+      boats: true,
+    }
+}
+
+
 function blankCard(taskId, name, color, deck = []) {
     let newCard = {
         taskId,
@@ -172,6 +190,7 @@ module.exports = {
   shortName,
   cardColorCSS,
   blankCard,
+  blankMember,
   // safeClone,
   safeMerge,
   crawler,
