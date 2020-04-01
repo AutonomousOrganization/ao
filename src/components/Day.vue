@@ -3,14 +3,16 @@
     .date {{ day }}
     router-link(to='/doge')
         img.today(v-if='isToday'  src='../assets/images/uni.svg')
-    .tooltip.upgrade(v-for='t in ev')
-        img.upgrade(v-if='t.type !== "task-claimed"'  @click="goIn(t.taskId)"  src='../assets/images/timecube.svg'  :class='styl(t.color)')
-        img.upgrade(v-else  @click="goIn(t.taskId)"  src='../assets/images/completed.svg')
-        .tooltiptext(v-if='t.type !== "task-claimed"')
-            .until {{ cardDate(t) }}
-            linky(:x='t.name')
-        .tooltiptext(v-else)
-            current(:memberId='t.memberId')
+    .upgrade(v-for='t in ev')
+        .tooltip(v-if='t.type !== "task-claimed"')
+            img.upgrade(@click="goIn(t.taskId)"  src='../assets/images/timecube.svg'  :class='styl(t.color)')
+            .tooltiptext
+                .until {{ cardDate(t) }}
+                linky(:x='t.name')
+        .tooltip(v-else)
+            img.upgrade(@click="goIn(t.taskId)"  src='../assets/images/completed.svg')
+            .tooltiptext()
+                current(:memberId='t.memberId')
 </template>
 
 <script>
@@ -80,6 +82,9 @@ export default {
     font-size: 0.5em
 
 .upgrade
+  display: inline
+  .tooltip
+      display: inline
   img
     display: inline
     width: 1.55em
