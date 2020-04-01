@@ -153,13 +153,6 @@ function memberCreated(name, fob, secret, callback) {
           name,
           fob,
           secret,
-          active: 0,
-          lastUsed: 0,
-          muted: true,
-          tooltips: true,
-          stacks: 1,
-          payments: 0,
-          boats: true,
       }
       dctrlDb.insertEvent(newEvent, callback)
 }

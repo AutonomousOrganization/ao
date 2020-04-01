@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.p.clearboth(ref='wholeCard')
+.p.clearboth(v-if='card'  ref='wholeCard')
     .opencard(v-if='$store.state.context.action === taskId')
         hypercard(:b="card", :c="parent.priorities",  :inId="inId")
     .closedcard.agedwrapper.dont-break-out(v-else  :class="cardInputSty")
@@ -82,7 +82,9 @@ export default {
           return this.$store.getters.hashMap[this.inId]
         },
         name(){
-            return this.card.name
+            if (this.card){
+                return this.card.name
+            }
         },
         isMember(){
             let is = false
@@ -109,7 +111,7 @@ export default {
         },
         cardStart(){
             // XXX recalc on nav
-            if ( this.card.book.startTs ){
+            if (this.card && this.card.book.startTs ){
               let now = Date.now()
               let msTill = this.card.book.startTs - now
               // XXX TODO
