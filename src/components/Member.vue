@@ -1,11 +1,11 @@
 <template lang='pug'>
 
 .memberrow.membershipcard
-    .topleft
-        div(@click='goDoge')
-            img(v-if='$store.getters.inbox.length < 1'  src='../assets/images/send.svg').smallguild.faded
-            img.smallguild(v-else  src='../assets/images/sendselected.svg')
-            label.stash {{ $store.getters.inbox.length }}
+    div(v-if='$store.getters.inbox.length < 1')
+        bird.fw(:b='$store.getters.contextCard')
+    .topleft(v-else  @click='goDoge')
+        img.smallguild(src='../assets/images/sendselected.svg')
+        label.stash {{ $store.getters.inbox.length }}
     .topright
         div(@click='goCube')
             img.smallguild(src='../assets/images/timecube.svg')
@@ -123,6 +123,9 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/tooltips'
+
+.fw
+    width: 100%
 
 img
     height: 2em

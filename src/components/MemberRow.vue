@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.memberrow(@dblclick='goIn(m.memberId)'  :key='m.memberId')
+.memberrow(v-if='m.memberId'  @dblclick='goIn(m.memberId)'  :key='m.memberId')
     .row(v-if='b')
         .three.grid.ptr(@click='goIn(m.memberId)')
             img(v-if='$store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')

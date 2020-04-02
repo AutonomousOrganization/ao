@@ -5,21 +5,26 @@
         .cc(v-show='showCreate')
             textarea#card(v-model='debouncedName' type='text'  :class='cardInputSty'  placeholder="textarea"  @keyup.enter.exact='createOrFindTask'  @keydown.enter.exact.prevent  @keyup.esc='closeCreate'  @input='exploring = false' row='10' col='20').paperwrapper
             .boatContainer
-                img.boatAll.faded(src='../assets/images/downboat.svg'  @click='resetCard')
-                img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='createOrFindTask')
-      .label
-        #btnpanel.btnpanel
-            div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-              button.lit(@click='switchColor("red")'  :class='{ currentColor : showCreate && task.color === "red" }').redwx.paperwrapper
-                img(:class='{ down : showCreate && task.color === "red" }')
-              button.lit(@click='switchColor("yellow")'  :class='{ currentColor : showCreate && task.color === "yellow" }').yellowwx.paperwrapper
-                img(:class='{ down : showCreate && task.color === "yellow" }')
-              button.lit(@click='switchColor("green")'  :class='{ currentColor : showCreate && task.color === "green" }').greenwx.paperwrapper
-                img(:class='{ down : showCreate && task.color === "green" }')
-              button.lit(@click='switchColor("purple")'  :class='{ currentColor : showCreate && task.color === "purple" }').purplewx.paperwrapper
-                img(:class='{ down : showCreate && task.color === "purple" }')
-              button.lit(@click='switchColor("blue")'  :class='{ currentColor : showCreate && task.color === "blue" }').bluewx.paperwrapper
-                img(:class='{ down : showCreate && task.color === "blue" }')
+                img.boatAll.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='resetCard')
+                .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
+                    p.suggest.label clear
+                img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='createOrFindTask')
+                .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
+                    p.suggest.label create card
+      #btnpanel.btnpanel.adjtooltip
+          div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
+            button.lit(@click='switchColor("red")'  :class='{ currentColor : showCreate && task.color === "red" }').redwx.paperwrapper
+              img(:class='{ down : showCreate && task.color === "red" }')
+            button.lit(@click='switchColor("yellow")'  :class='{ currentColor : showCreate && task.color === "yellow" }').yellowwx.paperwrapper
+              img(:class='{ down : showCreate && task.color === "yellow" }')
+            button.lit(@click='switchColor("green")'  :class='{ currentColor : showCreate && task.color === "green" }').greenwx.paperwrapper
+              img(:class='{ down : showCreate && task.color === "green" }')
+            button.lit(@click='switchColor("purple")'  :class='{ currentColor : showCreate && task.color === "purple" }').purplewx.paperwrapper
+              img(:class='{ down : showCreate && task.color === "purple" }')
+            button.lit(@click='switchColor("blue")'  :class='{ currentColor : showCreate && task.color === "blue" }').bluewx.paperwrapper
+              img(:class='{ down : showCreate && task.color === "blue" }')
+      .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
+          p.suggest.label create card
       .scrollbarwrapper(v-show='showCreate && task.search.length >= 2 && (matchCards.guilds.length + matchCards.doges.length + matchCards.cards.length) > 0'  v-model='task.search')
           .searchresults
               .boatContainer
@@ -336,6 +341,19 @@ export default {
 @import '../styles/button'
 @import '../styles/breakpoints'
 @import '../styles/input'
+@import '../styles/tooltips'
+
+.tooltiptext.correctspot
+    position: absolute
+    top: -.6em
+    right: -2em
+    color: white
+
+.tooltiptext.correctspotleft
+    position: absolute
+    top: -.6em
+    left: -2em
+    color: white
 
 #createtask
   width: fit-content
@@ -378,7 +396,6 @@ button
     padding: 1em
 
 .colorlabel
-    font-size: 1.6em
     color: white
     align-content: center;
     text-align: center
@@ -403,7 +420,6 @@ button
     position: relative
 
 p
-    font-size: 1.3em
     color: accent1
 
 .upgradeimg

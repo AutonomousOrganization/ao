@@ -7,10 +7,18 @@
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
-              img.boatAll.faded(src='../assets/images/downboat.svg'  @click='refocused(t)')
+              img.boatAll.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='refocused(t)')
+              .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
+                  p.suggest sink
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId')
-              img.boatAll.boatR.faded(v-if='!hasCompleted(t)'  src='../assets/images/upboat.svg'  @click='prioritized(t)')
-              img.boatAll.boatR.faded(v-else  src='../assets/images/completed.svg'  @click='completed(t)')
+              div(v-if='!hasCompleted(t)')
+                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='prioritized(t)')
+                  .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
+                      p.suggest up boat
+              div(v-else)
+                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/completed.svg'  @click='completed(t)')
+                  .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
+                      p.suggest complete
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
               hyperpriority.closedcard(:taskId='st'  :inId="t")
@@ -18,8 +26,10 @@
               .clearboth.opensubcard
                   hyperpriority.closedcard(:taskId='st2'  :inId="st"  :inInId='t')
     div.clearboth
-    .boatContainer
-        img.boatAll.faded(v-if='$store.getters.contextCard.priorities.length >= 1'  src='../assets/images/downboat.svg'  @click='pileRefocused')
+    div
+        img.boatAll.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='pileRefocused')
+        .tooltiptext.correctspot2(v-if='$store.getters.member.tooltips')
+            p.suggest refocus all
 </template>
 
 <script>
@@ -109,6 +119,28 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/button'
+@import '../styles/tooltips'
+
+.tooltiptext.correctspot2
+    position: absolute
+    top: 95%
+    left: 30%
+
+.tooltiptext.correctspot
+    position: absolute
+    top: 1.75em
+    right: 2em
+
+.tooltiptext.correctspotleft
+    position: absolute
+    top: 1.75em
+    left: 2em
+
+.tooltiptext.correctspotbottomleft
+    bottom: 1.75em
+    left: 2em
+
+
 .fw
     width: 100%
 

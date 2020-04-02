@@ -116,10 +116,10 @@ export default {
     },
     computed: {
         showGive(){
-            return this.showSend && (this.$store.state.upgrades.mode === 'doge' || this.$store.state.upgrades.mode === 'boat')
+            return this.showSend && this.$store.state.upgrades.mode === 'doge'
         },
         showPlay(){
-            return this.showSend && this.$store.state.upgrades.mode === 'badge'
+            return this.showSend && (this.$store.state.upgrades.mode === 'badge' || this.$store.state.upgrades.mode === 'boat')
         },
         showRelay(){
             return this.showSend && (this.$store.state.upgrades.mode === 'chest' || this.$store.state.upgrades.mode === 'timecube')

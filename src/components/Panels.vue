@@ -2,8 +2,9 @@
 
 .panel(:class='{ fullwidth : $store.getters.member.stacks === 1 || !requireFiveStacks }')
     div(v-if='$store.getters.all.length < 1')
-        img.bdoge(src='../assets/images/buddadoge.svg')
-        h5 no present cards
+        img.bdoge.adjtooltip(src='../assets/images/buddadoge.svg')
+        .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
+            p.suggest empty
     .row(v-else-if='$store.getters.member.stacks === 5 && requireFiveStacks')
         .four.columns(v-if='$store.getters.red.length > 0')
             card-panel(:c='$store.getters.red', :taskId='$store.state.context.panel[$store.state.context.top]')
@@ -50,6 +51,12 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/button'
+@import '../styles/tooltips'
+
+.tooltiptext.correctspot
+    position: absolute
+    top: 50%
+    left: 50%
 
 .bdoge
     width: 100%
