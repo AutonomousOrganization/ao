@@ -5,16 +5,22 @@
         img.bdoge.adjtooltip(src='../assets/images/buddadoge.svg')
         .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
             p.suggest empty
-    .row(v-else-if='$store.getters.member.stacks === 5 && requireFiveStacks')
-        .four.columns(v-if='$store.getters.red.length > 0')
-            card-panel(:c='$store.getters.red', :taskId='$store.state.context.panel[$store.state.context.top]')
-        .four.columns(v-if='$store.getters.green.length > 0')
+    div(v-else-if='$store.getters.member.stacks === 5 && requireFiveStacks')
+      .row
+        .four.columns
+            card-panel(v-if='$store.getters.red.length === 0'   :c='$store.getters.yellow', :taskId='$store.state.context.panel[$store.state.context.top]')
+            card-panel(v-else  :c='$store.getters.red', :taskId='$store.state.context.panel[$store.state.context.top]')
+        .four.columns
             card-panel(:c='$store.getters.green', :taskId='$store.state.context.panel[$store.state.context.top]')
-        .four.columns(v-if='$store.getters.blue.length > 0')
-            card-panel(:c='$store.getters.blue', :taskId='$store.state.context.panel[$store.state.context.top]')
-        .four.columns(v-if='$store.getters.yellow.length > 0'  :class='{"offset-by-two": usedStacks === 5}')
+        .four.columns
+            card-panel(v-if='$store.getters.blue.length === 0'  :c='$store.getters.purple', :taskId='$store.state.context.panel[$store.state.context.top]')
+            card-panel(v-else  :c='$store.getters.blue', :taskId='$store.state.context.panel[$store.state.context.top]')
+      .row
+        .two.columns
+        .four.columns(v-if='$store.getters.yellow.length > 0  &&  $store.getters.red.length > 0')
             card-panel(:c='$store.getters.yellow', :taskId='$store.state.context.panel[$store.state.context.top]')
-        .four.columns(v-if='$store.getters.purple.length > 0')
+        .four.columns.stay(v-else)
+        .four.columns(v-if='$store.getters.purple.length > 0 && $store.getters.blue.length > 0')
             card-panel(:c='$store.getters.purple', :taskId='$store.state.context.panel[$store.state.context.top]')
     .padonestack(v-else)
         card-panel(v-if='$store.getters.all.length > 0'  :c='$store.getters.all', :taskId='$store.state.context.panel[$store.state.context.top]')
@@ -52,6 +58,9 @@ export default {
 @import '../styles/skeleton'
 @import '../styles/button'
 @import '../styles/tooltips'
+
+.two.columns, .stay
+    height: 1em
 
 .tooltiptext.correctspot
     position: absolute
