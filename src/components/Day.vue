@@ -3,16 +3,20 @@
     .date {{ day }}
     router-link(to='/doge')
         img.today(v-if='isToday'  src='../assets/images/uni.svg')
-    .upgrade(v-for='t in ev')
-        .tooltip(v-if='t.type !== "task-claimed"')
+    span(v-for='t in ev')
+        .tooltip.upgrade(v-if='t.type !== "task-claimed"')
             img.upgrade(@click="goIn(t.taskId)"  src='../assets/images/timecube.svg'  :class='styl(t.color)')
             .tooltiptext
                 .until {{ cardDate(t) }}
-                linky(:x='t.name')
-        .tooltip(v-else)
-            img.upgrade(@click="goIn(t.taskId)"  src='../assets/images/completed.svg')
-            .tooltiptext()
+                span(v-if='checkIsMember(t.name)')
+                    current(:memberId='t.name')
+                linky(v-else  :x='t.name')
+        span.tooltip.plain.completedcheckmark(v-else  @click='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
+            img.completedcheckmark(src='../assets/images/completed.svg')
+            .tooltiptext
                 current(:memberId='t.memberId')
+                span -
+                linky.bigger(:x='getCardName(t.taskId)')
 </template>
 
 <script>
@@ -68,6 +72,15 @@ export default {
                return DMY.hour + ":" + DMY.minute.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
             }
         },
+        getCardName(tId){
+            return this.$store.getters.hashMap[tId].name
+        },
+        getCardColor(tId){
+            return this.$store.getters.hashMap[tId].color
+        },
+        checkIsMember(name){
+            return this.$store.state.members.some(m => m.memberId === name)
+        }
     },
 }
 </script>
@@ -77,18 +90,19 @@ export default {
 @import '../styles/colours'
 @import '../styles/tooltips'
 
+.upgrade
+    height: 1.6em
+
+.checkmark
+    display: inline
+    min-height: 1.5em
+    margin-right: 2px
+    img
+        height: 1.5em
+
 .guild
     color: black
     font-size: 0.5em
-
-.upgrade
-  display: inline
-  .tooltip
-      display: inline
-  img
-    display: inline
-    width: 1.55em
-    cursor: pointer
 
 .today
     width: 100%
@@ -146,5 +160,36 @@ export default {
 		border-color: green
 .c
 		background-color: green
+
+.name
+    color: white
+    font-size: 1.2em
+    margin-right: 1em
+    padding-bottom: .321em
+    position: relative
+    user-select: none
+
+.checkmark
+    margin-right: 0.25em
+
+img.checkmark
+    height: 2em
+
+img.completedcheckmark
+    height: 1.5em
+
+
+.completedcheckmarks
+    min-height: 1.5em
+
+.clickable
+    cursor: pointer
+    color: white
+
+.plain
+    text-decoration: none
+    margin-right: 0.13em
+    height: 1.5em
+
 
 </style>
