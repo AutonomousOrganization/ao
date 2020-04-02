@@ -56,7 +56,6 @@ const actions = {
         if (!isMuted){
           try {
             let flip = new Audio(require('../assets/sounds/pageturn.wav'))
-            flip.volume = flip.volume * 0.33
             flip.play()
           } catch (err){}
         }

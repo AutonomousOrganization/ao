@@ -4,7 +4,9 @@
       transition(name="slide-fade")
         .cc(v-show='showCreate')
             textarea#card(v-model='debouncedName' type='text'  :class='cardInputSty'  placeholder="textarea"  @keyup.enter.exact='createOrFindTask'  @keydown.enter.exact.prevent  @keyup.esc='closeCreate'  @input='exploring = false' row='10' col='20').paperwrapper
-            button(@click='createOrFindTask').fwi create card
+            .boatContainer
+                img.boatAll.faded(src='../assets/images/downboat.svg'  @click='resetCard')
+                img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='createOrFindTask')
       .label
         #btnpanel.btnpanel
             div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
@@ -206,7 +208,7 @@ export default {
             } else {
                 this.subTaskTask(foundId)
             }
-            // XXX searchbar finding created 
+            // XXX searchbar finding created
             setTimeout( ()=> { this.resetCard() }, 7)
         },
         isGrabbed(taskId){

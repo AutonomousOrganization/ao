@@ -17,23 +17,24 @@
                 .more.aftermore(v-if='panelSplit.after.length > 5') +{{ panelSplit.after.length - 5 }}
             gift-box(v-if='$store.state.upgrades.mode === "doge"')
         .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"')
-            gift-box
             slot
     div
         .fadey(:class='{ cardInputSty, onestack : $store.getters.member.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
             .boatContainer
-                img.boatAll.faded(@click='toggleStacks' src='../assets/images/orb.svg')
-                .tooltiptext.correctspotmid(v-if='$store.getters.member.tooltips')
-                    p.suggest split
-                img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='pilePrioritized')
+                img.boatAll.faded.adjtooltip(@click='toggleStacks' src='../assets/images/orb.svg')
+                .tooltiptext.correctspottopleft(v-if='$store.getters.member.tooltips')
+                    p.suggest split colors
+                img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='pilePrioritized')
+                .tooltiptext.correctspottop(v-if='$store.getters.member.tooltips')
+                    p.suggest prioritize all
             panels
             .faded
                 img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
                 .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips  && !$store.state.context.completed  && $store.getters.contextCard.subTasks.length > 1')
-                    p.suggest scuttle
+                    p.suggest scuttle all
                 img.completed.adjtooltip(src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
                 .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                    p.suggest completed or not
+                    p.suggest show completed
     .agedbackground.translucent(:class='cardInputSty')
     .agedbackground.freshpaperbg(v-if='cardAge < 8')
     .agedbackground.weekoldpaperbg(v-else-if='cardAge < 30')
@@ -385,6 +386,16 @@ export default {
     position: absolute
     top: calc(100% - 1.75em)
     left: 50%
+
+.tooltiptext.correctspottopleft
+    position: absolute
+    top: 1.75em
+    left: 2em
+
+.tooltiptext.correctspottop
+    position: absolute
+    top: 1.75em
+    right: 2em
 
 .tooltiptext.correctspotleft
     position: absolute

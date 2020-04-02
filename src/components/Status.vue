@@ -1,18 +1,14 @@
 <template lang='pug'>
 
 .status.small.always.left
-    .tooltip
-        img.doge(v-if='$store.getters.member.muted'  src='../assets/images/silent.svg'  id='dogecomm'  :class='{ red : $store.state.loader.connected !== "connected" }')
-        img.doge(v-else-if='!$store.state.upgrades.barking'  src='/doge_faded.png'  id='dogecomm'  :class='{ red : $store.state.loader.connected !== "connected" }')
+    .tooltip(@click='bark')
+        img.doge(v-if='!$store.state.upgrades.barking'  src='/doge_faded.png'  id='dogecomm'  :class='{ red : $store.state.loader.connected !== "connected" }')
         img.doge.flip(v-else  src='../assets/images/loud.svg'  id='dogecomm'  :class='{ red : $store.state.loader.connected !== "connected" }')
-        .tooltiptext.bottom(:class='{ breadpad : $store.getters.member.muted }')
-            span.dot(:class='dotClass')
-            span {{ $store.state.loader.connected }}
-            p(v-if='$store.state.loader.lastPing > 1')
-                span ({{ $store.state.loader.lastPing }} ms pong)
-            p(v-if="$store.state.loader.connectionError") {{ $store.state.loader.connectionError }}
-            p.suggest(v-if='$store.getters.member.muted') double click toggles sound, tooltips
-    .wowdar(v-if='!$store.getters.member.muted')
+        .tooltiptext.bottom
+            span(v-for='(n, i) in $store.getters.presentIds'  :key='n')
+                current(:memberId='n')
+                br(v-if='i%3 === 2')
+    .wowdar
         .ringbase.ring1
         .ringbase.ring2
         .pulse
@@ -27,9 +23,11 @@
 
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
+import Current from './Current'
 
 export default {
     name: 'status',
+    components: {Current},
     mounted() {
         let dogeel = document.getElementById('dogecomm')
         let dogemc = Propagating(new Hammer.Manager(dogeel))
@@ -42,29 +40,16 @@ export default {
             if(this.$store.getters.member.muted) {
                 return
             }
+
+        })
+    },
+    methods: {
+        bark(){
             this.$store.dispatch("makeEvent", {
                 type: "doge-barked",
                 memberId: this.$store.getters.member.memberId
             })
-        })
-
-        let Tap4 = new Hammer.Tap({ taps: 2, time: 400, interval: 400 })
-        dogemc.add(Tap4)
-        dogemc.on('tap', (e) => {
-            this.toggleMute()
-        })
-
-        let dogeSwipeRight = new Hammer.Swipe()
-        dogemc.add(dogeSwipeRight)
-        dogemc.on('swiperight', (e) => {
-            if(this.$store.state.ao.length < 1) {
-                return
-            }
-            let both = (this.$store.state.upgrades.warp + 1) % this.$store.state.ao.length
-            this.$store.commit('setWarp', (this.$store.state.upgrades.warp + 1) % this.$store.state.ao.length)
-        })
-    },
-    methods: {
+        },
         toggleMute() {
             if(this.$store.getters.member.muted) {
                 this.$store.dispatch("makeEvent", {

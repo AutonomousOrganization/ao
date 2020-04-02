@@ -78,7 +78,6 @@ const mutations = {
             state.pinging = false
         }, 2000)
         let flip = new Audio(require('../assets/sounds/ping.wav'))
-        flip.volume = flip.volume * 0.33
         flip.play()
     }
 }

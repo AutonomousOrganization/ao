@@ -205,7 +205,6 @@ export default {
       if (!this.$store.getters.member.muted){
         try {
           let flip = new Audio(require('../assets/sounds/pageturn.wav'))
-          flip.volume = flip.volume * 0.33
           flip.play()
         } catch (err){}
       }

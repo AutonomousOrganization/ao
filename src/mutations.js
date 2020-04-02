@@ -284,16 +284,17 @@ function tasksMuts(tasks, ev) {
               absorbingTask.priorities = _.filter(absorbingTask.priorities, taskId => taskId !== ev.taskId )
               absorbingTask.subTasks = _.filter(absorbingTask.subTasks, taskId => taskId !== ev.taskId )
               absorbingTask.completed = _.filter(absorbingTask.completed, taskId => taskId !== ev.taskId )
-              absorbingTask.subTasks = absorbingTask.subTasks.concat(explodingTask.subTasks)
-              absorbingTask.priorities = absorbingTask.priorities.concat(explodingTask.priorities)
-              absorbingTask.completed = absorbingTask.completed.concat(explodingTask.completed)
+              absorbingTask.subTasks = _.uniq(absorbingTask.subTasks.concat(explodingTask.subTasks))
+              absorbingTask.priorities = _.uniq(absorbingTask.priorities.concat(explodingTask.priorities))
+              absorbingTask.completed = _.uniq(absorbingTask.completed.concat(explodingTask.completed))
             }
             break
         case "pile-prioritized":
             tasks.forEach( task => {
                 if (task.taskId === ev.inId){
                     task.priorities = _.uniq( task.priorities.concat(ev.tasks) )
-                    task.subTasks = task.subTasks.filter(tId => ev.tasks.indexOf(tId) === -1)
+                    task.subTasks = _.filter(task.subTasks, tId => ev.tasks.indexOf(tId) === -1)
+                    task.completed = _.filter(task.completed, tId => ev.tasks.indexOf(tId) === -1)
                 }
             })
             break

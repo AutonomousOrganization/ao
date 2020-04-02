@@ -1,21 +1,29 @@
 <template lang='pug'>
 
 .memberrow.membershipcard
-    bird(:b='card')
+    .topleft
+        div(@click='goDoge')
+            img(v-if='$store.getters.inbox.length < 1'  src='../assets/images/send.svg').smallguild.faded
+            img.smallguild(v-else  src='../assets/images/sendselected.svg')
+            label.stash {{ $store.getters.inbox.length }}
+    .topright
+        div(@click='goCube')
+            img.smallguild(src='../assets/images/timecube.svg')
+            label.stash 0
     .row.center.clearboth(:class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
         img.logindicator(v-if='$store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')
         img.logindicator(v-else, src='../assets/images/loggedOut.svg')
         label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }') {{ m.name }}
     not-zen(v-if='$store.state.upgrades.mode === "doge" && dukkha >= 1')
     .bottomleft
-      div(@click='goChest')
-        img.smallguild(src='../assets/images/chest.svg')
-        label.stash(v-if='card.boost') {{ card.boost.toFixed(2) }}
-        label.stash(v-else) 0
-    .bottomright
         div(@click='goBadge')
             img.smallguild(src='../assets/images/badge.svg')
             div.stash {{nameList.length}}
+    .bottomright
+        div(@click='goChest')
+          img.smallguild(src='../assets/images/chest.svg')
+          label.stash(v-if='card.boost') {{ card.boost.toFixed(2) }}
+          label.stash(v-else) 0
     .clearboth
 </template>
 
@@ -63,6 +71,12 @@ export default {
         },
         goBadge(){
             this.$router.push('/badge')
+        },
+        goDoge(){
+            this.$router.push('/doge')
+        },
+        goCube(){
+            this.$router.push('/timecube')
         },
         goChest(){
             this.$router.push('/chest')
@@ -135,6 +149,24 @@ label
 .smallguild
     height: 2em
 
+
+.topleft
+    float: left
+    width: fit-content
+    position: relative
+    bottom: 0
+    left: 0
+    cursor: pointer
+
+.topright
+    float: right
+    width: fit-content
+    position: relative
+    bottom: 0
+    right: -1em
+    cursor: pointer
+
+
 .bottomleft
     float: left
     width: fit-content
@@ -145,7 +177,7 @@ label
 
 .bottomright
     width: fit-content
-    right: 1em
+    right: 0
     bottom: 0.65em
     float: right
     cursor: pointer
