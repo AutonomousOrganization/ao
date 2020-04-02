@@ -77,8 +77,6 @@ const mutations = {
         setTimeout(()=> {
             state.pinging = false
         }, 2000)
-        let flip = new Audio(require('../assets/sounds/ping.wav'))
-        flip.play()
     }
 }
 

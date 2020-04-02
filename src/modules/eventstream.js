@@ -47,7 +47,7 @@ const mutations = {
         for(let i = 0; i < 2; i++) newBubble.randomXs.push(Math.floor(Math.random() * 100) + '%')
         for(let i = 0; i < 2; i++) newBubble.randomYs.push(Math.floor(Math.random() * 100) + '%')
 
-        let notTheseOnes = ["funds-set", "get-node-info"]
+        let notTheseOnes = ["funds-set", "get-node-info", 'member-field-updated']
         if (notTheseOnes.indexOf(newBubble.type) === -1){
             if (state.every(e => e.timestamp !== ev.timestamp)){
                 state.push(newBubble)
@@ -65,9 +65,12 @@ const mutations = {
 
 const actions = {
     displayEvent({commit, getters}, ev){
-        if(!getters.member.muted && (ev.type === 'doge-barked' || ev.type === 'resource-used')) {
+        if(ev.type === 'doge-barked' || ev.type === 'resource-used') {
+            if (getters.member && !getters.member.muted){
+                let flip = new Audio(require('../assets/sounds/ping.wav'))
+                flip.play()
+            }
             commit('bark')
-            return
         }
         commit('show', ev)
         setTimeout(()=>{

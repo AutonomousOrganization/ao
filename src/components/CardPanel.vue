@@ -15,8 +15,8 @@
             .mandalign.tooltip(ref='mandelorb')
                 img(src='../assets/images/orb.svg')
                 .tooltiptext(v-if='$store.getters.member.tooltips')
-                    p(v-if='!open').suggest show all
-                    p(v-else).suggest show stack
+                    p(v-if='!open').suggest open stack
+                    p(v-else).suggest close stack
         .one.grid.horizcenter()
             .box.verticalcenter
                 h3(v-if='!open') {{ c.length }}
