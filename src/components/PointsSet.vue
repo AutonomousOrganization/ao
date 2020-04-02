@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .pointsset(ref='wholeForm')
-    input(v-model='task.points'  type='text'  placeholder='points'  @keypress.enter='setValue(false)')
+    input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue(false)')
     button(@click.stop='setValue') {{ detectChange }}
 </template>
 

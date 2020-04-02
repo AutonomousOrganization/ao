@@ -14,7 +14,6 @@
         img.logindicator(v-if='$store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')
         img.logindicator(v-else, src='../assets/images/loggedOut.svg')
         label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }') {{ m.name }}
-    not-zen(v-if='$store.state.upgrades.mode === "doge" && dukkha >= 1')
     .bottomleft
         div(@click='goBadge')
             img.smallguild(src='../assets/images/badge.svg')

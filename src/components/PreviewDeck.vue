@@ -3,21 +3,26 @@
 .preview(v-if='deck.length > 0 || topPriorities.length > 0')
     .row
         .four.grid
+            .bead.yellowwx.tooltip(v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)')
+                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
             .bead.redwx.tooltip(v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
         .four.grid
             .bead.greenwx.tooltip(v-for="(b,i) in green", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
         .four.grid
+            .bead.purplewx.tooltip(v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)')
+                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
             .bead.bluewx.tooltip(v-for="(b,i) in blue", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
     .row
         .two.grid
+            span &nbsp;
         .four.grid
-            .bead.yellowwx.tooltip(v-for="(b,i) in yellow", @click='goto(b.taskId)')
+            .bead.yellowwx.tooltip(v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
         .four.grid
-            .bead.purplewx.tooltip(v-for="(b,i) in purple", @click='goto(b.taskId)')
+            .bead.purplewx.tooltip(v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
 </template>
 
@@ -136,7 +141,8 @@ export default {
     border-radius: 50%;
     display: inline-block;
     border-width: 2px
-    border-color: rgba(255, 255, 255, 0.5)
+    border-color: rgba(255, 255, 255, 0.11)
+    opacity: 0.77
     border-style: solid
     cursor: pointer
     z-index: 98

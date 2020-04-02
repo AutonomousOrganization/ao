@@ -6,6 +6,7 @@
     span.completedmarks
         span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ name }}
         span(v-for='c in checkmarks'  :key='c.taskId')
+            span.clickable(v-if='0 < c.completeValue') {{c.completeValue}}
             span.tooltip.plain.completedcheckmark(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
                 img.completedcheckmark(src='../assets/images/completed.svg')
                 linky.tooltiptext.bigger(:x='c.name')

@@ -252,7 +252,6 @@ export default {
 @import '../styles/tooltips'
 
 
-
 .orby
     height: 2.2em
     margin-top: -1em
@@ -262,6 +261,12 @@ export default {
 #tasks
     width: 100%
     color: lightGrey
+    border-bottom: solid;
+    border-left: solid;
+    border-right: solid;
+    border-bottom: 20px;
+    border-radius: 40px 40px 0px 0px;
+    border-color: rgba(255, 255,255, .17)
 
 tr
     border-color: accent4
@@ -342,6 +347,7 @@ img
     border-right: solid;
     border-bottom: 20px;
     border-radius: 40px 40px 0px 0px;
+
 
 .fr
     float: right

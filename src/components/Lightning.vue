@@ -2,36 +2,36 @@
 
 #nodes
   .container(v-if='$store.state.cash.info && $store.state.cash.info.blockheight')
-    .row
-        .six.columns.container
-            .row
-                p.fl {{ $store.state.cash.info.alias }} Wallet
-                p.fr block {{ $store.state.cash.info.blockheight.toLocaleString() }}
-            p.chain
-                span mainnet &#12471; {{ $store.getters.confirmedBalance.toLocaleString() }}
-                .lim(v-if='$store.getters.limbo > 0') limbo &#12471; {{ $store.getters.limbo.toLocaleString() }}
-            .row
-                h4(v-if='unchanneled.length > 0') select peer to open channel
-                div(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id }}
-                button(v-if='selectedPeer'   @click='requestChannel') Request Channel
-        .six.columns.container
-            p {{ $store.state.cash.info.num_active_channels }} Lightning Channels
-            local-remote-bar(v-for='n in $store.state.cash.channels', :c='n')
-            hr
-            .row
-              .six.grid
-                p.local local &#12471; {{ $store.getters.totalLocal.toLocaleString() }}
-              .six.grid
-                p.remote remote  &#12471; {{ $store.getters.totalRemote.toLocaleString() }}
-    .row
-          h3 Connection Info
-          template(v-for='a in $store.getters.connectionUris')
-              .row.container
-                  .six.columns
-                      tag(:d='a')
-                  .six.columns
-                      label {{a}}
-    payments
+      .row
+          .six.columns.container
+              .row
+                  p.fl {{ $store.state.cash.info.alias }} Wallet
+                  p.fr block {{ $store.state.cash.info.blockheight.toLocaleString() }}
+              p.chain
+                  span mainnet &#12471; {{ $store.getters.confirmedBalance.toLocaleString() }}
+                  .lim(v-if='$store.getters.limbo > 0') limbo &#12471; {{ $store.getters.limbo.toLocaleString() }}
+              .row
+                  h4(v-if='unchanneled.length > 0') select peer to open channel
+                  div(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id }}
+                  button(v-if='selectedPeer'   @click='requestChannel') Request Channel
+          .six.columns.container
+              p {{ $store.state.cash.info.num_active_channels }} Lightning Channels
+              local-remote-bar(v-for='n in $store.state.cash.channels', :c='n')
+              hr
+              .row
+                .six.grid
+                  p.local local &#12471; {{ $store.getters.totalLocal.toLocaleString() }}
+                .six.grid
+                  p.remote remote  &#12471; {{ $store.getters.totalRemote.toLocaleString() }}
+      .row
+            h3 Connection Info
+            template(v-for='a in $store.getters.connectionUris')
+                .row.container
+                    .six.columns
+                        tag(:d='a')
+                    .six.columns
+                        label {{a}}
+      payments
   .row(v-else)
       img.bdoge(src='../assets/images/buddadoge.svg')
       h5 no lightning node
@@ -43,7 +43,7 @@ import calculations from '../calculations'
 import Tag from './Tag'
 import LocalRemoteBar from './LocalRemoteBar'
 import Payments from './Payments'
-
+import PointsSet from './PointsSet'
 import request from 'superagent'
 
 export default {
@@ -58,7 +58,7 @@ export default {
         }
     },
     components:{
-         Tag, LocalRemoteBar, Payments
+         Tag, LocalRemoteBar, Payments, PointsSet
     },
     computed: {
         unchanneled(){
@@ -92,6 +92,9 @@ export default {
 @import '../styles/skeleton'
 @import '../styles/grid'
 @import '../styles/button'
+
+.fw
+    width: 100%
 
 .container
     content-align: center

@@ -1,6 +1,7 @@
 <template lang='pug'>
 
-.zen
+.zen(@click='$router.push("/boat")')
+    img.bdoge(src='../assets/images/buddadoge.svg')
 </template>
 
 <script>
@@ -13,3 +14,14 @@ export default {
     },
 }
 </script>
+
+<style lang='stylus' scoped>
+
+.bdoge
+    width: 100%
+    opacity: 0.77
+    height: 5em
+    margin-top: 1em
+    cursor: pointer
+
+</style>

@@ -1,10 +1,9 @@
 <template lang='pug'>
 
 .upgrades
-    .gui(v-if='calcTime') {{ calcTime }}
     resource-book(:tId='$store.getters.contextCard.taskId')
-    button set location
     task-calendar(:inId='$store.getters.contextCard.taskId')
+    button set location
 </template>
 
 <script>

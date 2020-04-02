@@ -3,7 +3,7 @@
 .priorities
     div(v-if='priorities.length < 1')
         img.bdoge(src='../assets/images/buddadoge.svg')
-        h5 no present boats
+        h5 no tasks
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer

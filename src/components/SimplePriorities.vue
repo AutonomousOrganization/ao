@@ -1,8 +1,6 @@
 <template lang='pug'>
 
 .priorities
-    .empty(v-if='isUni && taskId === $store.getters.contextCard.taskId && priorities.length >= 1')
-        not-zen(v-if='$store.state.upgrades.mode === "doge"'  :taskId='taskId')
     div.clearboth(v-else  v-for='(t, i) of priorities.slice(0, 5)'  :key='priorities')
         simple-hyperpriority.front(:taskId='t'  :c='priorities'  :inId='taskId')
         .centerer

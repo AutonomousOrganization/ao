@@ -11,10 +11,11 @@
         img(v-for='n in parseInt(Math.floor(b.weight))'  :key='n'  src='../assets/images/sun.svg')
         img(v-if='b.weight % 1 > 0 || b.weight < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/sun.svg'  :key='dogers')
         .tooltiptext
-            p prioritized by:
+            img(src='../assets/images/sun.svg')
+            p(v-if='$store.getters.member.tooltips') prioritized by:
             current(v-for='doger in b.dogers'  :memberId='doger'  :key='dogers')
     .buffertop
-      preview-deck(:task='b')
+      preview-deck(v-if='$store.getters.contextCard.taskId !== b.taskId'  :task='b')
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member')
           current(v-else  :memberId='member.memberId')
@@ -22,11 +23,10 @@
         simple-priorities(:taskId="b.taskId", :inId='b.taskId')
     passed(:b='b')
     linked(:b='b')
-    .spacer
     div
         scroll.faded(:b='b', :inId='inId')
-        vine.faded(:b='b')
-        coin(:b='b')
+        coin.fw(v-if='$store.getters.contextCard.taskId === b.taskId'  :b='b')
+        vine.faded(v-else  :b='b')
 </template>
 
 <script>
@@ -172,6 +172,9 @@ export default {
 @import '../styles/spinners'
 @import '../styles/tooltips'
 
+.fw
+    width:100%
+
 .count
     float: right
 
@@ -290,12 +293,6 @@ export default {
 .bold
     height: 1.21
     font-weight: bolder
-
-.spacer
-    clear: both
-    height: 2.25em
-    width: 100%
-    margin-top: 1.5em
 
 .cardhud
     margin-bottom: 1em

@@ -1,7 +1,7 @@
 <template lang='pug'>
 .deck(:key='$store.getters.contextCard.taskId')
     .paperwrapper.padsides
-        .card(:class='{ adjustwidth : !$store.getters.contextMember, closedwidth : $store.state.upgrades.mode === "doge", openwidth : $store.state.upgrades.mode !== "doge" }')
+        .card.openwidth(:class='{ adjustwidth : !$store.getters.contextMember }')
             member-row(v-if='$store.getters.contextMember', :m='$store.getters.contextMember'  :key='card.taskId')
             resource-row(v-if='$store.getters.contextResource'   :r='$store.getters.contextResource'  :key='card.taskId')
             .centerer
@@ -16,14 +16,15 @@
             .centerer
                 .more.aftermore(v-if='panelSplit.after.length > 5') +{{ panelSplit.after.length - 5 }}
             gift-box(v-if='$store.state.upgrades.mode === "doge"')
-        .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"')
+        .upgradesbar
             slot
     div
         .fadey(:class='{ cardInputSty, onestack : $store.getters.member.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
             .boatContainer
                 img.boatAll.faded.adjtooltip(@click='toggleStacks' src='../assets/images/orb.svg')
                 .tooltiptext.correctspottopleft(v-if='$store.getters.member.tooltips')
-                    p.suggest split colors
+                    p(v-if='$store.getters.member.stacks === 5').suggest combine colors
+                    p(v-else).suggest split colors
                 img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='pilePrioritized')
                 .tooltiptext.correctspottop(v-if='$store.getters.member.tooltips')
                     p.suggest alert all

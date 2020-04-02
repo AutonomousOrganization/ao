@@ -1,7 +1,8 @@
 <template lang='pug'>
 
 .upgrades
-    h5(v-if='b.boost > 0 && !$store.getters.contextMember') Total funds raised: {{ b.boost }}
+    points-set.fw(v-if='!$store.getters.contextMember'  :b='$store.getters.contextCard')
+    h5 Points: {{ b.boost }}
     div(v-if='$store.state.cash.info.alias')
         .togglepayments
             img.max(@click='togglePayment(0)'  src='../assets/images/bitcoin.svg'  :class='{thickborder: $store.state.upgrades.payment === "bitcoin"}')
@@ -26,10 +27,11 @@
 import calcs from '../calculations'
 import PayAddress from './PayAddress'
 import PayReq from './PayReq'
+import PointsSet from './PointsSet'
 
 export default {
     components:{
-      PayReq, PayAddress,
+      PayReq, PayAddress, PointsSet
     },
     mounted() {
         if (this.$router.currentRoute.path.split("/")[1] !== 'dash'){
@@ -102,6 +104,9 @@ export default {
 @import '../styles/button'
 @import '../styles/tooltips'
 @import '../styles/spinners'
+
+.fw
+    width: 100%
 
 h5
     text-align: center

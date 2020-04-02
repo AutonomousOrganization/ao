@@ -1,7 +1,7 @@
 <template lang='pug'>
-.dogepepecoin.tooltip(ref='hodlcoin')
-    img.dogepepecoin.spinslow(:class="{ ungrabbedcoin : !isGrabbed, highlight: inHand }" src='../assets/images/coin.svg'  draggable='false')
-    .tooltiptext(v-if='b.deck.length > 0')
+.dogepepecoin(ref='hodlcoin')
+    img.dogepepecoin.spinslow.adjtooltip(:class="{ ungrabbedcoin : !isGrabbed, highlight: inHand }" src='../assets/images/coin.svg'  draggable='false')
+    .tooltiptext.correctspot(v-if='b.deck.length > 0')
         current.block(v-for='memberId in b.deck'  :memberId='memberId')
     p.hodlcount(:class="{ grabbedhodlcount: isGrabbed }") {{ (b.deck.length > 1) ? b.deck.length : '' }}
 </template>
@@ -128,20 +128,26 @@ export default {
 @import '../styles/tooltips'
 @import '../styles/spinners'
 
+.tooltiptext.correctspot
+    position: absolute
+    top: calc(100% - 1.75em)
+    right: 2em
+    z-index: 9000
+
 .dogepepecoin
   width: 35px
   height: 35px
   position: absolute
-  left: calc(50% - 17.5px)
-  bottom: 0.75em
+  bottom: 3px
+  right: 3px
   cursor: pointer
 
 .hodlcount
     position: absolute
-    left: calc(50% - 17.5px)
     text-align: center
     width: 35px
-    bottom: calc(0.75em + 9px)
+    bottom: 9px
+    right: 3px
     padding-bottom: 0
     margin-bottom: 0
     font-weight: bold

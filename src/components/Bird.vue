@@ -5,26 +5,27 @@
         div.birdy.faded.smallguild(v-if='!showSend && b.guild || showGive && b.guild'  :class='{ open : showSend }')
         img.birdy.faded(v-else-if='!showSend && !b.guild' src='../assets/images/send.svg')
         img.birdy(v-else  src='../assets/images/sendselected.svg')
-    .play(v-if='showPlay')
-        select(v-model='toGuild')
-            option(disabled, value='') to mission
-            template(v-for='g in $store.getters.sendableGuilds')
-                option(:value="g.taskId") {{ g.guild }}
-                template(v-for='p in g.guilds')
-                    option(:value="p.taskId") &nbsp;&nbsp;&nbsp;&nbsp;{{ p.guild }}
-                    template(v-for='sp in p.guilds')
-                        option(:value="sp.taskId") &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ sp.guild }}
-        button.small(@click='dispatchMakeEvent(playInfo)') give
-    .give(v-if='showGive')
-        select(v-model='toMember')
-            option(disabled, value='') to people
-            option(v-for='n in $store.state.members', :value="n.memberId") {{ n.name }}
-        button.small(@click='dispatchMakeEvent(passInfo)') give
-    .give(v-if='showRelay')
-        select(v-model='toAo')
-            option(disabled, value='') to ao
-            option(v-for='n in $store.state.ao', :value="n.address") {{ n.address }}
-        button.small(@click='dispatchMakeEvent(aoLink)') link
+    div
+        .give(v-if='showSend')
+            select(v-model='toMember')
+                option(disabled, value='') to account
+                option(v-for='n in $store.state.members', :value="n.memberId") {{ n.name }}
+            button.small(@click='dispatchMakeEvent(passInfo)') show
+        .play(v-if='showSend')
+            select(v-model='toGuild')
+                option(disabled, value='') to tag
+                template(v-for='g in $store.getters.sendableGuilds')
+                    option(:value="g.taskId") {{ g.guild }}
+                    template(v-for='p in g.guilds')
+                        option(:value="p.taskId") &nbsp;&nbsp;&nbsp;&nbsp;{{ p.guild }}
+                        template(v-for='sp in p.guilds')
+                            option(:value="sp.taskId") &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ sp.guild }}
+            button.small(@click='dispatchMakeEvent(playInfo)') send
+        .give(v-if='showSend')
+            select(v-model='toAo')
+                option(disabled, value='') to ao
+                option(v-for='n in $store.state.ao', :value="n.address") {{ n.address }}
+            button.small(@click='dispatchMakeEvent(aoLink)') link
     .theTitle(v-if='b.guild') {{ b.guild }}
     .count
         guild-create(:editing='showGuildCreate'  :b='b'  @closeit='toggleGuildCreate')
@@ -183,7 +184,6 @@ export default {
 select
     background-color: lightteal
     width: 70%
-    margin-left: -1.5em
 
 select.form-control
     color: black
