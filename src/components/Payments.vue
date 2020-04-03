@@ -35,7 +35,7 @@ export default {
     },
     mounted() {
         if (this.$router.currentRoute.path.split("/")[1] !== 'dash'){
-            this.$store.commit('setMode' , 3)
+            this.$store.commit('setMode' , 4)
             this.$store.commit('setDimension' , 0)
             this.$store.dispatch('loaded')
         }

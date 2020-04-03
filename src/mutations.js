@@ -319,7 +319,13 @@ function tasksMuts(tasks, ev) {
         case "pile-de-sub-tasked":
             tasks.forEach( task => {
                 if (task.taskId === ev.inId){
-                    task.subTasks = []
+                    task.subTasks = _.filter(task.subTasks, tId => ev.tasks.indexOf(tId) === -1)
+                    ev.tasks.forEach(tId => {
+                        if (task.priorities.indexOf(tId) > -1) {
+                            task.subTasks.push(tId)
+                        }
+                    })
+                    task.priorities = _.filter(task.priorities, tId => ev.tasks.indexOf(tId) === -1)
                 }
             })
             break
@@ -600,6 +606,13 @@ function tasksMuts(tasks, ev) {
                     if(task.claimed.indexOf(ev.memberId) === -1) {
                         task.claimed.push(ev.memberId)
                     }
+                    if (!task.claims){
+                        console.log('no claims: ', task)
+                    }else {
+                        task.claims.push(ev)
+                    }
+                }
+                if (task.taskId === ev.memberId) {
                     if (!task.claims){
                         console.log('no claims: ', task)
                     }else {

@@ -115,35 +115,17 @@ export default {
     },
     methods: {
         boatAll(){
-            this.matchCards.cards.forEach(t => {
-                this.$store.dispatch("makeEvent", {
-                    type: 'task-prioritized',
-                    taskId: t.taskId,
-                    inId: this.$store.getters.contextCard.taskId,
-                })
-            })
-            this.matchCards.guilds.forEach(t => {
-                this.$store.dispatch("makeEvent", {
-                    type: 'task-prioritized',
-                    taskId: t.taskId,
-                    inId: this.$store.getters.contextCard.taskId,
-                })
+            this.$store.dispatch("makeEvent", {
+                type: 'pile-prioritized',
+                tasks: this.matchIds,
+                inId: this.$store.getters.contextCard.taskId,
             })
         },
         deBoatAll(){
-            this.matchCards.cards.forEach(t => {
-                this.$store.dispatch("makeEvent", {
-                    type: 'task-de-sub-tasked',
-                    subTask: t.taskId,
-                    taskId: this.$store.getters.contextCard.taskId,
-                })
-            })
-            this.matchCards.guilds.forEach(t => {
-                this.$store.dispatch("makeEvent", {
-                    type: 'task-de-sub-tasked',
-                    subTask: t.taskId,
-                    taskId: this.$store.getters.contextCard.taskId,
-                })
+            this.$store.dispatch("makeEvent", {
+                type: 'pile-de-sub-tasked',
+                tasks: this.matchIds,
+                inId: this.$store.getters.contextCard.taskId,
             })
         },
         toCardMode(){
@@ -305,6 +287,10 @@ export default {
             }
             this.searchResults = { guilds: guildmatches, doges: dogematches, cards: matches }
             return this.searchResults
+        },
+        matchIds(){
+            return this.matchCards.guilds.concat(this.matchCards.doges).concat(this.matchCards.cards)
+                .map(t => t.taskId)
         },
         colorWord(){
             switch (this.task.color) {

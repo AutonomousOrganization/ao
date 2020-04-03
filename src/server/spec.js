@@ -73,10 +73,13 @@ router.post('/events', (req, res, next)=>{
         }
         break
       case "pile-de-sub-tasked":
-        if (validators.isTaskId(req.body.inId, errRes)) {
-          events.pileDeSubTasked(req.body.inId, utils.buildResCallback(res));
+        if (
+            validators.isTaskId(req.body.inId, errRes) &&
+            req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
+        ) {
+            events.pileDeSubTasked(req.body.inId, req.body.tasks, utils.buildResCallback(res));
         } else {
-          res.status(400).send(errRes);
+            res.status(400).send(errRes);
         }
         break
       case 'ao-linked':

@@ -379,10 +379,11 @@ function taskDeSubTasked(taskId, subTask, memberId, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function pileDeSubTasked(inId, callback){
+function pileDeSubTasked(inId, tasks, callback){
     let newEvent = {
       type: "pile-de-sub-tasked",
-      inId
+      inId,
+      tasks,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }

@@ -103,8 +103,7 @@ const routes =[{
   path: '/dash/timecube',
   component: Reserve,
   meta: { title: "central reserve" }
-},
-{
+},{
   path: '/dash/slayer',
   component: Accounts,
   meta: { title: "dashboard" }

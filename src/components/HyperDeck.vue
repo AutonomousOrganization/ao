@@ -74,7 +74,8 @@ export default {
       pileDeSubTasked(){
           this.$store.dispatch('makeEvent', {
               type: 'pile-de-sub-tasked',
-              inId: this.$store.getters.contextCard.taskId
+              inId: this.$store.getters.contextCard.taskId,
+              tasks: this.$store.getters.contextCard.subTasks
           })
       },
       goWithinPanel(n){
