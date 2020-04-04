@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .priorities
-    div.clearboth(v-else  v-for='(t, i) of priorities.slice(0, 5)'  :key='priorities')
+    div.clearboth(v-for='(t, i) of priorities.slice(0, 5)'  :key='priorities')
         simple-hyperpriority.front(:taskId='t'  :c='priorities'  :inId='taskId')
         .centerer
             .more(v-if='i === 4 && priorities.length > 5') +{{ priorities.length - 5 }}

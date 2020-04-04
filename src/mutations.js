@@ -422,7 +422,7 @@ function tasksMuts(tasks, ev) {
                             if(history.indexOf(t) >= 0) return
                             let subTask = tasks.filter(pst => pst.taskId === t)
                             if(subTask.length < 1) {
-                                console.log("missing subtask, this is messy")
+                                console.log("missing subtask, this is messy", t)
                                 return
                             }
                             if(subTask.length > 1) {
@@ -470,7 +470,7 @@ function tasksMuts(tasks, ev) {
                             if(history.indexOf(t) >= 0) return
                             let subTask = tasks.filter(pst => pst.taskId === t)
                             if(subTask.length < 1) {
-                                console.log('missing subtask, this is messy')
+                                console.log('missing subtask, this is messy', t)
                                 return
                             }
                             if(subTask.length > 1) {

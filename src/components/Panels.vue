@@ -83,6 +83,10 @@ h5
     clear: both
     padding-bottom: 1.5em
     min-height: 5.9em
+    background-image: url('../assets/images/table.svg')
+    background-size: cover
+    background-position: center center
+    overflow: visible
 
 .card
     padding: 2em

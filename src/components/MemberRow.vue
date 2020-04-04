@@ -145,8 +145,8 @@ label
     margin: 1em
 
 .memberrow
-    border-bottom: .2em dashed softGrey
-
+    box-shadow: 3px 1px 7px 1px lightGrey
+    margin-bottom: 8px
 .fw
     width: 100%
 

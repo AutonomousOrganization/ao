@@ -11,7 +11,7 @@ import Reserve from './components/Reserve'
 
 
 import Oracle from './components/Oracle'
-import Top from './components/Top'
+import Port from './components/Port'
 import Recent from './components/Recent'
 import Bounties from './components/Bounties'
 import Upcoming from './components/Upcoming'
@@ -28,7 +28,7 @@ Vue.use(VueRouter)
 const routes =[{
   path: '/',
   component: Deck,
-  meta: { title: "DCTRL" },
+  meta: { title: "Autonomous Organization" },
   children: [
     {
       path: 'doge',
@@ -65,8 +65,8 @@ const routes =[{
   meta: { title: "newspaper" }
 },{
   path: '/front/boat',
-  component: Top,
-  meta: { title: "top cards" }
+  component: Port,
+  meta: { title: "Port cards" }
 },{
   path: '/front/badge',
   component: Recent,
