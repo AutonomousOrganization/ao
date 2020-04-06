@@ -65,9 +65,6 @@ export default {
         },
     },
     methods: {
-        goArchive(){
-            this.$router.push('/archive')
-        },
         goBadge(){
             this.$router.push('/badge')
         },

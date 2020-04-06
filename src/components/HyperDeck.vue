@@ -27,12 +27,12 @@
                     p(v-else).suggest split colors
                 img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='pilePrioritized')
                 .tooltiptext.correctspottop(v-if='$store.getters.member.tooltips')
-                    p.suggest alert all
+                    p.suggest boat all
             panels
             .faded
                 img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
                 .tooltiptext.correctspotleft(v-if='!$store.state.context.completed && $store.getters.member.tooltips')
-                    p.suggest sink all
+                    p.suggest clear
                 img.completed.adjtooltip(src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
                 .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
                     p.suggest show completed

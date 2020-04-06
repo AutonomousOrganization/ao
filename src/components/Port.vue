@@ -5,12 +5,10 @@
 </template>
 
 <script>
-import CardPanel from './CardPanel'
 import Hypercard from "./Card"
 
 export default {
   components:{
-      CardPanel,
       Hypercard,
   },
   mounted(){

@@ -2,28 +2,29 @@
 
 .panel(:class='{ fullwidth : $store.getters.member.stacks === 1 || !requireFiveStacks }')
     div(v-if='$store.getters.all.length < 1')
-        img.bdoge.adjtooltip(src='../assets/images/buddadoge.svg')
+        img.bdoge.adjtooltip(@dblclick='getArchive'  @click='getOracle'  src='../assets/images/buddadoge.svg')
         .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-            p.suggest empty
+            p.suggest none
+        h5 no cards
     div(v-else-if='$store.getters.member.stacks === 5 && requireFiveStacks')
       .row
         .four.columns
-            card-panel(v-if='$store.getters.red.length === 0'   :c='$store.getters.yellow', :taskId='$store.state.context.panel[$store.state.context.top]')
-            card-panel(v-else  :c='$store.getters.red', :taskId='$store.state.context.panel[$store.state.context.top]')
+            card-panel(v-if='$store.getters.red.length === 0'   stack='yellow',  :position='$store.getters.contextCard.stackView["yellow"]', :taskId='$store.state.context.panel[$store.state.context.top]')
+            card-panel(v-else  stack='red', :position='$store.getters.contextCard.stackView["red"]',  :taskId='$store.state.context.panel[$store.state.context.top]')
         .four.columns
-            card-panel(:c='$store.getters.green', :taskId='$store.state.context.panel[$store.state.context.top]')
+            card-panel(stack='green', :position='$store.getters.contextCard.stackView["green"]',  :taskId='$store.state.context.panel[$store.state.context.top]')
         .four.columns
-            card-panel(v-if='$store.getters.blue.length === 0'  :c='$store.getters.purple', :taskId='$store.state.context.panel[$store.state.context.top]')
-            card-panel(v-else  :c='$store.getters.blue', :taskId='$store.state.context.panel[$store.state.context.top]')
+            card-panel(v-if='$store.getters.blue.length === 0'  stack='purple',  :position='$store.getters.contextCard.stackView["purple"]', :taskId='$store.state.context.panel[$store.state.context.top]')
+            card-panel(v-else  stack='blue', :position='$store.getters.contextCard.stackView["blue"]',  :taskId='$store.state.context.panel[$store.state.context.top]')
       .row
         .two.columns
         .four.columns(v-if='$store.getters.yellow.length > 0  &&  $store.getters.red.length > 0')
-            card-panel(:c='$store.getters.yellow', :taskId='$store.state.context.panel[$store.state.context.top]')
+            card-panel(stack='yellow', :position='$store.getters.contextCard.stackView["yellow"]',  :taskId='$store.state.context.panel[$store.state.context.top]')
         .four.columns.stay(v-else)
         .four.columns(v-if='$store.getters.purple.length > 0 && $store.getters.blue.length > 0')
-            card-panel(:c='$store.getters.purple', :taskId='$store.state.context.panel[$store.state.context.top]')
+            card-panel(stack='purple', :position='$store.getters.contextCard.stackView["purple"]',  :taskId='$store.state.context.panel[$store.state.context.top]')
     .padonestack(v-else)
-        card-panel(v-if='$store.getters.all.length > 0'  :c='$store.getters.all', :taskId='$store.state.context.panel[$store.state.context.top]')
+        card-panel(v-if='$store.getters.all.length > 0'  stack='all', :position='$store.getters.contextCard.stackView["all"]',  :taskId='$store.state.context.panel[$store.state.context.top]')
 </template>
 
 <script>
@@ -46,6 +47,49 @@ export default {
           if (this.$store.getters.purple.length > 0) usedStacks++
           if (this.$store.getters.yellow.length > 0) usedStacks++
           return usedStacks
+      }
+  },
+  methods: {
+      getOracle(){
+
+      },
+      getArchive(){
+        let hodld = []
+        this.$store.state.tasks.forEach( t => {
+            if(t.deck.indexOf(this.$store.getters.member.memberId) > -1){
+              hodld.push(t)
+            }
+        })
+        let crawler = [this.$store.getters.memberCard.taskId].concat(this.$store.getters.myGuilds.map(t => t.taskId))
+        let deck = []
+        let history = []
+        let newCards = []
+        do {
+          newCards = []
+          crawler = _.filter(crawler, t => {
+            if(deck.concat(history).indexOf(t) > -1) return false
+            let task = this.$store.getters.hashMap[t]
+            if(task === undefined || task.subTasks === undefined || task.priorities === undefined || task.completed === undefined) return false
+
+            if(task.deck.indexOf(this.$store.getters.member.memberId) > -1) {
+                deck.push(t)
+            } else {
+                history.push(t)
+            }
+            newCards = newCards.concat(task.subTasks).concat(task.priorities).concat(task.completed)
+            return true
+          })
+          crawler = newCards
+        } while(crawler.length > 0)
+        let archive = _.filter(hodld, st => deck.indexOf(st.taskId) === -1)
+        archive = _.filter(archive, st => !archive.some(t => t.subTasks.concat(t.priorities).concat(t.completed).indexOf(st.taskId) > -1))
+
+        let tasks = archive.map(a => a.taskId)
+        this.$store.dispatch("makeEvent", {
+            type: 'pile-prioritized',
+            tasks,
+            inId: this.$store.getters.contextCard.taskId,
+        })
       }
   }
 }

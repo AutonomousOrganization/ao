@@ -6,18 +6,16 @@
       img.gift(src='../assets/images/gifts.svg')
       span {{$store.getters.inbox.length}} Gifts
     .eight.grid
-      card-panel(:c="$store.getters.inbox")
+      hypercard(v-for='b in $store.getters.inbox'  :b='b'  :inId='$store.getters.member.memberId')
 </template>
 
 <script>
 
 import Hypercard from "./Card"
-import CardPanel from './CardPanel'
 
 export default {
   components:{
       Hypercard,
-      CardPanel,
   },
 }
 

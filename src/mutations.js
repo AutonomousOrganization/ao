@@ -158,6 +158,13 @@ function membersMuts(members, ev){
               }
           })
           break
+      case "task-touched":
+          members.forEach( member => {
+              if (member.memberId === ev.memberId){
+                  member.lastUsed = ev.timestamp
+              }
+          })
+          break
       case "task-created":
           members.forEach( member => {
               if (member.memberId === ev.memberId){
@@ -263,6 +270,13 @@ function sessionsMuts(sessions, ev){
 
 function tasksMuts(tasks, ev) {
     switch (ev.type) {
+        case "task-touched":
+            tasks.forEach(task => {
+                if(task.taskId === ev.taskId) {
+                    task.stackView[ev.stack] = ev.position
+                }
+            })
+            break
         case "task-valued":
             tasks.forEach(task => {
                 if(task.taskId === ev.taskId) {
@@ -275,6 +289,7 @@ function tasksMuts(tasks, ev) {
             tasks.forEach( task => {
                 if (task.taskId === ev.taskId){
                     explodingTask = task
+                    task.passed = _.filter( task.passed, d => d[1] !== ev.memberId )
                 }
                 if (task.taskId === ev.inId){
                     absorbingTask = task
@@ -451,6 +466,7 @@ function tasksMuts(tasks, ev) {
             tasks.forEach(task => {
                 if (task.taskId === ev.taskId) {
                     task.deck = _.filter(task.deck, d => d !== ev.memberId)
+                    task.passed = _.filter( task.passed, d => d[1] !== ev.memberId )
                 }
             })
             break
@@ -523,6 +539,10 @@ function tasksMuts(tasks, ev) {
             break
         case "task-prioritized":
             tasks.forEach( task => {
+              if (task.taskId === ev.taskId){
+                  task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
+              }
+
               if (task.taskId === ev.inId){
                   task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId )
                   task.subTasks = _.filter(task.subTasks, taskId => taskId !== ev.taskId )
@@ -573,8 +593,10 @@ function tasksMuts(tasks, ev) {
             break
         case "task-de-sub-tasked":
             tasks.forEach(task => {
-                if (task.taskId === ev.taskId) {
+                if (task.taskId === ev.subTask){
                     task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
+                }
+                if (task.taskId === ev.taskId) {
                     task.subTasks = _.filter(task.subTasks, tId => tId !== ev.subTask )
                     task.completed = _.filter(task.completed, tId => tId !== ev.subTask )
 

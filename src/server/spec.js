@@ -22,6 +22,24 @@ router.post('/events', (req, res, next) => {
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+      case "task-touched":
+          if (
+            validators.isTaskId(req.body.taskId, errRes) &&
+            validators.isNotes(req.body.stack, errRes)  &&
+            validators.isNotes(req.body.position, errRes) &&
+            validators.isNotes(req.body.value, errRes)
+          ) {
+            events.taskTouched(
+              req.body.taskId,
+              req.body.stack,
+              req.body.position,
+              req.body.blame,
+              utils.buildResCallback(res)
+            );
+          } else {
+            res.status(400).send(errRes);
+          }
+          break
       case "task-valued":
         if (
           validators.isTaskId(req.body.taskId, errRes) &&
@@ -690,6 +708,7 @@ router.post('/events', (req, res, next)=>{
               events.taskPrioritized(
                 req.body.taskId,
                 req.body.inId,
+                req.body.blame,
                 utils.buildResCallback(res)
               )
           } else {

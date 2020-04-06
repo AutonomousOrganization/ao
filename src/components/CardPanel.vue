@@ -1,8 +1,8 @@
 <template lang='pug'>
 
-#tasks(@contextmenu.capture.prevent)
+#tasks(@contextmenu.capture.prevent  v-if='c && c.length > 0')
     .spaceroom(v-if='c.length < 2')
-    .row.ptr(v-show="topCard  &&  c.length > 1"  ref='swipebar')
+    .row.ptr(v-show="c.length > 1"  ref='swipebar')
         .three.grid.tooltip(ref='previous')
             span &nbsp;
             img.fl(v-if='!open'  src='../assets/images/back.svg')
@@ -10,7 +10,7 @@
                 p.suggest previous
         .one.grid.horizcenter()
             .box.verticalcenter
-                h3(v-if='!open') {{ top + 1 }}
+                h3(v-if='!open') {{ position + 1 }}
         .four.grid.horizcenter()
             .mandalign.tooltip(ref='mandelorb')
                 img(src='../assets/images/orb.svg')
@@ -30,7 +30,7 @@
             img.orby(v-if='i > 0'  src='../assets/images/orb.svg'  @click='orbswap(b.taskId)')
             hypercard(:b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
     .box(v-else)
-        hypercard(:b="c[top]"  :key="componentKey"  :inId='taskId'  :c='panelIds')
+        hypercard(:b="c[position]"  :key="c[position].taskId"  :inId='taskId'  :c='panelIds')
 </template>
 
 <script>
@@ -41,7 +41,7 @@ import Propagating from 'propagating-hammerjs'
 import Hypercard from "./Card"
 
 export default {
-  props: ['c', 'taskId'],
+  props: ['stack', 'position', 'taskId'],
   mounted(){
         let orbel = this.$refs.mandelorb
         if(!orbel) return
@@ -133,41 +133,63 @@ export default {
   },
   data(){
       return {
-          open: false,
-          top: 0,
           orbuuid: uuidv1(),
           componentKey: 0,
       }
   },
   methods:{
     toggleOpen(){
-        if(!this.open) {
-
+        if (this.position !== -1){
+            this.$store.dispatch("makeEvent", {
+              type: 'task-touched',
+              taskId: this.$store.getters.contextCard.taskId,
+              stack: this.stack,
+              position: -1
+            })
         } else {
-
+            this.$store.dispatch("makeEvent", {
+                type: 'task-touched',
+                taskId: this.$store.getters.contextCard.taskId,
+                stack: this.stack,
+                position: 0
+            })
         }
-        this.open = !this.open
     },
     first() {
-
-        this.top = 0
+        this.$store.dispatch("makeEvent", {
+          type: 'task-touched',
+          taskId: this.$store.getters.contextCard.taskId,
+          stack: this.stack,
+          position: 0
+        })
     },
     previous(){
-        this.playSound()
-        this.top = (this.top - 1) % this.c.length
-        if (this.top === -1) {
-            this.top = this.c.length - 1
+        let position = (this.position - 1)
+        if (position === -1){
+            position = this.c.length - 1
         }
-        this.componentKey ++
+        this.$store.dispatch("makeEvent", {
+          type: 'task-touched',
+          taskId: this.$store.getters.contextCard.taskId,
+          stack: this.stack,
+          position,
+        })
     },
     next(){
-        this.playSound()
-        this.top = (this.top + 1) % this.c.length
-        this.componentKey ++
+      this.$store.dispatch("makeEvent", {
+        type: 'task-touched',
+        taskId: this.$store.getters.contextCard.taskId,
+        stack: this.stack,
+        position: (this.position + 1) % this.c.length
+      })
     },
     last() {
-
-        this.top = this.c.length - 1
+      this.$store.dispatch("makeEvent", {
+        type: 'task-touched',
+        taskId: this.$store.getters.contextCard.taskId,
+        stack: this.stack,
+        position: this.c.length - 1
+      })
     },
     orbswap(swapId1){
         let swapId2 = this.panelIds[ this.panelIds.indexOf(swapId1) - 1 ]
@@ -223,15 +245,14 @@ export default {
     },
   },
   computed: {
+    c(){
+        return this.$store.getters[this.stack]
+    },
+    open(){
+        return this.position === -1
+    },
     topCard(){
-        this.componentKey ++
-        if(this.top >= this.c.length) {
-            this.top = 0
-        }
-        if (this.c.length > 0) {
-            return this.c[this.top]
-        }
-        return false
+        return this.c[this.position]
     },
     panelIds() {
         return this.c.map(g => g.taskId)

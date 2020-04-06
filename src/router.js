@@ -22,7 +22,6 @@ import Planning from './components/Planning'
 import Zen from './components/Zen'
 import Priorities from './components/Priorities'
 
-import Archive from './components/Archive'
 Vue.use(VueRouter)
 
 const routes =[{
@@ -107,10 +106,6 @@ const routes =[{
   path: '/dash/slayer',
   component: Accounts,
   meta: { title: "dashboard" }
-},{
-  path:'/archive',
-  component: Archive,
-  meta: { title: "sunken ship" }
 },
 ]
 

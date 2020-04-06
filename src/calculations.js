@@ -97,6 +97,14 @@ function blankCard(taskId, name, color, deck = []) {
         payment_hash: '',
         highlights: [],
         claims: [],
+        stackView: {
+            all: 0,
+            red: 0,
+            blue: 0,
+            yellow: 0,
+            green: 0,
+            purple: 0,
+        }
     }
     return newCard
 }

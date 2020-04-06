@@ -5,6 +5,17 @@ const crypto = require('crypto')
 const { serverState } = require('./state')
 const dctrlDb = require('./dctrlDb')
 
+function taskTouched(taskId, stack, position, memberId, callback){
+    let newEvent = {
+        type: "task-touched",
+        taskId,
+        stack,
+        position,
+        memberId,
+    }
+    dctrlDb.insertEvent(newEvent, callback)
+}
+
 
 function taskCompleted(taskId, inId, callback){
     let newEvent = {
@@ -388,11 +399,12 @@ function pileDeSubTasked(inId, tasks, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function taskPrioritized(taskId, inId, callback){
+function taskPrioritized(taskId, inId, memberId, callback){
     let newEvent = {
       type: "task-prioritized",
       taskId,
       inId,
+      memberId,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
@@ -580,4 +592,5 @@ module.exports = {
     pileDeSubTasked,
     taskValued,
     taskCompleted,
+    taskTouched,
 }
