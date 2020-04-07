@@ -605,7 +605,6 @@ function tasksMuts(tasks, ev) {
                         task.subTasks.push(ev.subTask)
                     }
                 }
-
             })
             break
         case "task-guilded":

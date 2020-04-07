@@ -1,7 +1,6 @@
 <template lang='pug'>
 
 .upgrades
-    projects
     div(v-if='$store.getters.contextMember')
         div(v-if='$store.getters.contextCard.deck < 1')
             img.bdoge(src='../assets/images/buddadoge.svg')
@@ -16,13 +15,12 @@
 <script>
 import CurrentChecks from './CurrentChecks'
 import Current from './Current'
-import Projects from './Projects'
 import Coin from './Coin'
 import MemberRow from './MemberRow'
 
 export default {
     components:{
-        CurrentChecks, Projects, Current, Coin, MemberRow
+        CurrentChecks, Current, Coin, MemberRow
     },
     mounted() {
         this.$store.commit('setMode' , 2)

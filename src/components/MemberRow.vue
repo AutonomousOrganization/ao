@@ -1,11 +1,11 @@
 <template lang='pug'>
 
-.memberrow(v-if='m.memberId'  @dblclick='goIn(m.memberId)'  :key='m.memberId')
+.memberrow.bluewx(v-if='m.memberId'  @dblclick='goIn(m.memberId)'  :key='m.memberId')
     .row(v-if='b')
         .three.grid.ptr(@click='goIn(m.memberId)')
             img(v-if='$store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')
             img(v-else, src='../assets/images/loggedOut.svg')
-            label(:class='{redtx: m.active <= 0}') {{ m.name }}
+            label {{ m.name }}
                 br
                 span(v-for='g in rowsGuilds')
                     router-link.yellowtx(:to='"/task/" + g.taskId'  @click='goIn(g.taskId)') {{ g.guild }} -
@@ -147,6 +147,7 @@ label
 .memberrow
     box-shadow: 3px 1px 7px 1px lightGrey
     margin-bottom: 8px
+
 .fw
     width: 100%
 

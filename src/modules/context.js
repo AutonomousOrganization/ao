@@ -60,7 +60,7 @@ const actions = {
           } catch (err){}
         }
     },
-    goIn({commit}, pContext ){
+    goIn({commit, state}, pContext ){
         console.log('goIn hit', pContext)
         setTimeout(()=>{
           commit("setAction", false)
@@ -70,6 +70,8 @@ const actions = {
         pContext.parents.forEach(p => {
             commit("addParent", p)
         })
+        window.localStorage.setItem("context", JSON.stringify(state))
+        console.log('attempt to save ', state)
     },
     goUp({commit}, pContext){
         console.log('goUp called')

@@ -29,11 +29,26 @@ export default {
     mounted() {
         let token = window.localStorage.token
         let session = window.localStorage.session
+
         if (token && session){
             this.$store.commit('setAuth', {token, session})
         }
         this.$store.dispatch("connectSocket")
         this.$store.dispatch('loadCurrent')
+
+        setTimeout(()=>{
+          let con = {}
+          try {
+            let context = window.localStorage.context
+            con = JSON.parse(context)
+          } catch(err){}
+          if (con.top && con.panel){
+            this.$store.commit('setTop', con.top)
+            this.$store.commit('setPanel', con.panel)
+            this.$store.commit('setParent', con.parent)
+          }
+        }, 1000)
+
     },
     components: {
         EventFeed, Sun, Bull, Loader, Helm, TaskCreate, Contexts, Auth

@@ -10,7 +10,7 @@
                 p.suggest previous
         .one.grid.horizcenter()
             .box.verticalcenter
-                h3(v-if='!open') {{ position + 1 }}
+                h3(v-if='!open') {{ sanePosition + 1 }}
         .four.grid.horizcenter()
             .mandalign.tooltip(ref='mandelorb')
                 img(src='../assets/images/orb.svg')
@@ -30,7 +30,7 @@
             img.orby(v-if='i > 0'  src='../assets/images/orb.svg'  @click='orbswap(b.taskId)')
             hypercard(:b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
     .box(v-else)
-        hypercard(:b="c[position]"  :key="c[position].taskId"  :inId='taskId'  :c='panelIds')
+        hypercard(:b="c[sanePosition]"  :key="c[sanePosition].taskId"  :inId='taskId'  :c='panelIds')
 </template>
 
 <script>
@@ -164,7 +164,7 @@ export default {
         })
     },
     previous(){
-        let position = (this.position - 1)
+        let position = (this.sanePosition - 1)
         if (position === -1){
             position = this.c.length - 1
         }
@@ -245,14 +245,29 @@ export default {
     },
   },
   computed: {
+    sanePosition(){
+        return Math.min(this.position, this.c.length - 1)
+    },
     c(){
-        return this.$store.getters[this.stack]
+        let c = this.$store.getters[this.stack]
+        console.log('got', this.stack, c.length, this.position)
+        if (!c){
+            return []
+        }
+        return c
     },
     open(){
         return this.position === -1
     },
     topCard(){
-        return this.c[this.position]
+        let topCard = {}
+        let end = this.c.length - 1
+        if (!this.c || end < 0){
+            console.log('no top?')
+            return false
+        } else{
+            return this.c[this.sanePosition]
+        }
     },
     panelIds() {
         return this.c.map(g => g.taskId)

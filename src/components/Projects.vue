@@ -1,7 +1,6 @@
 <template lang='pug'>
 
 .projects(v-if='subguilds.length > 0')
-    h3.bluetx projects
     ul.none
         li.spaced(v-for='p in subguilds'  :key='subguilds')
             span(@click='goIn(p.taskId)')
@@ -14,6 +13,7 @@
                         img.floatleft.smaller(src='../assets/images/badge.svg')
                     span(@click='goIn(sp.taskId), p.taskId')
                         span.nl.gui.smallest(:class='cardInputSty(sp.color)') {{ sp.guild }}
+    img.fr(src='../assets/images/badge.svg')
 </template>
 
 <script>
@@ -97,6 +97,10 @@ h3
 .spaced
     clear: both
     margin-top: 0.25em
+
+.fr
+    float: right
+    height: 3em
 
 .floatleft
     height: 100%
@@ -219,14 +223,14 @@ ul
     margin-block-end: 0
 
 .projects
-    float: right
-    max-width: 33%
     border: solid 1px wrexblue
     border-radius: 0.5em
-    margin-top: -0.5em
+    margin-top: 2.7em
     margin-right: 1em
     margin-bottom: 1em
     padding: 0 0.5em 0.55em 0.5em
+    background: lightGrey
+    opacity: .5
 
 .projects h3
     text-align: center

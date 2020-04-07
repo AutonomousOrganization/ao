@@ -194,7 +194,7 @@ h5
     height: 40px
     text-align: center
     font-weight:lighter
-    font-size: .4em
+    font-size: 39px
     border-style:solid
     color:darkteal
 .date

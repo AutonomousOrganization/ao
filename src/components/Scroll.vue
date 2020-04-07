@@ -22,7 +22,7 @@ export default {
         let el = document.getElementById(this.uuid)
         if(!el) return
         let mc = Propagating(new Hammer.Manager(el))
-
+        // find out if this is a subtask that breaks it?
         let Tap = new Hammer.Tap({ time: 400 })
         let Press = new Hammer.Press({ time: 500 })
         mc.add([Tap, Press])
