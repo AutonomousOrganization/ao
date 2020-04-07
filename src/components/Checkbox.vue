@@ -47,7 +47,10 @@ export default {
     },
     computed: {
         isCompleted(){
-            return this.b.claimed.indexOf(this.$store.getters.member.memberId) > -1
+            let now = Date.now()
+            return this.b.claims.some(c => {
+                if (this.$store.getters.member.memberId === c.memberId && now - c.timestamp < 30000) return true
+            })
         },
     },
     methods: {

@@ -6,7 +6,7 @@
     span(v-if='cardStart').points {{ cardStart.days.toFixed(1) }} days
     img.chest(v-if='cardStart'  src='../assets/images/timecube.svg')
     span.hide(v-if='b.claimed.length > 0') -
-    img(v-for='n in b.claimed'  src='../assets/images/mark.svg')
+    img(v-for='n in b.claims'  src='../assets/images/mark.svg')
     .tooltiptext(v-if='b.claimed.length > 0')
         p(v-if='$store.getters.member.tooltips') completed by:
         current.block(v-for='memberId in b.claimed', :memberId='memberId')
