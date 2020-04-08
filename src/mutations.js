@@ -541,6 +541,11 @@ function tasksMuts(tasks, ev) {
             tasks.forEach( task => {
               if (task.taskId === ev.taskId){
                   task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
+                  if(ev.memberId && task.deck.indexOf(ev.memberId) === -1) {
+                      if(ev.subTask !== ev.memberId) {
+                          task.deck.push(ev.memberId)
+                      }
+                  }
               }
 
               if (task.taskId === ev.inId){
@@ -595,6 +600,7 @@ function tasksMuts(tasks, ev) {
             tasks.forEach(task => {
                 if (task.taskId === ev.subTask){
                     task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
+                    task.deck = _.filter(task.deck, d => ev.memberId !== d)
                 }
                 if (task.taskId === ev.taskId) {
                     task.subTasks = _.filter(task.subTasks, tId => tId !== ev.subTask )

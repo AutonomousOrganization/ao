@@ -21,59 +21,144 @@
           current(v-else  :memberId='member.memberId')
     div(v-if='b.taskId !== $store.state.context.action  && b.taskId !== $store.getters.contextCard.taskId')
         simple-priorities(:taskId="b.taskId", :inId='b.taskId')
-    passed(:b='b')
-    linked(:b='b')
+    .passed
+        div.totop(v-if='b.passed.length > 0')
+            div(@click='toggleBird')
+                .singlebird(v-if='!$store.state.upgrades.bird')
+                    .row.pad.centered
+                        img.send(src='../assets/images/send.svg')
+                        span {{ b.passed.length}}
+                template(v-else  v-for='n in b.passed'  @click='toggleBird')
+                    .row.pad.centered
+                        current(:memberId='n[0]')
+                        img.send(src='../assets/images/send.svg')
+                        current(:memberId='n[1]')
+    .linked
+        div.totop(v-if='links.length > 0')
+            div(@click='toggleBird')
+                .singlebird(v-if='!$store.state.upgrades.bird')
+                    .row.pad.centered
+                        img.send(src='../assets/images/ao.svg')
+                        span {{ links.length}}
+                template(v-else  v-for='n in links')
+                    .row.pad.centered
+                        h6 {{n}}
     div
-        scroll.faded(:b='b', :inId='inId')
-        coin.fw(v-if='$store.getters.contextCard.taskId === b.taskId'  :b='b')
-        vine.faded(v-else  :b='b')
+        .scrol.faded(v-if='this.$store.state.upgrades.dimension === "unicorn"'  ref='scuttle')
+            img.scrolly(src='../assets/images/downboat.svg'  :id='uuid')
+        .vine.faded(@click='goIn')
+            img.viney.adjtooltip(src='../assets/images/orb.svg')
+            .tooltiptext.correctspot(v-if='b.deck.length > 0')
+                current.block(v-for='memberId in b.deck'  :memberId='memberId')
 </template>
 
 <script>
+import calculations from '../calculations'
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
 
-import calculations from '../calculations'
+import Tally from './Tally'
+import SimplePriorities from './SimplePriorities'
+import Linky from './Linky'
+import Current from './Current'
 import PreviewDeck from './PreviewDeck'
+
 import Bird from './Bird'
 import Flag from './Flag'
-import Scroll from './Scroll'
-import Vine from './Vine'
 import Coin from './Coin'
-import Passed from './Passed'
-import Tally from './Tally'
-import Linky from './Linky'
-import SimplePriorities from './SimplePriorities'
-import Current from './Current'
-import Linked from './Linked'
+
 
 export default {
     props: ['b', 'inId', 'c'],
-    components: { PreviewDeck, Bird, Flag, Scroll, Vine, Coin, Passed, Linky, SimplePriorities, Current, Tally, Linked},
+    components: { PreviewDeck, Bird, Flag, Coin, Linky, SimplePriorities, Current, Tally},
     mounted() {
+        let el2 = this.$refs.scuttle
+
+        let mc = Propagating(new Hammer.Manager(el2))
+        // find out if this is a subtask that breaks it?
+        let Tap = new Hammer.Tap({ time: 400 })
+        let Press = new Hammer.Press({ time: 500 })
+        mc.add([Tap, Press])
+        mc.on('tap', (e) => {
+            let parentId = this.$store.state.context.parent[this.$store.state.context.parent.length-1]
+            if (this.$store.state.context.action === this.b.taskId){
+
+                if (this.$store.getters.contextCard.priorities.length <= 1){
+                    this.$store.commit('setMode', 0)
+                    this.$router.push('/doge')
+                }
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-refocused',
+                    inId: this.inId,
+                    taskId: this.b.taskId,
+                })
+                this.$store.commit('setAction', false)
+            } else if (this.inId){
+                this.$store.dispatch("makeEvent", {
+                  type: 'task-de-sub-tasked',
+                  subTask: this.b.taskId,
+                  taskId: this.inId,
+                })
+            } else if (parentId) {
+              this.$store.dispatch("makeEvent", {
+                type: 'task-de-sub-tasked',
+                subTask: this.b.taskId,
+                taskId: parentId,
+              })
+              let newPanel = _.filter(this.$store.state.context.panel, tId => tId !== this.b.taskId)
+              let newTop = Math.min(this.$store.state.context.top, newPanel.length -1)
+              if (newPanel.length > 0){
+                  this.$store.commit('setPanel', newPanel)
+                  this.$store.commit('setTop', newTop)
+              } else {
+                  this.$store.dispatch('goUp', {
+                    target: parentId,
+                    panel: [parentId],
+                    top: 0
+                  })
+              }
+            } else {
+                this.$store.dispatch("makeEvent", {
+                  type: 'task-de-sub-tasked',
+                  subTask: this.b.taskId,
+                  taskId: this.b.taskId,
+                })
+            }
+            e.stopPropagation()
+        })
+        mc.on('press', (e) => {
+            this.$store.dispatch("makeEvent", {
+              type: 'task-popped',
+              taskId: this.b.taskId,
+              inId: this.$store.getters.contextCard.taskId,
+            })
+        })
         let el = this.$refs.wholeCard
         if(!el) return
-        let mc = Propagating(new Hammer.Manager(el))
+        let mc2 = Propagating(new Hammer.Manager(el))
 
         let doubleTap = new Hammer.Tap({ event: 'doubletap', taps: 2, time: 400, interval: 400 })
         let longPress = new Hammer.Press({ time: 600 })
 
-        mc.add([doubleTap, longPress])
+        mc2.add([doubleTap, longPress])
 
         longPress.recognizeWith([doubleTap])
         longPress.requireFailure([doubleTap])
 
-        mc.on('doubletap', (e) => {
+        mc2.on('doubletap', (e) => {
             console.log('goin triggered by doubletap')
             this.goIn()
             e.stopPropagation()
         })
 
-        mc.on('press', (e) => {
+        mc2.on('press', (e) => {
             this.copyCardToClipboard()
         })
     },
     methods: {
+        toggleBird(){
+            this.$store.commit('toggleBird')
+        },
         goIn(){
             let panel = this.c
             if (panel && panel.length && panel.length > 0){
@@ -127,6 +212,15 @@ export default {
         },
     },
     computed: {
+        links(){
+            let links = []
+            this.$store.state.ao.forEach(a => {
+              if (a.links.indexOf(this.b.taskId) > -1) {
+                links.push(a.address)
+              }
+            })
+            return links
+        },
         cardInputSty(){
           if(!this.b) {
             return
@@ -171,6 +265,154 @@ export default {
 @import '../styles/button'
 @import '../styles/spinners'
 @import '../styles/tooltips'
+
+.tooltiptext.correctspot
+    position: absolute
+    top: calc(100% - 1.75em)
+    right: 2em
+    z-index: 9000
+
+.count
+    float: right
+
+.activated
+    border-style: solid
+    border-width: thick
+    border-color: white
+
+.upgrade
+    height: 3em
+
+.task
+    color: white
+    margin:10px 0
+    padding:20px
+
+.row
+    width: 100%
+    .mainColumn
+      width:calc(100% - 75px - 4%)
+    .secondaryColumn
+      width:75px
+      button
+        height:75px
+
+.btn
+    width:100%
+    margin-top: 2em
+    max-height: 3em
+
+select
+    background-color: lightteal
+
+select.form-control
+    color: black
+
+.curs
+    cursor: pointer;
+
+label
+    color: black
+    text-align: center
+    padding: 0
+    margin-bottom: -50px
+
+.scrolly
+    position: absolute
+    left: 0.5em
+    bottom: 0.5em
+    height: 1.3em
+    cursor: pointer
+
+.vine
+    width: 100%
+
+.count
+    float: right
+
+.activated
+    border-style: solid
+    border-width: thick
+    border-color: white
+
+.upgrade
+    height: 3em
+
+.task
+    color: white
+    margin:10px 0
+    padding:20px
+
+.row
+    width: 100%
+    .mainColumn
+      width:calc(100% - 75px - 4%)
+    .secondaryColumn
+      width:75px
+      button
+        height:75px
+
+.btn
+    width:100%
+    margin-top: 2em
+    max-height: 3em
+
+select
+    background-color: lightteal
+
+select.form-control
+    color: black
+
+.curs
+    cursor: pointer;
+
+label
+    color: black
+    text-align: center
+    padding: 0
+    margin-bottom: -50px
+
+.viney
+    height: 1.3em
+    position: absolute
+    bottom: 0.5em
+    right: 0.5em
+    cursor: pointer
+    opacity: 0.8321
+
+.row
+    width: 100%
+
+.send
+    height: 1.5em
+
+.accept, .dontaccept
+    width: 100%
+    background: accent5
+    padding: .789em
+    border-style: none
+    img
+        background: white
+        padding: .1em
+        border-radius: 3px
+
+.arrow
+    height: 3.35em
+
+.fl
+    float: left
+.fr
+    float: right
+
+.totop
+    z-index: 1000
+
+.pad
+    margin-top: 1em
+    margin-bottom: 1em
+
+.centered
+    text-align: center
 
 .fw
     width:100%
