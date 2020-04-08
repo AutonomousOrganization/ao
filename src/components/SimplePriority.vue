@@ -173,7 +173,10 @@ export default {
           return days
         },
         isCompleted(){
-            return this.card.claimed.indexOf(this.$store.getters.member.memberId) > -1
+          let now = Date.now()
+          return this.card.claims.some(c => {
+              if (this.$store.getters.member.memberId === c.memberId && now - c.timestamp < 30000) return true
+          })
         },
     }
 }

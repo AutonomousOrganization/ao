@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .p.clearboth(v-if='card'  ref='wholeCard')
-    .opencard(v-if='$store.state.context.action === taskId')
+    .opencard(v-if='$store.getters.member.action === taskId')
         hypercard(:b="card", :c="parent.priorities",  :inId="inId")
     .closedcard.agedwrapper.dont-break-out(v-else  :class="cardInputSty")
         .agedbackground.freshpaper.middle(v-if='cardAge < 8')
@@ -46,7 +46,7 @@ export default {
 
         mc.on('singletap', (e) => {
             console.log("tap on priority")
-            if(this.$store.state.context.action === this.taskId) {
+            if(this.$store.getters.member.action === this.taskId) {
                 this.deaction()
             } else {
                 this.setAction()
@@ -145,10 +145,21 @@ export default {
     },
     methods: {
         deaction(){
-            this.$store.commit("setAction", false)
+            console.log('deaction called?')
+            this.$store.dispatch("makeEvent", {
+                type: 'member-field-updated',
+                field: 'action',
+                newfield: false,
+                memberId: this.$store.getters.member.memberId,
+            })
         },
         setAction(){
-            this.$store.commit("setAction", this.taskId)
+            this.$store.dispatch("makeEvent", {
+                type: 'member-field-updated',
+                field: 'action',
+                newfield: this.taskId,
+                memberId: this.$store.getters.member.memberId,
+            })
         },
         goIn(){
 
@@ -195,13 +206,11 @@ export default {
           })
         },
         refocus(){
-
             this.$store.dispatch("makeEvent", {
                 type: 'task-refocused',
                 inId: this.inId,
                 taskId: this.taskId,
             })
-            this.$store.commit('setAction', false)
         },
     }
 }

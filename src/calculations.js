@@ -72,6 +72,7 @@ function blankMember(memberId, name, fob, secret, lastUsed){
       stacks: 1,
       payments: 0,
       boats: true,
+      action: false,
     }
 }
 
@@ -104,7 +105,7 @@ function blankCard(taskId, name, color, deck = []) {
             yellow: 0,
             green: 0,
             purple: 0,
-        }
+        },
     }
     return newCard
 }
