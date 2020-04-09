@@ -2,7 +2,7 @@
 .flag(v-if="$store.getters.memberCard")
     .flaggy(:id='uuid'  :class='flagClass')
         img(v-if='($store.getters.member.action === b.taskId) && isCompleted' src='../assets/images/completed.svg' )
-        img(v-else-if='($store.state.context.action === b.taskId) && !isCompleted'  src='../assets/images/uncompleted.svg')
+        img(v-else-if='$store.getters.member.action === b.taskId && !isCompleted'  src='../assets/images/uncompleted.svg')
         img(v-else-if='$store.state.upgrades.mode === "badge"'  src='../assets/images/badge.svg')
         img(v-else-if='$store.state.upgrades.mode === "chest"'  src='../assets/images/chest.svg')
         img(v-else-if='$store.state.upgrades.mode === "timecube"' src='../assets/images/timecube.svg')
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
 import uuidv1 from 'uuid/v1'

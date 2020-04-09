@@ -6,8 +6,12 @@
     span(v-if='cardStart').points {{ cardStart.days.toFixed(1) }} days
     img.chest(v-if='cardStart'  src='../assets/images/timecube.svg')
     span.hide(v-if='b.claimed.length > 0') -
+    img.chest(v-for='n in actions'  src='../assets/images/down.svg')
+    .tooltiptext(v-if='')
     img(v-for='n in b.claims'  src='../assets/images/mark.svg')
-    .tooltiptext(v-if='b.claimed.length > 0')
+    .tooltiptext(v-if='b.claimed.length > 0 || actions.length > 0')
+        p(v-if='$store.getters.member.tooltips') marked by:
+        current(v-for='n in actions'  :memberId='n')
         p(v-if='$store.getters.member.tooltips') completed by:
         current.block(v-for='memberId in b.claimed', :memberId='memberId')
 </template>
@@ -20,6 +24,13 @@ export default {
     props: ['b'],
     components: { Current },
     computed: {
+      actions(){
+          let a = []
+          this.$store.state.members.forEach(m => {
+              if (m.action ===this.b.taskId) a.push(m.memberId)
+          })
+          return a
+      },
       cardStart(){
           if ( this.b.book.startTs ){
             let now = Date.now()

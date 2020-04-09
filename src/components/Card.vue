@@ -19,7 +19,7 @@
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member')
           current(v-else  :memberId='member.memberId')
-    div(v-if='b.taskId !== $store.state.context.action  && b.taskId !== $store.getters.contextCard.taskId')
+    div(v-if='b.taskId !== $store.getters.member.action  && b.taskId !== $store.getters.contextCard.taskId')
         simple-priorities(:taskId="b.taskId", :inId='b.taskId')
     .passed
         div.totop(v-if='b.passed.length > 0')
