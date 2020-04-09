@@ -1,8 +1,8 @@
 <template lang='pug'>
 .flag(v-if="$store.getters.memberCard")
     .flaggy(:id='uuid'  :class='flagClass')
-        img(v-if='(isOracle || $store.getters.member.action === b.taskId) && isCompleted' src='../assets/images/completed.svg' )
-        img(v-else-if='(isOracle || $store.state.context.action === b.taskId) && !isCompleted'  src='../assets/images/uncompleted.svg')
+        img(v-if='($store.getters.member.action === b.taskId) && isCompleted' src='../assets/images/completed.svg' )
+        img(v-else-if='($store.state.context.action === b.taskId) && !isCompleted'  src='../assets/images/uncompleted.svg')
         img(v-else-if='$store.state.upgrades.mode === "badge"'  src='../assets/images/badge.svg')
         img(v-else-if='$store.state.upgrades.mode === "chest"'  src='../assets/images/chest.svg')
         img(v-else-if='$store.state.upgrades.mode === "timecube"' src='../assets/images/timecube.svg')
@@ -10,7 +10,7 @@
         img.svgwhite.faded(v-else, src='../assets/images/upboat.svg')
     .opened
         resource-book(v-if='isCubeOpen'  :tId='b.taskId')
-        guild-create(:editing='isPayOpen'  :b='b' )
+        guild-create(:editing='isPayOpen'  :b='b')
         points-set(v-if='isChestOpen'  :b='b')
 </template>
 
@@ -53,13 +53,7 @@ export default {
             switch(mode) {
                 case 'doge':
                 case 'boat':
-                    if(this.isOracle) {
-                        if(!this.isCompleted) {
-                            this.complete()
-                        } else {
-                            this.uncheck()
-                        }
-                    } else if (this.isTop){
+                    if (this.isTop){
                         this.dogeIt()
                     } else {
                         this.flagIt()

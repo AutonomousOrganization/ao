@@ -15,7 +15,7 @@ import ResourceBook from './ResourceBook'
 
 export default {
     mounted() {
-        this.$store.commit('setMode' , 3)
+        this.$store.commit('setMode' , 2)
         this.$store.commit('setDimension' , 0)
         this.$store.dispatch('loaded')
     },

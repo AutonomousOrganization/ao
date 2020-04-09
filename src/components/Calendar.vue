@@ -13,7 +13,7 @@
         .placeholder(v-for='placeholder in firstDay')
         day(v-for='day in days', :day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
     div(v-else)
-        img.bdoge(src='../assets/images/buddadoge.svg')
+        img.bdoge(src='../assets/images/doge.svg')
         h5 none {{monthName}}
     .buffer
 </template>

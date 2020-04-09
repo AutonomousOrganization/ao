@@ -33,7 +33,7 @@
                         label {{a}}
       payments
   .row(v-else)
-      img.bdoge(src='../assets/images/buddadoge.svg')
+      img.bdoge(src='../assets/images/doge.svg')
       h5 no lightning node
 </template>
 

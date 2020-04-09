@@ -13,7 +13,6 @@
                         img.floatleft.smaller(src='../assets/images/badge.svg')
                     span(@click='goIn(sp.taskId), p.taskId')
                         span.nl.gui.smallest(:class='cardInputSty(sp.color)') {{ sp.guild }}
-    img.fr(src='../assets/images/badge.svg')
 </template>
 
 <script>

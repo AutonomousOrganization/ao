@@ -39,7 +39,7 @@ export default {
     transform: translateX(-50%)
     font-size: 2.75em
     cursor: pointer
-    background-image: url('../assets/images/buddadoge.svg')
+    background-image: url('../assets/images/doge.svg')
     background-size: auto 100%
     background-repeat: no-repeat
     background-position: 50%

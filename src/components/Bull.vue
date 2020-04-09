@@ -4,17 +4,17 @@ div
         img.r(src="../assets/images/bull.svg"    :class='{ bigger : isBull }')
     .bullmenu(v-if='isBull && $store.getters.member.tooltips')
         p(@click='goDash("doge")'  :class='{ dabstination : $store.state.upgrades.mode === "doge" }')
-            img.lil(src='../assets/images/buddadoge.svg')
+            img.lil(src='../assets/images/doge.svg')
             span Access
         p(@click='goDash("boat")'  :class='{ dabstination : $store.state.upgrades.mode === "boat" }')
             img.lil(src='../assets/images/boat.svg')
             span Connect
-        p(@click='goDash("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
-            img.lil(src='../assets/images/badge.svg')
-            span Accounts
         p(@click='goDash("timecube")'  :class='{ dabstination : $store.state.upgrades.mode === "timecube" }')
             img.lil(src='../assets/images/timecube.svg')
             span Reserve
+        p(@click='goDash("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
+            img.lil(src='../assets/images/badge.svg')
+            span Accounts
         p(@click='goDash("chest")'  :class='{ dabstination : $store.state.upgrades.mode === "chest" }')
             img.lil(src='../assets/images/chest.svg')
             span Wallet

@@ -70,15 +70,9 @@ const actions = {
         pContext.parents.forEach(p => {
             commit("addParent", p)
         })
+        // XXX should limit ??
         window.localStorage.setItem("context", JSON.stringify(state))
         console.log('attempt to save ', state)
-
-        // goIn grabs
-        // dispatch('makeEvent', {
-        //     type: 'task-grabbed',
-        //
-        // })
-
     },
     goUp({commit}, pContext){
         console.log('goUp called')

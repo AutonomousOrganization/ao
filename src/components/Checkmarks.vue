@@ -3,7 +3,7 @@
 .upgrades
     div(v-if='$store.getters.contextMember')
         div(v-if='$store.getters.contextCard.deck < 1')
-            img.bdoge(src='../assets/images/buddadoge.svg')
+            img.bdoge(src='../assets/images/doge.svg')
             h5 no vouches
         div(v-else)
             member-row(v-for='n in $store.getters.contextCard.deck'  :m='getMemberCard(n)')
@@ -23,7 +23,7 @@ export default {
         CurrentChecks, Current, Coin, MemberRow
     },
     mounted() {
-        this.$store.commit('setMode' , 2)
+        this.$store.commit('setMode' , 3)
         this.$store.commit('setDimension' , 0)
         this.$store.dispatch('loaded')
     },

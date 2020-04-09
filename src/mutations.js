@@ -399,6 +399,7 @@ function tasksMuts(tasks, ev) {
                 if (task.taskId === ev.taskId) {
                     let pass = [ev.fromMemberId, ev.toMemberId]
 
+                    // XXX check should be prior to ev creation
                     if( !task.passed.some(p => {
                         if( p[0] === pass[0] && p[1] === pass[1]) {
                             return true
@@ -406,6 +407,11 @@ function tasksMuts(tasks, ev) {
                     })) {
                         task.passed.push(pass)
                     }
+
+                    if (task.deck.indexOf(ev.fromMemberId) === -1){
+                        task.deck.push(ev.fromMemberId)
+                    }
+
                 }
             })
             break

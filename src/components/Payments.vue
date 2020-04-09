@@ -18,7 +18,7 @@
                 input(v-model='payreqAmount')
             button.submode(@click='invoiceCreate') ♻️
     div(v-else)
-        img.bdoge(src='../assets/images/buddadoge.svg')
+        img.bdoge(src='../assets/images/doge.svg')
         h5 no lightning node
 </template>
 

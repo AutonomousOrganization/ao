@@ -2,22 +2,11 @@ isUni<template lang='pug'>
 
 .helm(@contextmenu.prevent)
     button.modeleft(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn'  id='helmleft'  :class='{ boat : $store.state.upgrades.mode === "badge" }'  @mousedown='$store.dispatch("flashHelm",1)')
-        img.upg(v-if='$store.state.upgrades.mode === "badge"'  src='../assets/images/boat.svg')
-        img.upg(v-else-if='$store.state.upgrades.mode === "chest"'  src='../assets/images/timecube.svg')
-        img.upg(v-else-if='$store.state.upgrades.mode === "timecube"'  src='../assets/images/badge.svg')
-        img.upg.timecube(v-else-if='$store.state.upgrades.mode === "boat"'  src='../assets/images/buddadoge.svg')
+        img.upg(:src='"../assets/images/" + pastMode + ".svg"')
     button.topcenter.adjtooltip(id='helm'  :class='$store.state.upgrades.flashClasses'  @mousedown='$store.dispatch("flashHelm",1)')
-        // XXX :class='{ closed : $store.state.upgrades.mode === "doge" && $store.getters.isLoggedIn }'
-        img.upg(v-if='$store.state.upgrades.mode === "boat"'  src='../assets/images/boat.svg')
-        img.upg(v-else-if='$store.state.upgrades.mode === "badge"'  src='../assets/images/badge.svg')
-        img.upg(v-else-if='$store.state.upgrades.mode === "chest"'  src='../assets/images/chest.svg')
-        img.upg(v-else-if='$store.state.upgrades.mode === "timecube"'  src='../assets/images/timecube.svg')
-        img.upg(v-else  src='../assets/images/buddadoge.svg')
+        img.upg(:src='"../assets/images/" + $store.state.upgrades.mode + ".svg"')
     button.moderight(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn' id='helmright'  @mousedown='$store.dispatch("flashHelm",1)')
-        img.upg(v-if='$store.state.upgrades.mode === "timecube"'  src='../assets/images/chest.svg')
-        img.upg(v-else-if='$store.state.upgrades.mode === "boat"'  src='../assets/images/badge.svg')
-        img.upg(v-else-if='$store.state.upgrades.mode === "badge"'  src='../assets/images/chest.svg')
-        img.upg.timecube(v-else-if='$store.state.upgrades.mode === "chest"'  src='../assets/images/boat.svg')
+        img.upg(:src='"../assets/images/" + futureMode + ".svg"')
 </template>
 
 <script>
@@ -176,6 +165,20 @@ export default {
         },
     },
     computed: {
+        pastMode(){
+            let newMode = this.$store.state.upgrades.modes.indexOf(this.$store.state.upgrades.mode) - 1
+            if (newMode < 0){
+                newMode = 4
+            }
+            return this.$store.state.upgrades.modes[newMode]
+        },
+        futureMode(){
+            let newMode = this.$store.state.upgrades.modes.indexOf(this.$store.state.upgrades.mode) + 1
+            if (newMode > 4) {
+                newMode = 0
+            }
+            return this.$store.state.upgrades.modes[newMode]
+        },
         isUni() {
             return this.$store.state.upgrades.dimension === "unicorn"
         },

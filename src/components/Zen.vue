@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .zen(@click='$router.push("/boat")')
-    img.bdoge(src='../assets/images/buddadoge.svg')
+    img.bdoge(src='../assets/images/doge.svg')
 </template>
 
 <script>

@@ -619,7 +619,7 @@ router.post('/events', (req, res, next)=>{
           ){
             events.taskPassed(
               req.body.taskId,
-              req.body.fromMemberId,
+              req.body.blame,
               req.body.toMemberId,
               utils.buildResCallback(res)
             )
@@ -635,7 +635,7 @@ router.post('/events', (req, res, next)=>{
           ){
               events.taskGrabbed(
                 req.body.taskId,
-                req.body.memberId,
+                req.body.blame,
                 utils.buildResCallback(res)
               )
           } else {
@@ -650,7 +650,7 @@ router.post('/events', (req, res, next)=>{
           ){
               events.pileGrabbed(
                   req.body.taskId,
-                  req.body.memberId,
+                  req.body.blame,
                   utils.buildResCallback(res)
               )
           } else {
@@ -664,7 +664,7 @@ router.post('/events', (req, res, next)=>{
           ){
               events.taskDropped(
                   req.body.taskId,
-                  req.body.memberId,
+                  req.body.blame,
                   utils.buildResCallback(res)
               )
           } else {
@@ -678,7 +678,7 @@ router.post('/events', (req, res, next)=>{
           ){
               events.pileDropped(
                 req.body.taskId,
-                req.body.memberId,
+                req.body.blame,
                 utils.buildResCallback(res)
               )
           } else {

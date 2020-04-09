@@ -3,17 +3,17 @@ div
   img.l(src="../assets/images/sun.svg"  ref='sun'  :class='{ bigger : isSun }')
   div.sunmenu(v-if='isSun && $store.getters.member.tooltips')
       p(@click='goFront("doge")'  :class='{ dabstination : $store.state.upgrades.mode === "doge" }')
-          img.lil(src='../assets/images/buddadoge.svg')
+          img.lil(src='../assets/images/doge.svg')
           span Oracle
       p(@click='goFront("boat")'  :class='{ dabstination : $store.state.upgrades.mode === "boat" }')
           img.lil(src='../assets/images/boat.svg')
           span Port
-      p(@click='goFront("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
-          img.lil(src='../assets/images/badge.svg')
-          span Recent
       p(@click='goFront("timecube")'  :class='{ dabstination : $store.state.upgrades.mode === "timecube" }')
           img.lil(src='../assets/images/timecube.svg')
           span Upcoming
+      p(@click='goFront("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
+          img.lil(src='../assets/images/badge.svg')
+          span Recent
       p(@click='goFront("chest")'  :class='{ dabstination : $store.state.upgrades.mode === "chest" }')
           img.lil(src='../assets/images/chest.svg')
           span Bounties

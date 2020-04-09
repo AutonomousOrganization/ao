@@ -1,9 +1,10 @@
 const Vue = require( 'vue')
-const modes = ["doge", "boat", "badge", "timecube", "chest"]
+const modes = ["doge", "boat", "timecube", "badge",  "chest"]
 const payments = ["bitcoin", "lightning"]
 const dimensions = ["unicorn", "sun", "bull"]
 
 const state = {
+    modes,
     mode: modes[0],
     dimension: dimensions[0],
     bird: false,
