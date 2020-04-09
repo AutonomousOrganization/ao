@@ -1,9 +1,10 @@
 <template lang='pug'>
-.dogepepecoin(ref='hodlcoin')
-    img.dogepepecoin.spinslow.adjtooltip(:class="{ ungrabbedcoin : !isGrabbed, highlight: inHand }" src='../assets/images/coin.svg'  draggable='false')
-    .tooltiptext.correctspot(v-if='b.deck.length > 0')
+.d.tooltip(v-if='$store.getters.member.memberId !== b.taskId'  ref='hodlcoin')
+    //- p.hodlcount(v-if='isBull'  :class="{ grabbedhodlcount: isGrabbed }") {{ (b.deck.length > 1) ? b.deck.length : '' }}
+    img.dogepepecoin.spinslow(:class="{ ungrabbedcoin : !isGrabbed, highlight: inHand }" src='../assets/images/badge.svg'  draggable='false')
+    .tooltiptext(v-if='$store.getters.member.tooltips || b.deck.length > 0')
+        p.suggest(v-if='$store.getters.member.tooltips') vouch
         current.block(v-for='memberId in b.deck'  :memberId='memberId')
-    p.hodlcount(:class="{ grabbedhodlcount: isGrabbed }") {{ (b.deck.length > 1) ? b.deck.length : '' }}
 </template>
 
 <script>
@@ -56,6 +57,9 @@ export default {
 
     },
     computed: {
+        isBull(){
+            return this.$store.state.upgrades.dimension === "bull"
+        },
         isGrabbed(){
           return this.b.deck.indexOf(this.$store.getters.member.memberId) >= 0
         },
@@ -128,22 +132,25 @@ export default {
 @import '../styles/tooltips'
 @import '../styles/spinners'
 
-.tooltiptext.correctspot
-    position: absolute
-    top: calc(100% - 1.75em)
-    right: 2em
-    z-index: 9000
+// .tooltiptext.correctspot
+//     position: absolute
+//     top: calc(100% - 1.75em)
+//     right: 2em
+//     z-index: 9000
 
 .dogepepecoin
+  display:block
   width: 35px
   height: 35px
-  position: absolute
-  bottom: 3px
-  right: 3px
+  // position: absolute
+  // bottom: 3px
+  // right: 3px
   cursor: pointer
+  padding-top: .5em
+  padding-bottom: .5em
 
 .hodlcount
-    position: absolute
+    display: inline
     text-align: center
     width: 35px
     bottom: 9px
@@ -158,7 +165,7 @@ export default {
     opacity: 1
 
 .ungrabbedcoin
-    opacity: 0.3
+    opacity: 0.169
 
 .suggest
     font-style: italic

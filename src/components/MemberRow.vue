@@ -1,16 +1,13 @@
 <template lang='pug'>
 
-.memberrow.bluewx(v-if='m.memberId'  @dblclick='goIn(m.memberId)'  :key='m.memberId')
+.memberrow(v-if='m.memberId'  @dblclick='goIn(m.memberId)'  :key='m.memberId')
     .row(v-if='b')
         .three.grid.ptr(@click='goIn(m.memberId)')
-            img(v-if='$store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')
-            img(v-else, src='../assets/images/loggedOut.svg')
-            label {{ m.name }}
-                br
-                span(v-for='g in rowsGuilds')
-                    router-link.yellowtx(:to='"/task/" + g.taskId'  @click='goIn(g.taskId)') {{ g.guild }} -
-        .two.grid(v-if='isVulnerable')
+            current(:memberId='m.memberId')
+        .two.grid.tooltip(v-if='isVulnerable')
             img.btn.goldengun(src='../assets/images/goodbye.svg' @click='purgeAccount')
+            .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
+                p.suggest delete
         .one.grid
             coin(:b='b')
         .grid(:class='{ eight: !isVulnerable, six: isVulnerable }')
@@ -22,11 +19,12 @@
 import PreviewDeck from './PreviewDeck'
 import SimplePriorities from './SimplePriorities'
 import Coin from './Coin'
+import Current from './Current'
 
 
 export default {
     props: ['m'],
-    components: {PreviewDeck, SimplePriorities, Coin},
+    components: {PreviewDeck, SimplePriorities, Coin, Current},
     methods:{
         isBull(){
             let mainroute = this.$router.currentRoute.path.split('/')[1]
@@ -134,6 +132,7 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/grid'
+@import '../styles/tooltips'
 @import '../styles/spinners'
 
 img
@@ -147,6 +146,8 @@ label
 .memberrow
     box-shadow: 3px 1px 7px 1px lightGrey
     margin-bottom: 8px
+    background: #1c4eb069
+    min-height: 37px
 
 .fw
     width: 100%
