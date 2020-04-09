@@ -1,9 +1,10 @@
 <template lang='pug'>
 
 .upgrades
-    resource-book(:tId='$store.getters.contextCard.taskId')
     task-calendar(:inId='$store.getters.contextCard.taskId')
-    button set location
+    .row
+        resource-book.six.grid(:tId='$store.getters.contextCard.taskId')
+        button.six.grid set location
 </template>
 
 <script>
@@ -34,7 +35,9 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
+
 @import '../styles/button'
+@import '../styles/grid'
 
 button
     margin-top: 2em

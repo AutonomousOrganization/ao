@@ -32,6 +32,10 @@
                 img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space tips
+            .check.click(@click='toggleTooltips')
+                img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
+                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+                span.space pro tips
             .check.click(@click='toggleMuted')
                 img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
@@ -40,6 +44,9 @@
                 img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space split stacks
+            .check.click
+                img.checkmark(src='../assets/images/uncompleted.svg')
+                span.space show boats
     .list
         h4.yellowtx ({{coreMembers.length}}) active
         member-row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')

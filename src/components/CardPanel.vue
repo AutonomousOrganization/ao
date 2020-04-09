@@ -250,7 +250,6 @@ export default {
     },
     c(){
         let c = this.$store.getters[this.stack]
-        console.log('got', this.stack, c.length, this.position)
         if (!c){
             return []
         }

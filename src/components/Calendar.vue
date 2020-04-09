@@ -175,7 +175,7 @@ h5
 
 .menu
     text-align: center
-    color: darkteal
+    color: lightGrey
 
 .calendar-column
     float: left
@@ -184,7 +184,7 @@ h5
     height: 100px
     border-style:solid
     border-width: 1px
-    border-color: darkteal
+    border-color: #ffffff1c
 .placeholder
     @extends .calendar-column
 .day
@@ -194,9 +194,9 @@ h5
     height: 40px
     text-align: center
     font-weight:lighter
-    font-size: 39px
+    font-size: 19px
     border-style:solid
-    color:darkteal
+    color:#ffffff1c
 .date
     background-color: white
     float: right

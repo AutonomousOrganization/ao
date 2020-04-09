@@ -12,6 +12,11 @@
     auth(v-if='!$store.getters.isLoggedIn')
     router-view
     .breathingroom
+    .agedbackground.translucent(:class='cardInputSty')
+    .agedbackground.freshpaperbg(v-if='cardAge < 8')
+    .agedbackground.weekoldpaperbg(v-else-if='cardAge < 30')
+    .agedbackground.montholdpaperbg(v-else-if='cardAge < 90')
+    .agedbackground.threemontholdpaperbg(v-else='cardAge >= 90')
 </template>
 
 <script>
@@ -85,5 +90,21 @@ export default {
 body
     background: main
     overflow-x: hidden
+
+.agedbackground
+    background-image: url('/paper.jpg')
+    background-repeat: no-repeat
+    background-position: center center
+    background-size: cover
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    position: fixed
+    width: 100%
+    height: 100%
+    pointer-events: none
+    z-index: -1
+    opacity: 0.09
 
 </style>

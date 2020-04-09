@@ -53,9 +53,6 @@
 
 <script>
 
-import Points from './Points'
-import RentSet from './RentSet'
-import CapSet from './CapSet'
 
 export default {
     data(){
@@ -63,9 +60,6 @@ export default {
             capAmt: '',
             rentAmt: ''
         }
-    },
-    components:{
-        Points, RentSet, CapSet
     },
     methods: {
         burn(taskId){

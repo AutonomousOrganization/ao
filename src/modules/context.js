@@ -60,7 +60,7 @@ const actions = {
           } catch (err){}
         }
     },
-    goIn({commit, state}, pContext ){
+    goIn({commit, state, dispatch}, pContext ){
         console.log('goIn hit', pContext)
         setTimeout(()=>{
           commit("setAction", false)
@@ -72,6 +72,13 @@ const actions = {
         })
         window.localStorage.setItem("context", JSON.stringify(state))
         console.log('attempt to save ', state)
+
+        // goIn grabs
+        // dispatch('makeEvent', {
+        //     type: 'task-grabbed',
+        //
+        // })
+
     },
     goUp({commit}, pContext){
         console.log('goUp called')
