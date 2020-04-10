@@ -115,9 +115,21 @@ export default {
             allTasks = []
         }
         allTasks.push(this.inId)
-        return allTasks.map(tId => {
-            return this.$store.getters.hashMap[tId]
-        })
+
+        let sunTasks = []
+        if (this.$store.state.upgrades.dimension === 'sun'){
+            this.$store.state.members.forEach(m => {
+                let sun = this.$store.getters.hashMap[m.memberId]
+                sunTasks.push( sun )
+                allTasks = allTasks.concat(sun.subTasks).concat(sun.priorities).concat(sun.completed)
+            })
+        }
+
+        return allTasks
+            .map(tId => {
+                return this.$store.getters.hashMap[tId]
+            })
+            .concat(sunTasks)
     },
     firstDay(){
       let date = new Date(this.year, this.month, 1)

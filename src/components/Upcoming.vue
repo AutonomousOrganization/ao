@@ -2,7 +2,7 @@
 
 #frontcalendar.container
     h1 Upcoming
-    calendar(inId='g')
+    calendar(:inId='$store.getters.member.memberId')
 </template>
 
 <script>

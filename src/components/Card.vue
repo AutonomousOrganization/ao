@@ -44,7 +44,7 @@
                     .row.pad.centered
                         h6 {{n}}
     div
-        .scrol.faded(v-if='this.$store.state.upgrades.dimension === "unicorn"'  ref='scuttle')
+        .scrol.faded(ref='scuttle')
             img.scrolly(src='../assets/images/downboat.svg'  :id='uuid')
         .vine.faded(@click='goIn')
             img.viney.adjtooltip(src='../assets/images/orb.svg')

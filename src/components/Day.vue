@@ -12,7 +12,7 @@
                     current(:memberId='t.name')
                 linky(v-else  :x='t.name')
         span.tooltip.plain.completedcheckmark(v-else  @click='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
-            img.completedcheckmark(src='../assets/images/completed.svg')
+            img.completedcheckmark(:class='{smaller: ev.length > 15}'  src='../assets/images/completed.svg')
             .tooltiptext
                 current(:memberId='t.memberId')
                 span -
@@ -178,10 +178,6 @@ img.checkmark
 img.completedcheckmark
     height: 1.5em
 
-
-.completedcheckmarks
-    min-height: 1.5em
-
 .clickable
     cursor: pointer
     color: white
@@ -189,7 +185,9 @@ img.completedcheckmark
 .plain
     text-decoration: none
     margin-right: 0.13em
-    height: 1.5em
+
+img.completedcheckmark.smaller
+    height: 0.5em
 
 
 </style>

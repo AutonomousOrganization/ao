@@ -3,7 +3,7 @@
 #theoracle
     h1 Oracle
     hypercard.topmission(v-if='topcard'  :b='topcard'  :key='topcard.taskId'  :c='[topcard.taskId]'  :inId='$store.getters.member.memberId'  @click.capture.stop='goInNews(topcard.taskId)')
-    hypercard.topmission(v-for='(t, i) in topten'  v-if='i < 11'  :b='t'  :key='t.weight'  :c='[t.taskId]'  :inId='$store.getters.member.memberId')
+    hypercard.topmission(v-for='(t, i) in topten'  v-if='i < 11'  :b='t'  :key='t.taskId'  :c='[t.taskId]'  :inId='$store.getters.member.memberId')
 </template>
 
 <script>
