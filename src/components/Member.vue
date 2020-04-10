@@ -9,7 +9,7 @@
     .topright
         div(@click='goCube')
             img.smallguild(src='../assets/images/timecube.svg')
-            label.stash 0
+            label.stash {{ myEvents }}
     .row.center.clearboth(:class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
         img.logindicator(v-if='$store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')
         img.logindicator(v-else, src='../assets/images/loggedOut.svg')
@@ -38,6 +38,20 @@ export default {
     props: ['m'],
     components: {PreviewDeck, Vouch, Bird, NotZen, GiftBox},
     computed:{
+        myEvents(){
+            let total = 0
+            let myholds = this.card.subTasks.concat(this.card.priorities).concat(this.card.completed)
+            myholds.forEach(tId => {
+                let t  = this.$store.getters.hashMap[tId]
+                if (t.book.startTs){
+                    total ++
+                }
+            })
+            if (this.$store.getters.memberCard.book.startTs){
+                total ++
+            }
+            return total
+        },
         card(){
             return this.$store.getters.contextCard
         },
@@ -52,7 +66,7 @@ export default {
         },
         nameList(){
             return this.$store.getters.contextCard.deck.map(mId => {
-                return mId
+                return mId // qq
             })
         },
         dukkha() {
