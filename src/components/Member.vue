@@ -7,19 +7,19 @@
         img.smallguild(src='../assets/images/sendselected.svg')
         label.stash {{ $store.getters.inbox.length }}
     .topright
-        div(@click='goCube')
+        div(@click='goCube'  :class='{here: $store.state.upgrades.mode === "timecube"}')
             img.smallguild(src='../assets/images/timecube.svg')
             label.stash {{ myEvents }}
-    .row.center.clearboth(:class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
+    .row.center.clearboth(@click='goBoat'  :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
         img.logindicator(v-if='$store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')
         img.logindicator(v-else, src='../assets/images/loggedOut.svg')
         label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }') {{ m.name }}
     .bottomleft
-        div(@click='goBadge')
+        div(@click='goBadge'  :class='{here: $store.state.upgrades.mode === "badge"}')
             img.smallguild(src='../assets/images/badge.svg')
             div.stash {{nameList.length}}
     .bottomright
-        div(@click='goChest')
+        div(@click='goChest'  :class='{here: $store.state.upgrades.mode === "chest"}')
           img.smallguild(src='../assets/images/chest.svg')
           label.stash(v-if='card.boost') {{ card.boost.toFixed(2) }}
           label.stash(v-else) 0
@@ -79,6 +79,9 @@ export default {
         },
     },
     methods: {
+        goBoat(){
+            this.$router.push('/boat')
+        },
         goBadge(){
             this.$router.push('/badge')
         },
@@ -133,6 +136,14 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/tooltips'
+
+.row.center.clearboth
+    cursor: pointer
+
+.here
+    border-bottom-style: solid;
+    padding: .2em;
+    border-color:#eeeeeeac;
 
 .fw
     width: 100%
