@@ -90,6 +90,7 @@ export default {
                 case 'timecube':
                     return
             }
+
             e.stopPropagation()
         })
 

@@ -73,6 +73,18 @@ export default {
             this.refocus()
             e.stopPropagation()
         })
+        mc.on('swipeleft', e => {
+            console.log()
+            //unseize
+            e.stopPropagation()
+
+        })
+
+        mc.on('swiperight', e => {
+            console.log()
+            //seize
+            e.stopPropagation()
+        })
     },
     computed: {
         card(){

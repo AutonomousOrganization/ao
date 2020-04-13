@@ -5,6 +5,15 @@ const crypto = require('crypto')
 const { serverState } = require('./state')
 const dctrlDb = require('./dctrlDb')
 
+function taskSeized(taskId, inId, callback){
+  let newEvent = {
+      type: "task-seized",
+      taskId,
+      inId,
+  }
+  dctrlDb.insertEvent(newEvent, callback)
+}
+
 function taskTouched(taskId, stack, position, memberId, callback){
     let newEvent = {
         type: "task-touched",
@@ -593,4 +602,5 @@ module.exports = {
     taskValued,
     taskCompleted,
     taskTouched,
+    taskSeized,
 }

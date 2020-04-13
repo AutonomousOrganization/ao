@@ -270,6 +270,21 @@ function sessionsMuts(sessions, ev){
 
 function tasksMuts(tasks, ev) {
     switch (ev.type) {
+        case "task-seized":
+            let pirate
+            tasks.forEach(task => {
+                if(task.taskId === ev.inId) {
+                    pirate = task.priorities[task.priorities.indexOf(ev.taskId) + 1]
+                    task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId )
+                }
+            })
+            tasks.forEach(task => {
+                if(task.taskId === pirate) {
+                    task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId )
+                    task.priorities.push(ev.taskId)
+                }
+            })
+            break
         case "task-touched":
             tasks.forEach(task => {
                 if(task.taskId === ev.taskId) {
