@@ -12,12 +12,12 @@ div
         p(@click='goDash("timecube")'  :class='{ dabstination : $store.state.upgrades.mode === "timecube" }')
             img.lil(src='../assets/images/timecube.svg')
             span Reserve
-        p(@click='goDash("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
-            img.lil(src='../assets/images/badge.svg')
-            span Accounts
         p(@click='goDash("chest")'  :class='{ dabstination : $store.state.upgrades.mode === "chest" }')
             img.lil(src='../assets/images/chest.svg')
             span Wallet
+        p(@click='goDash("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
+            img.lil(src='../assets/images/badge.svg')
+            span Accounts
         p(@click='close(false)')
             img.lil(src='../assets/images/uni.svg')
             span close

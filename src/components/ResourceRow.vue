@@ -1,10 +1,12 @@
 <template lang='pug'>
 
-.memberrow.membershipcard(@dblclick='goIn')
+.memberrow.membershipcard(v-if='card'  @dblclick='goIn')
     .row.center
         label.hackername {{ r.name }}
         img.goodbye(v-if='!isAnyOptions' @click='resourcePurged'  src='../assets/images/goodbye.svg')
-        button(v-for='o in optionList'  @click='use(o[0])'  :class='cardInputSty(o[2])') {{ o[1] }}
+        div(v-for='o in optionList')
+            button(@click='use(o[0])'  :class='cardInputSty(o[2])') {{ o[1] }}
+        code.redtx warning: buttons trigger resources
     .bottomleft(v-if='card.boost')
     .bottomright(@click='goIn')
         img.smallguild(src='../assets/images/orb.svg')
@@ -93,10 +95,16 @@ export default {
 @import '../styles/button'
 
 button
-    width: 4em
-    height:2em
-    margin: 1.1em
-    font-size: 1.5em
+    margin-bottom: .7321em
+
+code
+    margin-top: 1em
+    border-radius: 5px
+    padding: .4321em
+    background: lightGrey
+
+.center
+    text-align: center
 
 img
     height: 2em

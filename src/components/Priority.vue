@@ -60,7 +60,7 @@ export default {
         })
 
         mc.on('press', (e) => {
-            this.copyCardToClipboard()
+            this.seize()
             e.stopPropagation()
         })
 
@@ -76,6 +76,7 @@ export default {
         mc.on('swipeleft', e => {
             console.log()
             //unseize
+            this.seize()
             e.stopPropagation()
 
         })
@@ -83,6 +84,7 @@ export default {
         mc.on('swiperight', e => {
             console.log()
             //seize
+            this.seize()
             e.stopPropagation()
         })
     },
@@ -156,6 +158,13 @@ export default {
         },
     },
     methods: {
+        seize(){
+            this.$store.dispatch('makeEvent', {
+                type: 'task-seized',
+                taskId: this.card.taskId,
+                inId: this.inId
+            })
+        },
         deaction(){
             console.log('deaction called?')
             this.$store.dispatch("makeEvent", {

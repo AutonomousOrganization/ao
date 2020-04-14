@@ -2,7 +2,30 @@
 
 #home
   .container
-    h1 Reserve
+    h1.fw.center {{totalMembers + totalResources + totalGuilds + totalCards}} Points
+    .center
+        img.point(src='../assets/images/loggedIn.svg')
+        span {{ totalMembers.toFixed(0) }} in accounts
+        img.point(src='../assets/images/loader.svg')
+        span {{ totalResources.toFixed(0) }} in resources
+        img.point(src='../assets/images/orb.svg')
+        span {{ totalCards + totalGuilds }} on cards
+    .center
+        h4.yellowtx backing: {{ satPoint }} &#12471;
+    h3(v-for='n in funded.guilds.sort((a, b) => parseInt(a.boost) < parseInt(b.boost))') {{ n.boost.toFixed(0) }} - {{ n.guild }}
+    .row.space
+        .six.columns
+          .input-container
+              input#rentInput.input-effect(v-model='rentAmt' type='text'  :class='{"has-content": !!rentAmt}')
+              label(for='rentInput') Monthly Rent
+              span.focus-border
+          button(v-if='rentAmt > 0'  @click='setRent') Set Rent
+        .six.columns
+          div.input-container
+              input#capInput.input-effect(v-model='capAmt' type='text'  :class='{"has-content": !!capAmt}')
+              label(for="capInput") Set Monthly Cap
+              span.focus-borders
+          button(v-if='capAmt > 0'  @click='setCap') Set Cap
     .row.center
         .seven.grid
             p.underline.padd {{ parseInt($store.state.cash.rent) }} Rent
@@ -12,15 +35,6 @@
         .four.grid.equals2
             p {{ parseInt(perMonth) }} each
             p.redtx [{{ $store.state.cash.cap }} max]
-    .center
-        img.point(src='../assets/images/loggedIn.svg')
-        span {{ totalMembers.toFixed(0) }} in accounts
-        img.point(src='../assets/images/loader.svg')
-        span {{ totalResources.toFixed(0) }} in resources
-        img.point(src='../assets/images/badge.svg')
-        span {{ totalGuilds.toFixed(0) }} on missions
-        img.point(src='../assets/images/coin.svg')
-        span {{ totalCards.toFixed(0) }} on cards
     div(v-for='n in funded.members.sort((a, b) => parseInt(a.boost) < parseInt(b.boost))')
         span {{ n.boost.toFixed(0) }}
         current(:memberId='n.taskId')
@@ -31,24 +45,6 @@
     div(v-for='n in funded.resources.sort((a, b) => parseInt(a.boost) < parseInt(b.boost))')
         span {{ n.boost.toFixed(0) }}
         currentr(:resourceId='n.taskId')
-    h3(v-for='n in funded.guilds.sort((a, b) => parseInt(a.boost) < parseInt(b.boost))') {{ n.boost.toFixed(0) }} - {{ n.guild }}
-    .center
-        h4.yellowtx backing: {{ satPoint }} &#12471;
-    .row.space
-        .six.columns
-          .input-container
-              input#rentInput.input-effect(v-model='rentAmt' type='text'  :class='{"has-content": !!rentAmt}')
-              label(for='rentInput') Monthly Rent
-              span.focus-border
-          button(@click='setRent') Set Rent
-          ul
-              li Rent deducted from active accounts
-        .six.columns
-          div.input-container
-              input#capInput.input-effect(v-model='capAmt' type='text'  :class='{"has-content": !!capAmt}')
-              label(for="capInput") Set Monthly Cap
-              span.focus-borders
-          button(@click='setCap') Set Cap
 </template>
 
 <script>
@@ -173,7 +169,6 @@ export default {
 
 .fw
     width: 100%
-    opacity: 0.3456
 
 .btcspot , .satspot
     position: absolute

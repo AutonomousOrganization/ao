@@ -1,13 +1,12 @@
 <template lang='pug'>
 
 #accounts
-  h1 Accounts
   .container
+    h1.fw
+      current(:memberId='$store.getters.member.memberId')
     .row
         .six.columns
-            h1
-                current(:memberId='$store.getters.member.memberId')
-            h2 Update info:
+            h2 Updater
                 select(v-model='change.field', @change='empty')
                     option(value='name') name
                     option(value='secret') password
@@ -25,27 +24,27 @@
                 img.checkmark(v-if='matched', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span - repeat correctly
-            button(@click='update') update info
+            button(v-if='change.newfield.length > 0'  @click='update') update info
         .six.columns
             h2 Preferences
             .check.click(@click='toggleTooltips')
                 img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space tips
+                span.space show tips
             .check.click(@click='toggleTooltips')
                 img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space pro tips
+                span.space show long press tips
             .check.click(@click='toggleMuted')
                 img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space sounds
+                span.space play sounds
             .check.click(@click='toggleStacks')
                 img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space split stacks
             .check.click
-                img.checkmark(src='../assets/images/uncompleted.svg')
+                img.checkmark(src='../assets/images/completed.svg')
                 span.space show boats
     .list
         h4.yellowtx ({{coreMembers.length}}) active
@@ -60,12 +59,9 @@
         span.focus-border
     .input-container
         input.input-effect(v-model='member.fob' type='text'  :class='{"has-content":!!member.fob}')
-        label fob
+        label fob (optional)
         span.focus-border
-    ul
-        li initial password is chosen name
-        li tell them the important stuff
-    button(@click='newMember') create account
+    button(v-if='member.name.length > 0'  @click='newMember') create account
 </template>
 
 <script>
@@ -90,7 +86,7 @@ export default {
       }
     },
     mounted() {
-        this.$store.commit('setMode' , 3)
+        this.$store.commit('setMode' , 4)
         this.$store.commit('setDimension' , 2)
         this.$store.dispatch('loaded')
     },
@@ -222,7 +218,8 @@ export default {
 @import '../styles/title'
 @import '../styles/button'
 @import '../styles/input'
-
+.fw
+    width: 100%
 .padding
     padding: 1.987654321em
 .cross

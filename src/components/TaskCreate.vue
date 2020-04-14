@@ -169,6 +169,7 @@ export default {
             }
         },
         resetCard(){
+            this.showCreate = false
             this.task.name = ''
             this.task.search = ''
         },

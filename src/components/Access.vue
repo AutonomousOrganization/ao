@@ -1,15 +1,15 @@
 <template lang='pug'>
 
 #resource.container
-    h1 Access
+    h1.fw.center {{resources.length}} resource
+        span(v-if='resources.length > 1') s
     .list(v-if='isLoggedIn  && resources.length > 0')
         row(v-for="r in resources", :r="r", :c='panel')
-    .padding(v-else)
-        h5 dctrl fobtap points
+    .padding
+        button(@click='createTest') create test resource
+        h5 fobtap points
         ol
-            li Raspberry pi running fobtap rfid scan point.
-            li Door, vending machine, ... many possibilities
-            button(@click='createTest') create test resource
+            li Raspberry pi running on Door, vending machine, ... many possibilities
 </template>
 
 <script>
@@ -42,11 +42,12 @@ export default {
             let newEv = {
                 type: 'resource-created',
                 resourceId: uuidV1(),
-                name: 'teste',
+                name: 'test2e',
                 charged: 0,
-                secret: 'asd',
+                secret: 'asd123',
                 trackStock: true
             }
+            console.log('new r', newEv)
             this.$store.dispatch("makeEvent", newEv)
         },
     }
@@ -60,6 +61,12 @@ export default {
 @import '../styles/button'
 @import '../styles/skeleton'
 @import '../styles/title'
+
+.center
+    text-align: center
+
+.fw
+    width: 100%
 
 #resource
     width: 100%

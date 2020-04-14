@@ -278,6 +278,7 @@ function tasksMuts(tasks, ev) {
                     task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId )
                 }
             })
+            if (!pirate) pirate = ev.inId
             tasks.forEach(task => {
                 if(task.taskId === pirate) {
                     task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId )

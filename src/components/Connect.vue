@@ -1,35 +1,52 @@
 <template lang='pug'>
 
-.Connect.container
-    h1 Connect
-    div(v-for='r in $store.state.ao')
-        h6 {{ r }}
-        span.discon(@click='discon(r.address)') delete
-    h3 Connect to another AO:
-    .input-container
-        input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
-        label address
-    .input-container
-        input.input-effect(v-model='ao.secret' type='text'  :class='{"has-content":!!ao.secret}')
-        label.input-effect secret
-    button(@click='connect') connect
-    .ourinfo
-        h4 Put this information into another AO to allow it to send cards here.
-        h4 Address:
-            code(v-if='$store.state.cash.alias') {{ $store.state.cash.address }}
-            code(v-else) set an alias for this AO to display address
-        h4 Connection Secret:
-            code {{ $store.state.loader.token }}
-    h3 Update AO label ({{ $store.state.cash.alias }})
-    .input-container
-        input.input-effect(v-model='aoNamed.alias' type='text'  :class='{"has-content":!!aoNamed.alias}')
-        label(for="aoAliasInput") change ao alias:
-    button(@click='name') rename
+.Connect
+  .container
+    h1.fw
+        span(v-if='$store.state.cash.alias')
+            span {{ $store.state.cash.alias }}
+            br
+            span @
+            br
+    .row
+        .six.columns
+            h1.fw
+                span.letter(v-for='(l, i) in $store.state.cash.address')
+                    br(v-if='i%8 === 0')
+                    span {{ l }}
+        .six.columns
+            tag(:d='$store.state.cash.address', size='8')
+    div(v-for='(r, i) in $store.state.ao')
+        h6(@dblclick='goIn(r.address)' @click='showAddr(i)')
+            span {{ r.address }}
+            span(v-if='showAddress === i')
+                tag(:d='r.address', size='4')
+            span - 
+            span.discon(@click='discon(r.address)') disconnect
+    .row
+        .six.columns
+            h3 Connecter
+            .input-container
+                input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
+                label address
+            .input-container
+                input.input-effect(v-model='ao.secret' type='text'  :class='{"has-content":!!ao.secret}')
+                label.input-effect secret
+            button(v-if='ao.address && ao.secret'  @click='connect') connect
+        .six.columns
+            h3 Namer
+            .input-container
+                input.input-effect(v-model='aoNamed.alias' type='text'  :class='{"has-content":!!aoNamed.alias}')
+                label(for="aoAliasInput") change ao alias:
+            button(v-if='aoNamed.alias.length > 0' @click='name') rename
+    code.click(@click='showSecr') your secret:
+        span(v-if='showSecret') {{ $store.state.loader.token }}
 </template>
 
 <script>
-
+import Tag from './Tag'
 export default {
+    components: {Tag},
     mounted() {
         this.$store.commit('setMode' , 1)
         this.$store.commit('setDimension' , 2)
@@ -37,6 +54,8 @@ export default {
     },
     data() {
         return {
+            showAddress: false,
+            showSecret: false,
             aoNamed: {
                 type: 'ao-named',
                 alias: ''
@@ -49,6 +68,23 @@ export default {
         }
     },
     methods: {
+        showSecr(){
+            this.showSecret = true
+            setTimeout(() => this.showSecret = false,25000)
+
+        },
+        showAddr(x){
+            if (x === this.showAddress) return this.showAddress = false
+            this.showAddress = x
+        },
+        goIn(taskId){
+            this.$store.dispatch('goIn', {
+                top: 0,
+                panel: [taskId],
+                parents: [this.$store.getters.member.memberId],
+            })
+            this.$router.push('/' + this.$store.state.upgrades.mode)
+        },
         name(){
             this.$store.dispatch('makeEvent', this.aoNamed)
         },
@@ -76,8 +112,22 @@ export default {
 @import '../styles/title'
 @import '../styles/input'
 
+.fw
+    width: 100%
+
+.click
+    cursor: pointer
+
+.letter
+    width: 1.7em
+
+h1
+    text-align: center
+    content-align: center
+
 h6
     text-align: center
+    cursor: pointer
 
 label
     color: blue

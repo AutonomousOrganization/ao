@@ -11,12 +11,12 @@ div
       p(@click='goFront("timecube")'  :class='{ dabstination : $store.state.upgrades.mode === "timecube" }')
           img.lil(src='../assets/images/timecube.svg')
           span Upcoming
-      p(@click='goFront("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
-          img.lil(src='../assets/images/badge.svg')
-          span Recent
       p(@click='goFront("chest")'  :class='{ dabstination : $store.state.upgrades.mode === "chest" }')
           img.lil(src='../assets/images/chest.svg')
           span Bounties
+      p(@click='goFront("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
+          img.lil(src='../assets/images/badge.svg')
+          span Recent
       p(@click='close(false)')
           img.lil(src='../assets/images/uni.svg')
           span close

@@ -12,7 +12,7 @@
                   p.suggest sink
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId')
               div(v-if='!hasCompleted(t)')
-                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='seize(t)')
+                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='prioritized(t)')
                   .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
                       p.suggest up boat
               div(v-else)
@@ -34,8 +34,6 @@
 
 <script>
 
-import Hammer from 'hammerjs'
-import Propagating from 'propagating-hammerjs'
 import Hypercard from './Card'
 import Hyperpriority from './Priority'
 import _ from 'lodash'
@@ -45,31 +43,6 @@ export default {
       this.$store.commit('setMode' , 1)
       this.$store.commit('setDimension' , 0)
       this.$store.dispatch('loaded')
-
-      let el = this.$refs.rightboat
-      if(!el) return
-      let mc = Propagating(new Hammer.Manager(el))
-
-      let singleTap = new Hammer.Tap({ event: 'singletap', time: 400 })
-      let doubleTap = new Hammer.Tap({ event: 'doubletap', taps: 2, time: 400, interval: 400 })
-      let tripleTap = new Hammer.Tap({ event: 'tripletap', taps: 3, time: 400, interval: 400 })
-      let longPress = new Hammer.Press({ time: 400 })
-
-      mc.add([tripleTap, doubleTap, singleTap, longPress])
-
-      tripleTap.recognizeWith([doubleTap, singleTap])
-      doubleTap.recognizeWith(singleTap)
-      singleTap.requireFailure([doubleTap, tripleTap])
-      doubleTap.requireFailure(tripleTap)
-
-      mc.on('press', (e) => {
-          console.log("press triggered")
-          this.$store.dispatch('makeEvent', {
-            // type: 'task-seized'
-          })
-          e.stopPropagation()
-      })
-
   },
   data(){
       return {
@@ -77,13 +50,6 @@ export default {
       }
   },
   methods:{
-    seize(taskId){
-        this.$store.dispatch('makeEvent', {
-            type: 'task-seized',
-            taskId,
-            inId: this.$store.getters.contextCard.taskId
-        })
-    },
     hasCompleted(tId){
         let card = this.$store.getters.hashMap[tId]
         if(card && card.claimed){

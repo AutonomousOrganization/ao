@@ -201,6 +201,7 @@ export default {
 
 #helm
     cursor: pointer
+    opacity: .3
 
 .upg
     height: 2em

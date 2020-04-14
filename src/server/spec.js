@@ -376,6 +376,7 @@ router.post('/events', (req, res, next)=>{
           }
           break
       case 'resource-created':
+          console.log('trying',req.body.resourceId,req.body.name,req.body.charged,req.body.secret,req.body.trackStock)
           if (
             validators.isNewResourceId(req.body.resourceId, errRes) &&
             validators.isNotes(req.body.name, errRes) &&
@@ -392,6 +393,7 @@ router.post('/events', (req, res, next)=>{
               utils.buildResCallback(res)
             )
           } else {
+            console.log(errRes)
             res.status(400).send(errRes)
           }
           break
