@@ -7,8 +7,6 @@ const state = {
     panel: [],
     top: 0,
     completed: false,
-    action: false,
-    loading: false,
 }
 
 const mutations = {
@@ -24,9 +22,6 @@ const mutations = {
     setTop(state, top){
           state.top = top
     },
-    setAction(state, a){
-        state.action = a
-    },
     addParent(state, pId){
         state.parent = _.filter(state.parent, p => p !== pId)
         state.parent.push(pId)
@@ -37,17 +32,11 @@ const mutations = {
             popped = state.parent.pop()
         }
     },
-    startLoading(state, dimension){
-        state.loading = dimension
-    },
-    stopLoading(state){
-       state.loading = false
-    },
 }
 
 const actions = {
     loaded({commit, state, getters, dispatch}){
-        commit('stopLoading')
+
         dispatch('flashHelm', 1)
         setTimeout(()=>{
           commit("setAction", false)

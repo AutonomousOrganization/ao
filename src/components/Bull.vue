@@ -71,7 +71,7 @@ export default {
             mode = this.$store.state.upgrades.mode
         }
         this.$store.commit('setDimension', 2)
-        this.$store.commit('startLoading', 'bull-' + mode)
+       
 
         this.$router.push('/dash/' + mode)
     },

@@ -88,7 +88,7 @@ export default {
           })
           this.$store.commit('setMode', 1)
           this.$store.commit('setAction', t.taskId)
-          this.$store.commit('startLoading', 'unicorn')
+         
           if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
               this.$store.commit("setMode", 1)
           }

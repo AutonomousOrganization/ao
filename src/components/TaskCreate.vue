@@ -3,14 +3,25 @@
   div(v-if='isCard')
       transition(name="slide-fade")
         .cc(v-show='showCreate')
-            textarea#card(v-model='debouncedName' type='text'  :class='cardInputSty'  placeholder="textarea"  @keyup.enter.exact='createOrFindTask'  @keydown.enter.exact.prevent  @keyup.esc='closeCreate'  @input='exploring = false' row='10' col='20').paperwrapper
+            textarea#card.paperwrapper(
+                v-model='debouncedName'
+                type='text'
+                :class='cardInputSty'
+                placeholder="textarea"
+                @keyup.enter.exact='createOrFindTask'
+                @keydown.enter.exact.prevent
+                @keyup.esc='closeCreate'
+                @input='exploring = false'
+                row='10'
+                col='20'
+            )
             .boatContainer
                 img.boatAll.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='resetCard')
                 .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
                     p.suggest.label clear
                 img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='createOrFindTask')
                 .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                    p.suggest.label create card
+                    p.suggest.label create
       #btnpanel.btnpanel.adjtooltip
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
             button.lit(@click='switchColor("red")'  :class='{ currentColor : showCreate && task.color === "red" }').redwx.paperwrapper
@@ -24,19 +35,20 @@
             button.lit(@click='switchColor("blue")'  :class='{ currentColor : showCreate && task.color === "blue" }').bluewx.paperwrapper
               img(:class='{ down : showCreate && task.color === "blue" }')
       .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-          p.suggest.label create card
-      .scrollbarwrapper(v-show='showCreate && task.search.length >= 2 && (matchCards.guilds.length + matchCards.doges.length + matchCards.cards.length) > 0'  v-model='task.search')
+          p.suggest.label create and search
+      .scrollbarwrapper(v-show='showCreate && searchTotal > 0'  v-model='task.search')
           .searchresults
               .boatContainer
                   img.boatAll.faded(src='../assets/images/downboat.svg'  @click='deBoatAll')
+                  .searchtotal {{ searchTotal }}
                   img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='boatAll')
-              .result(v-for='t in matchCards.guilds'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)')
+              .result(v-for='t in $store.getters.matchCards.guilds'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)')
                   img.smallguild(src='../assets/images/badge.svg')
                   span {{ t.guild }}
                   div {{ shortName(t.name) }}
-              .result(v-for='t in matchCards.doges'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)')
-                  current(:memberId='t.taskId')
-              .result(v-for='t in matchCards.cards'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)') {{ shortName(t.name) }}
+              .result(v-for='t in $store.getters.matchCards.doges'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)')
+                  current(:memberId='t.memberId')
+              .result(v-for='t in $store.getters.matchCards.cards'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)') {{ shortName(t.name) }}
   div(v-else)
       img.uni(src="../assets/images/uni.svg"  @click='toCardMode')
 </template>
@@ -59,7 +71,7 @@ export default {
             },
             swipeTimeout: 0,
             searchResults: [],
-            exploring: false,
+            exploring: true,
             inDebounce: false,
         }
     },
@@ -135,7 +147,7 @@ export default {
         goIn(taskId){
             clearTimeout(this.inDebounce)
             let panel = [taskId]
-            let parents = [  ]
+            let parents = []
             let top = 0
 
             if (this.$store.getters.contextCard.taskId){
@@ -197,7 +209,7 @@ export default {
                 this.subTaskTask(foundId)
             }
             // XXX searchbar finding created
-            setTimeout( ()=> { this.resetCard() }, 7)
+            setTimeout( ()=> { this.resetCard() }, 77)
         },
         isGrabbed(taskId){
             return this.$store.getters.hashMap[taskId].deck.indexOf( this.$store.getters.member.memberId ) > -1
@@ -234,18 +246,20 @@ export default {
             this.exploring = true
             this.task.name = t.name.trim()
             this.task.color = t.color
+            this.task.search = this.task.name
         },
         debounce(func, delay) {
-            const context = this
-            const args = arguments
             clearTimeout(this.inDebounce)
-            this.inDebounce = setTimeout(() => func.apply(context, args[2]), delay)
+            this.inDebounce = setTimeout(() => func.apply(this), delay)
         },
         shortName(theName) {
             return calculations.shortName(theName)
         },
     },
     computed: {
+        searchTotal(){
+            return this.$store.getters.matchCards.guilds.length + this.$store.getters.matchCards.doges.length + this.$store.getters.matchCards.cards.length
+        },
         isCard(){
             return this.$store.state.upgrades.dimension === 'unicorn'
         },
@@ -261,47 +275,11 @@ export default {
             })
             return foundId
         },
-        matchCards() {
-            if(this.task.search.length < 1) return []
-            if(this.exploring) return this.searchResults
-            let matches = []
-            let guildmatches = []
-            let dogematches = []
-            try {
-                let regex = new RegExp(this.task.search, 'i')
-                this.$store.state.tasks.forEach(t => {
-                    if(t.guild && regex.test(t.guild)) {
-                        guildmatches.push(t)
-                    } else if(regex.test(t.name)) {
-                        matches.push(t)
-                    }
-                })
-                this.$store.state.members.forEach(member => {
-                    if(regex.test(member.name)) {
-                        let result = this.$store.getters.hashMap[member.memberId]
-                        result.name = member.name
-                        dogematches.push(result)
-                    }
-                })
-            } catch (err){
-                console.log("regex search terminated in error: ", err)
-            }
-            this.searchResults = { guilds: guildmatches, doges: dogematches, cards: matches }
-            return this.searchResults
-        },
         matchIds(){
-            return this.matchCards.guilds.concat(this.matchCards.doges).concat(this.matchCards.cards)
+            return this.$store.getters.matchCards.guilds
+                .concat(this.$store.getters.matchCards.doges)
+                .concat(this.$store.getters.matchCards.cards)
                 .map(t => t.taskId)
-        },
-        colorWord(){
-            switch (this.task.color) {
-                case "blue": return 'info'
-                case "red": return 'challenge'
-                case "green": return 'do'
-                case "purple": return 'dream'
-                case "yellow": return 'align'
-                case "black": return 'bark'
-            }
         },
         cardInputSty() {
             return calculations.cardColorCSS(this.task.color)
@@ -313,7 +291,7 @@ export default {
             set(newValue) {
                 this.task.name = newValue
                 this.debounce(() => {
-                    this.task.search = newValue
+                    this.$store.commit('setSearch', newValue)
                 }, 400)
             }
         },
@@ -329,6 +307,14 @@ export default {
 @import '../styles/breakpoints'
 @import '../styles/input'
 @import '../styles/tooltips'
+
+
+.searchtotal
+    position: absolute
+    top: 0
+    right: calc(50%-1em)
+    color: lightGrey
+
 
 .tooltiptext.correctspot
     position: absolute

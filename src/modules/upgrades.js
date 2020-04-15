@@ -4,6 +4,7 @@ const payments = ["bitcoin", "lightning"]
 const dimensions = ["unicorn", "sun", "bull"]
 
 const state = {
+    search: '',
     modes,
     mode: modes[0],
     dimension: dimensions[0],
@@ -19,6 +20,9 @@ const state = {
 }
 
 const mutations = {
+    setSearch(state, x){
+        state.search = x
+    },
     flash(state){
         state.flashClasses.flash = true
     },
@@ -84,7 +88,7 @@ const mutations = {
 const actions = {
     nextUpgradeMode({commit, state}, router) {
         commit("nextMode")
-        commit('startLoading', state.mode)
+
 
         if(state.dimension === 'sun'){
             return router.push('/front/' + state.mode)
@@ -96,7 +100,7 @@ const actions = {
     },
     previousUpgradeMode({commit, state}, router) {
         commit("previousMode")
-        commit('startLoading', state.mode)
+
 
         if(state.dimension === 'sun'){
             return router.push('/front/' + state.mode)

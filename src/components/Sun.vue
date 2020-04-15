@@ -53,7 +53,7 @@ export default {
             mode = this.$store.state.upgrades.mode
         }
         this.$store.commit('setDimension', 1)
-        this.$store.commit('startLoading', 'sun-' + mode)
+       
 
         this.$router.push('/front/' + mode)
     },

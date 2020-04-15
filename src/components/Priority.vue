@@ -212,7 +212,7 @@ export default {
                 this.$store.commit("setMode", 1)
             }
 
-            this.$store.commit("startLoading", 'unicorn')
+           
 
             this.$router.push("/" + this.$store.state.upgrades.mode)
         },

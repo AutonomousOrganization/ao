@@ -6,7 +6,6 @@
     sun
     helm
     bull
-    loader
     event-feed
     task-create
     auth(v-if='!$store.getters.isLoggedIn')
@@ -25,7 +24,6 @@ import EventFeed from './components/EventFeed'
 import Sun from './components/Sun'
 import Bull from './components/Bull'
 import Helm from './components/Helm'
-import Loader from './components/Loader'
 import Contexts from './components/Contexts'
 import TaskCreate from './components/TaskCreate'
 import Auth from './components/Auth'
@@ -56,7 +54,7 @@ export default {
 
     },
     components: {
-        EventFeed, Sun, Bull, Loader, Helm, TaskCreate, Contexts, Auth
+        EventFeed, Sun, Bull, Helm, TaskCreate, Contexts, Auth
     },
 }
 

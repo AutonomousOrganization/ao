@@ -141,11 +141,11 @@ export default {
     },
     methods: {
         goUni(mode, silent = false) {
-            this.$store.commit('startLoading', 'uni')
+           
             this.$router.push('/' + mode)
         },
         goFront(mode) {
-            this.$store.commit('startLoading', 'sun')
+           
             this.$router.push('/front/' + mode)
         },
         goHome(taskId){

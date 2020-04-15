@@ -81,7 +81,7 @@ export default {
         mc.add([Tap, Press])
         mc.on('tap', (e) => {
             let parentId = this.$store.state.context.parent[this.$store.state.context.parent.length-1]
-            if (this.$store.state.context.action === this.b.taskId){
+            if (this.$store.getters.member.action === this.b.taskId){
 
                 if (this.$store.getters.contextCard.priorities.length <= 1){
                     this.$store.commit('setMode', 0)

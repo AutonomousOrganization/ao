@@ -43,7 +43,7 @@ export default {
         mc.add(Tap)
         mc.on('tap', (e) => {
             let mode = this.$store.state.upgrades.mode
-            if (this.$store.state.context.action === this.b.taskId){
+            if (this.$store.getters.member.action === this.b.taskId){
                 if(!this.isCompleted) {
                     this.complete()
                 } else {
