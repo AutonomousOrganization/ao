@@ -1,12 +1,17 @@
 <template lang='pug'>
 
-.zen(@click='$router.push("/boat")')
-    img.bdoge(src='../assets/images/doge.svg')
+.zen()
+    img.bdoge(v-if='$store.getters.inbox.length < 1'  @click='$router.push("/boat")'  src='../assets/images/doge.svg')
+    gift-box(v-else)
 </template>
 
 <script>
+import GiftBox from './GiftBox'
 
 export default {
+    components:{
+        GiftBox
+    },
     mounted() {
         this.$store.commit('setMode' , 0)
         this.$store.commit('setDimension' , 0)

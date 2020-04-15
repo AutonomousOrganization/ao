@@ -3,8 +3,7 @@
 #giftbox(v-if='$store.getters.inbox.length > 0')
   .row
     .two.grid
-      img.gift(src='../assets/images/gifts.svg')
-      span {{$store.getters.inbox.length}} Gifts
+      img.gift(src='../assets/images/send.svg')
     .eight.grid
       hypercard(v-for='b in $store.getters.inbox'  :b='b'  :inId='$store.getters.member.memberId')
 </template>

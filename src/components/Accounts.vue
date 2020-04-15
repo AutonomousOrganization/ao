@@ -46,6 +46,9 @@
             .check.click
                 img.checkmark(src='../assets/images/completed.svg')
                 span.space show boats
+            .check.click
+                img.checkmark(src='../assets/images/completed.svg')
+                span.space lightning
     .list
         h4.yellowtx ({{coreMembers.length}}) active
         member-row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')

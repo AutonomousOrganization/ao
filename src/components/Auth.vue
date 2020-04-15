@@ -7,7 +7,7 @@
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
           label choose name
           span.focus-border
-      button(@click="createAccount") new account
+      button(v-if='name.length > 0'  @click="createAccount") new account
       br
       hr
       br
@@ -21,7 +21,7 @@
           label password
           span.focus-border
       p.red {{ err }}
-      button(@click="createSession") login
+      button(v-if='name.length > 0 && pass.length > 0'  @click="createSession") login
 </template>
 
 <script>

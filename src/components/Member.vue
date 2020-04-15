@@ -173,7 +173,6 @@ label
 .smallguild
     height: 2em
 
-
 .topleft
     float: left
     width: fit-content

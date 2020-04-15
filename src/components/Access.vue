@@ -3,13 +3,22 @@
 #resource.container
     h1.fw.center {{resources.length}} resource
         span(v-if='resources.length > 1') s
-    .list(v-if='isLoggedIn  && resources.length > 0')
+    p.redtx(v-if='$store.getters.member.active <= 0')
+        span inactive accounts cannot access resources
+    .list(v-if='isLoggedIn  && resources.length > 0'  :class='{faded: $store.getters.member.active <= 0 }')
         row(v-for="r in resources", :r="r", :c='panel')
     .padding
-        button(@click='createTest') create test resource
-        h5 fobtap points
-        ol
-            li Raspberry pi running on Door, vending machine, ... many possibilities
+        .input-container
+            input.input-effect(v-model='name' type='text'  :class='{"has-content":!!name}')
+            label resource name
+            span.focus-border
+        .input-container(v-if='name.length > 0' )
+            input.input-effect(v-model='charged' type='text'  :class='{"has-content":!!charged}')
+            label charged amount
+            span.focus-border
+        button(v-if='name.length > 0'  @click='createTest') create test resource
+        h6 raspberry pi connected to lock, vending machine, ...
+        h6 github.com/AutonomousOrganization/pi
 </template>
 
 <script>
@@ -18,6 +27,12 @@ import Row from "./ResourceRow"
 import uuidV1 from 'uuid/v1'
 
 export default {
+    data(){
+        return {
+            name: '',
+            charged: '0'
+        }
+    },
     mounted() {
         this.$store.commit('setMode' , 0)
         this.$store.commit('setDimension' , 2)
@@ -42,8 +57,8 @@ export default {
             let newEv = {
                 type: 'resource-created',
                 resourceId: uuidV1(),
-                name: 'test2e',
-                charged: 0,
+                name: this.name,
+                charged: parseInt(this.charged) || 0,
                 secret: 'asd123',
                 trackStock: true
             }
@@ -61,6 +76,16 @@ export default {
 @import '../styles/button'
 @import '../styles/skeleton'
 @import '../styles/title'
+@import '../styles/input'
+
+p.redtx
+  span
+    background: lightGrey
+    padding:.4321em
+    border-radius:.4321em
+
+.faded
+    opacity: .231
 
 .center
     text-align: center
@@ -75,5 +100,8 @@ export default {
     padding: 1.987654321em
 li
     margin-left: 1em
+
+h6
+    text-align: center
 
 </style>

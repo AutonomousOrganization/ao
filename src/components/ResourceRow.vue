@@ -4,10 +4,14 @@
     .row.center
         label.hackername {{ r.name }}
         img.goodbye(v-if='!isAnyOptions' @click='resourcePurged'  src='../assets/images/goodbye.svg')
+        br
+        code(v-if='!isAnyOptions'  @click='goIn') create button with task inside card
         div(v-for='o in optionList')
             button(@click='use(o[0])'  :class='cardInputSty(o[2])') {{ o[1] }}
-        code.redtx warning: buttons trigger resources
-    .bottomleft(v-if='card.boost')
+        code(v-if='isAnyOptions').redtx warning: buttons trigger resources
+    .bottomleft(v-if='r.charged')
+        img.smallguild(src='../assets/images/chest.svg')
+        p.stash {{r.charged}}
     .bottomright(@click='goIn')
         img.smallguild(src='../assets/images/orb.svg')
     .clearboth
@@ -31,6 +35,8 @@ export default {
                 let split = option.name.split(':')
                 if (split.length >= 2){
                     return [split[0], split[1], option.color] // notes, name, color
+                } else {
+                    return ['A', option.name, option.color]
                 }
             })
             return ol.filter(list => {
@@ -93,6 +99,14 @@ export default {
 @import '../styles/grid'
 @import '../styles/tooltips'
 @import '../styles/button'
+.smallguild
+    height: 2em
+
+.stash
+    display: inline
+    margin-left: 0.5em
+    position: relative
+    top: -0.35em
 
 button
     margin-bottom: .7321em
@@ -123,6 +137,7 @@ label
     padding: 1em
     background: rgba(22, 22, 22, 0.2)
     text-align: center
+    margin-bottom: 1em
 
 .agedwrapper
     position: relative
