@@ -132,6 +132,7 @@ export default {
               taskId: this.b.taskId,
               inId: this.$store.getters.contextCard.taskId,
             })
+            e.stopPropagation()
         })
         let el = this.$refs.wholeCard
         if(!el) return

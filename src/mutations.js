@@ -335,11 +335,7 @@ function tasksMuts(tasks, ev) {
                     task.priorities.forEach(stId => {
                         tasks.forEach(st => {
                             if (st.taskId === stId){
-                                if(st.claimed && (st.claimed.length >= 1)){
-                                    task.completed.push(stId)
-                                } else {
-                                    task.subTasks.push(stId)
-                                }
+                                task.subTasks.push(stId)
                             }
                         })
                         task.priorities = []
@@ -414,7 +410,6 @@ function tasksMuts(tasks, ev) {
             tasks.forEach(task => {
                 if (task.taskId === ev.taskId) {
                     let pass = [ev.fromMemberId, ev.toMemberId]
-
                     // XXX check should be prior to ev creation
                     if( !task.passed.some(p => {
                         if( p[0] === pass[0] && p[1] === pass[1]) {

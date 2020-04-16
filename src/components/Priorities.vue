@@ -7,18 +7,18 @@
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
-              img.boatAll.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='refocused(t)')
+              checkbox.boatAll.adjtooltip(:b='getCard(t)'  :inId='$store.getters.contextCard.taskId')
               .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
                   p.suggest sink
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId')
-              div(v-if='!hasCompleted(t)')
+              div(v-if='!hasCompleted(t) || i > 0')
                   img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='prioritized(t)')
                   .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
                       p.suggest up boat
               div(v-else)
                   img.boatAll.boatR.faded.adjtooltip(src='../assets/images/completed.svg'  @click='completed(t)')
                   .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                      p.suggest complete
+                      p.suggest to completed pile
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
               hyperpriority.closedcard(:taskId='st'  :inId="t")
@@ -36,6 +36,7 @@
 
 import Hypercard from './Card'
 import Hyperpriority from './Priority'
+import Checkbox from './Checkbox'
 import _ from 'lodash'
 
 export default {
@@ -109,6 +110,7 @@ export default {
   components:{
       Hyperpriority,
       Hypercard,
+      Checkbox,
   },
 }
 

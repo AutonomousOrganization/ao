@@ -1,9 +1,9 @@
 <template lang='pug'>
 
-.p.clearboth(v-if='card'  ref='wholeCard')
-    .opencard(v-if='$store.getters.member.action === taskId')
+.p.clearboth(v-if='card')
+    .opencard(v-if='$store.getters.member.action === taskId'  @click='deaction')
         hypercard(:b="card", :c="parent.priorities",  :inId="inId")
-    .closedcard.agedwrapper.dont-break-out(v-else  :class="cardInputSty")
+    .closedcard.agedwrapper.dont-break-out(v-else  :class="cardInputSty"  ref='wholeCard')
         .agedbackground.freshpaper.middle(v-if='cardAge < 8')
         .agedbackground.weekoldpaper.middle(v-else-if='cardAge < 30')
         .agedbackground.montholdpaper.middle(v-else-if='cardAge < 90')
@@ -11,7 +11,6 @@
         img.front.nopad.cancel(v-if='card.guild'  src="../assets/images/badge.svg")
         span.front.nudge(v-if='card.guild')  {{ card.guild }}
         img.left.front.cancel(v-if='isMember' src="../assets/images/loggedIn.svg")
-        checkbox(:b='card'  :inId='inId')
         tally.right.front.lesspadding.buffer(:b='card')
         linky.front(:x='name'  :key='name')
 </template>
@@ -74,16 +73,11 @@ export default {
             e.stopPropagation()
         })
         mc.on('swipeleft', e => {
-            console.log()
-            //unseize
-            this.seize()
+            this.refocus()
             e.stopPropagation()
-
         })
 
         mc.on('swiperight', e => {
-            console.log()
-            //seize
             this.seize()
             e.stopPropagation()
         })
@@ -212,7 +206,7 @@ export default {
                 this.$store.commit("setMode", 1)
             }
 
-           
+
 
             this.$router.push("/" + this.$store.state.upgrades.mode)
         },

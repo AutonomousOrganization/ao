@@ -22,16 +22,12 @@ export default {
         let checkel = document.getElementById(this.uuid)
         if(!checkel) return
         let checkmc = Propagating(new Hammer.Manager(checkel))
-
         let checkTap = new Hammer.Tap({ event: 'singletap', time: 400 })
         let checkDoubleTap = new Hammer.Tap({ event: 'doubletap', taps: 2, time: 400, interval: 400 })
         checkmc.add([checkDoubleTap, checkTap])
-
         checkDoubleTap.recognizeWith(checkTap)
         checkTap.requireFailure(checkDoubleTap)
-
         checkmc.on('singletap', (e) => {
-            console.log("checkbox tap")
             if(!this.isCompleted) {
                 this.complete()
             } else {
@@ -39,11 +35,9 @@ export default {
             }
             e.stopPropagation()
         })
-
         checkmc.on('doubletap', (e) => {
             e.stopPropagation()
         })
-        console.log("checkbox mounted")
     },
     computed: {
         isCompleted(){
@@ -55,7 +49,6 @@ export default {
     },
     methods: {
         complete(){
-
             this.$store.dispatch("makeEvent", {
               type: 'task-claimed',
               inId: this.inId,
@@ -65,7 +58,6 @@ export default {
             })
         },
         uncheck(){
-
             this.$store.dispatch("makeEvent", {
               type: 'task-unclaimed',
               taskId: this.b.taskId,
