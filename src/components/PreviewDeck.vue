@@ -2,28 +2,29 @@
 
 .preview(v-if='deck.length > 0 || topPriorities.length > 0')
     .row
-        .four.grid
+        .one.grid
+            span &nbsp;
+        .two.grid
+            .bead.yellowwx.tooltip(v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)')
+                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
+        .two.grid
+            .bead.purplewx.tooltip(v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)')
+                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
+        .two.grid
             .bead.yellowwx.tooltip(v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
             .bead.redwx.tooltip(v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
-        .four.grid
+        .two.grid
             .bead.greenwx.tooltip(v-for="(b,i) in green", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
-        .four.grid
+        .two.grid
             .bead.purplewx.tooltip(v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
             .bead.bluewx.tooltip(v-for="(b,i) in blue", @click='goto(b.taskId)')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
-    .row
-        .two.grid
+        .one.grid
             span &nbsp;
-        .four.grid
-            .bead.yellowwx.tooltip(v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)')
-                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
-        .four.grid
-            .bead.purplewx.tooltip(v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)')
-                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
 </template>
 
 <script>
@@ -122,9 +123,15 @@ export default {
 @import '../styles/tooltips'
 
 .preview
-    width: 100%
-    margin-top: 0.5em
-    //opacity: 0.5
+    width: 15%;
+    float: right;
+    margin-left: .5em;
+    margin-bottom: .5em;
+    opacity: .39;
+    position: absolute;
+    right: 3em;
+    top: 2em;
+    z-index:9000
 
 .tinyboat
     height: 15px

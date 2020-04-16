@@ -68,7 +68,6 @@ button
     background: transparent
     padding: 0
     color: white
-    height: 2.2em
 
 .guildcreate button
     width: 40%

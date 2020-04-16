@@ -40,7 +40,7 @@
           .searchresults
               .boatContainer
                   img.boatAll.faded(src='../assets/images/downboat.svg'  @click='deBoatAll')
-                  .searchtotal {{ searchTotal }}
+                  .searchtotal(@click='goInSearchPanel') {{ searchTotal }}
                   img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='boatAll')
               .result(v-for='t in $store.getters.matchCards.guilds'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)')
                   img.smallguild(src='../assets/images/badge.svg')
@@ -126,6 +126,13 @@ export default {
         });
     },
     methods: {
+        goInSearchPanel(){
+            this.$store.dispatch('goIn', {
+                parents:[this.$store.getters.contextCard.taskId],
+                panel:this.matchIds,
+                top:0,
+            })
+        },
         boatAll(){
             this.$store.dispatch("makeEvent", {
                 type: 'pile-prioritized',
@@ -183,7 +190,7 @@ export default {
         resetCard(){
             this.showCreate = false
             this.task.name = ''
-            this.task.search = ''
+            this.$store.commit('setSearch', '')
         },
         subTaskTask(taskId) {
             this.$store.dispatch("makeEvent", {
@@ -243,14 +250,13 @@ export default {
           }
         },
         loadResult(t) {
-            this.exploring = true
             this.task.name = t.name.trim()
             this.task.color = t.color
-            this.task.search = this.task.name
+            this.$store.commit('setSearch', this.task.name)
         },
         debounce(func, delay) {
             clearTimeout(this.inDebounce)
-            this.inDebounce = setTimeout(() => func.apply(this), delay)
+            this.inDebounce = setTimeout(() => func.apply(this, arguments[2]), delay) // confusing
         },
         shortName(theName) {
             return calculations.shortName(theName)
@@ -308,13 +314,12 @@ export default {
 @import '../styles/input'
 @import '../styles/tooltips'
 
-
 .searchtotal
     position: absolute
     top: 0
     right: calc(50%-1em)
     color: lightGrey
-
+    cursor: pointer
 
 .tooltiptext.correctspot
     position: absolute
