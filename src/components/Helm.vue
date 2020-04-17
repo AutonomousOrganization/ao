@@ -1,12 +1,12 @@
 isUni<template lang='pug'>
 
 .helm(@contextmenu.prevent)
-    button.modeleft(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn'  id='helmleft'  :class='{ boat : $store.state.upgrades.mode === "badge" }'  @mousedown='$store.dispatch("flashHelm",1)')
-        img.upg(:src='"../assets/images/" + pastMode + ".svg"')
-    button.topcenter.adjtooltip(id='helm'  :class='$store.state.upgrades.flashClasses'  @mousedown='$store.dispatch("flashHelm",1)')
-        img.upg(:src='"../assets/images/" + $store.state.upgrades.mode + ".svg"')
     button.moderight(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn' id='helmright'  @mousedown='$store.dispatch("flashHelm",1)')
         img.upg(:src='"../assets/images/" + futureMode + ".svg"')
+    button.topcenter.adjtooltip(id='helm'  :class='$store.state.upgrades.flashClasses'  @mousedown='$store.dispatch("flashHelm",1)')
+        img.upg(v-if='$store.state.upgrades.mode !== "doge"'  :src='"../assets/images/" + $store.state.upgrades.mode + ".svg"')
+    button.modeleft(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn'  id='helmleft'  :class='{ boat : $store.state.upgrades.mode === "badge" }'  @mousedown='$store.dispatch("flashHelm",1)')
+        img.upg(:src='"../assets/images/" + pastMode + ".svg"')
 </template>
 
 <script>
@@ -141,11 +141,11 @@ export default {
     },
     methods: {
         goUni(mode, silent = false) {
-           
+
             this.$router.push('/' + mode)
         },
         goFront(mode) {
-           
+
             this.$router.push('/front/' + mode)
         },
         goHome(taskId){
