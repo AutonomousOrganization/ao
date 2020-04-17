@@ -75,18 +75,22 @@ function applyEvent(state, ev) {
 }
 
 function initialize(callback) {
+    let start = Date.now()
     dctrlDb.recover((err, backup) => {
           let ts = 0
           if (backup.length > 0){
               ts = backup[0].timestamp
+              console.log('using backup from ', Date(ts))
               applyBackup(backup[0])
           }
           dctrlDb.getAll(ts, (err, all) => {
               if (err) return callback(err)
+              console.log('applying ', all.length , ' events')
               all.forEach( ev => {
                   applyEvent(serverState, Object.assign({}, ev) )
                   applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
               })
+              console.log('finished in ', Date.now() - start , 'ms')
               callback(null)
           })
     })

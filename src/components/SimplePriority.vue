@@ -92,7 +92,7 @@ export default {
               this.$store.commit("setMode", 1)
           }
 
-         
+
           this.$router.push("/" + this.$store.state.upgrades.mode)
       },
       complete(){

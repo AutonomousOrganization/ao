@@ -1,18 +1,18 @@
 <template lang='pug'>
 
-.tally.tooltip
-    span.points(v-if='b.completeValue > 0') {{ b.completeValue }}
-    img.chest(v-if='b.completeValue > 0'  src='../assets/images/completed.svg')
-    span(v-if='cardStart').points {{ cardStart.days.toFixed(1) }} days
-    img.chest(v-if='cardStart'  src='../assets/images/timecube.svg')
-    span.hide(v-if='b.claimed.length > 0') -
-    img.chest(v-for='n in actions'  src='../assets/images/down.svg')
-    .tooltiptext(v-if='')
-    img(v-for='n in b.claims'  src='../assets/images/mark.svg')
+.tally
+    span.adjtooltip
+        span.points(v-if='b.completeValue > 0') {{ b.completeValue }}
+        img.chest(v-if='b.completeValue > 0'  src='../assets/images/completed.svg')
+        span(v-if='cardStart').points {{ cardStart.days.toFixed(1) }} days
+        img.chest(v-if='cardStart'  src='../assets/images/timecube.svg')
+        span.hide(v-if='b.claimed.length > 0') -
+        img.chest(v-for='n in actions'  src='../assets/images/ao.svg')
+        img(v-for='n in b.claims'  src='../assets/images/mark.svg')
     .tooltiptext(v-if='b.claimed.length > 0 || actions.length > 0')
-        p(v-if='$store.getters.member.tooltips') marked by:
+        p(v-if='$store.getters.member.tooltips  &&  actions.length > 0') clock on:
         current(v-for='n in actions'  :memberId='n')
-        p(v-if='$store.getters.member.tooltips') completed by:
+        p(v-if='$store.getters.member.tooltips &&  b.claimed.length > 0') completed by:
         current.block(v-for='memberId in b.claimed', :memberId='memberId')
 </template>
 
@@ -60,7 +60,6 @@ export default {
 .tally
     padding-right: 0.5em
     padding-left: 0.5em
-    min-height: 0.1em
     font-size: 1em
 
 img

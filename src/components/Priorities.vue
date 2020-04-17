@@ -9,16 +9,20 @@
           .priorityContainer
               checkbox.boatAll.adjtooltip(:b='getCard(t)'  :inId='$store.getters.contextCard.taskId')
               .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
-                  p.suggest sink
+                  p.suggest claim checkmark
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId')
-              div(v-if='!hasCompleted(t) || i > 0')
+              div(v-if='i > 0')
                   img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='prioritized(t)')
                   .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
                       p.suggest up boat
-              div(v-else)
+              div(v-else-if='hasCompleted(t)')
                   img.boatAll.boatR.faded.adjtooltip(src='../assets/images/completed.svg'  @click='completed(t)')
                   .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
                       p.suggest to completed pile
+              div(v-else)
+                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='refocused(t)')
+                  .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
+                      p.suggest return to table
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
               hyperpriority.closedcard(:taskId='st'  :inId="t")

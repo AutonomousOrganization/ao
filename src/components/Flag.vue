@@ -1,9 +1,7 @@
 <template lang='pug'>
 .flag(v-if="$store.getters.memberCard")
     .flaggy(:id='uuid'  :class='flagClass')
-        img(v-if='($store.getters.member.action === b.taskId) && isCompleted' src='../assets/images/completed.svg' )
-        img(v-else-if='$store.getters.member.action === b.taskId && !isCompleted'  src='../assets/images/uncompleted.svg')
-        img(v-else-if='$store.state.upgrades.mode === "badge"'  src='../assets/images/badge.svg')
+        img(v-if='$store.state.upgrades.mode === "badge"'  src='../assets/images/badge.svg')
         img(v-else-if='$store.state.upgrades.mode === "chest"'  src='../assets/images/chest.svg')
         img(v-else-if='$store.state.upgrades.mode === "timecube"' src='../assets/images/timecube.svg')
         img(v-else-if='($store.state.upgrades.mode === "boat" || $store.state.upgrades.mode === "doge") && isDoged'  src='../assets/images/sun.svg')
@@ -43,14 +41,6 @@ export default {
         mc.add(Tap)
         mc.on('tap', (e) => {
             let mode = this.$store.state.upgrades.mode
-            if (this.$store.getters.member.action === this.b.taskId){
-                if(!this.isCompleted) {
-                    this.complete()
-                } else {
-                    this.uncheck()
-                }
-                return
-            }
             switch(mode) {
                 case 'doge':
                 case 'boat':
