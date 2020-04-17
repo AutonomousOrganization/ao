@@ -22,27 +22,16 @@
     div(v-if='b.taskId !== $store.getters.member.action  && b.taskId !== $store.getters.contextCard.taskId')
         simple-priorities(:taskId="b.taskId", :inId='b.taskId')
     .passed
-        div.totop(v-if='b.passed.length > 0')
+        div.totop(v-if='b.passed.length + links.length > 0  && $store.state.upgrades.bird')
             div(@click='toggleBird')
-                .singlebird(v-if='!$store.state.upgrades.bird')
-                    .row.pad.centered
-                        img.send(src='../assets/images/send.svg')
-                        span {{ b.passed.length}}
-                template(v-else  v-for='n in b.passed'  @click='toggleBird')
+                template(v-for='n in b.passed')
                     .row.pad.centered
                         current(:memberId='n[0]')
                         img.send(src='../assets/images/send.svg')
                         current(:memberId='n[1]')
-    .linked
-        div.totop(v-if='links.length > 0')
-            div(@click='toggleBird')
-                .singlebird(v-if='!$store.state.upgrades.bird')
+                template(v-for='l in links')
                     .row.pad.centered
-                        img.send(src='../assets/images/ao.svg')
-                        span {{ links.length}}
-                template(v-else  v-for='n in links')
-                    .row.pad.centered
-                        h6 {{n}}
+                        h6 {{l.slice(0,8)}}
     div
         .scrol.faded(ref='scuttle')
             img.scrolly(src='../assets/images/downboat.svg'  :id='uuid')
@@ -50,6 +39,14 @@
             img.viney.adjtooltip(src='../assets/images/orb.svg')
             .tooltiptext.correctspot(v-if='b.deck.length > 0')
                 current.block(v-for='memberId in b.deck'  :memberId='memberId')
+        .singlebird(v-if='links.length + b.passed.length > 0'  @click='toggleBird')
+            .row.pad.centered(:class='{faded:!$store.state.upgrades.bird}')
+                span(v-if='links.length > 0')
+                    img.send(src='../assets/images/ao.svg')
+                    span {{ links.length}}
+                span(v-if='b.passed.length > 0')
+                    img.send(src='../assets/images/send.svg')
+                    span {{ b.passed.length}}
 </template>
 
 <script>
@@ -277,6 +274,9 @@ export default {
 @import '../styles/spinners'
 @import '../styles/tooltips'
 
+.faded
+    opacity: .1
+
 .tooltiptext.correctspot
     position: absolute
     top: calc(100% - 1.75em)
@@ -419,8 +419,8 @@ label
     z-index: 1000
 
 .pad
-    margin-top: 1em
-    margin-bottom: 1em
+    margin-top: 0em
+    margin-bottom: 0em
 
 .centered
     text-align: center
