@@ -137,9 +137,11 @@ img
     height: 1.5em
     cursor: pointer
     z-index: 50
+    overflow: hidden
 
 .popup .here
-    visibility: hidden
+    // visibility: hidden
+    opacity: 0.15
 
 .popup:hover
     height: 100%
@@ -147,6 +149,7 @@ img
 
 .popup:hover .here
     visibility: visible
+    opacity:.67
     padding: 1em
     z-index: 99
 

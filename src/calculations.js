@@ -76,7 +76,6 @@ function blankMember(memberId, name, fob, secret, lastUsed){
     }
 }
 
-
 function blankCard(taskId, name, color, deck = []) {
     let newCard = {
         taskId,

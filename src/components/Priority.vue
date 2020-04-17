@@ -275,7 +275,6 @@ img
     margin-right: 0.5em
 
 .front
-    position: relative
     z-index: 100
 
 .agedbackground
@@ -295,19 +294,19 @@ img
 
 .freshpaper
     background-image: url('/paper.jpg')
-    opacity: 0.2
+    opacity: 0.08
 
 .weekoldpaper
     background-image: url('/paper_aged_1.png')
-    opacity: 0.25
+    opacity: 0.08
 
 .montholdpaper
     background-image: url('/paper_aged_2.png')
-    opacity: 0.3
+    opacity: 0.08
 
 .threemontholdpaper
     background-image: url('/paper_aged_3.png')
-    opacity: 0.35
+    opacity: 0.08
 
 .dont-break-out
     overflow-wrap: break-word

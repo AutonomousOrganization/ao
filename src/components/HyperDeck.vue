@@ -177,7 +177,7 @@ export default {
 
 .card
     color: white
-    font-size:1.111em
+    font-size:1.00111em
     margin-top: 1em
     display: inline-block
     margin-left: 1em

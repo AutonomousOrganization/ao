@@ -88,9 +88,9 @@ export default {
                     this.$router.push('/doge')
                 }
                 this.$store.dispatch("makeEvent", {
-                    type: 'task-refocused',
-                    inId: this.inId,
-                    taskId: this.b.taskId,
+                  type: 'task-de-sub-tasked',
+                  subTask: this.b.taskId,
+                  taskId: this.inId,
                 })
                 this.$store.commit('setAction', false)
             } else if (this.inId){
@@ -165,7 +165,7 @@ export default {
             if (panel && panel.length && panel.length > 0){
 
             } else {
-                panel = [this.b.taskId]
+                panel = _.uniq( [this.b.taskId].concat(this.$store.state.context.panel) )
             }
 
             let top = panel.indexOf(this.b.taskId)
