@@ -7,13 +7,9 @@
     bird(:b='b', :inId='inId')
     flag(:b='b', :inId='inId')
     tally(:b='b')
-    .dogecoin.tooltip(v-if='b.weight && b.weight > 0'  :key='dogers')
-        img(v-for='n in parseInt(Math.floor(b.weight))'  :key='n'  src='../assets/images/sun.svg')
-        img(v-if='b.weight % 1 > 0 || b.weight < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/sun.svg'  :key='dogers')
-        .tooltiptext
-            img(src='../assets/images/sun.svg')
-            p(v-if='$store.getters.member.tooltips') prioritized by:
-            current(v-for='doger in b.dogers'  :memberId='doger'  :key='dogers')
+    .dogecoin.tooltip(v-if='w > 0')
+        img(v-for='n in parseInt(Math.floor(w))'  src='../assets/images/sun.svg')
+        img(v-if='w % 1 > 0 || w < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/sun.svg')
     .buffertop
       preview-deck(v-if='$store.getters.contextCard.taskId !== b.taskId'  :task='b')
       .cardbody
@@ -144,7 +140,6 @@ export default {
         longPress.requireFailure([doubleTap])
 
         mc2.on('doubletap', (e) => {
-            console.log('goin triggered by doubletap')
             this.goIn()
             e.stopPropagation()
         })
@@ -220,6 +215,9 @@ export default {
         },
     },
     computed: {
+        w(){
+            return this.$store.getters.weights[this.b.taskId]
+        },
         links(){
             let links = []
             this.$store.state.ao.forEach(a => {
@@ -258,7 +256,7 @@ export default {
           return mc
         },
         fractionalReserveDoge() {
-            return Math.max(Math.floor((this.b.weight % 1) * 16), 1)
+            return Math.max(Math.floor((this.w % 1) * 16), 1)
         },
     },
 }

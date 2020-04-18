@@ -2,7 +2,7 @@
 
 #theoracle
     h1 Oracle
-    hypercard.topmission(v-if='topcard'  :b='topcard'  :key='topcard.taskId'  :c='[topcard.taskId]'  :inId='$store.getters.member.memberId'  @click.capture.stop='goInNews(topcard.taskId)')
+    hypercard.topmission(v-if='$store.getters.topcard'  :b='$store.getters.topcard'  :c='[$store.getters.topcard.taskId]'  :inId='$store.getters.member.memberId'  @click.capture.stop='goInNews($store.getters.topcard.taskId)')
 </template>
 
 <script>
@@ -30,7 +30,7 @@ export default {
               panel
           })
 
-         
+
           if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
               this.$store.commit("setMode", 1)
           }
@@ -38,58 +38,6 @@ export default {
       },
   },
   computed: {
-      topcard(){
-          let news = []
-          this.$store.getters.memberIds.forEach(mId => {
-              let member = this.$store.getters.hashMap[mId]
-              let lastUsed
-              this.$store.state.members.forEach( m => {
-                  if(m.memberId === mId){
-                      lastUsed = m.lastUsed
-                  }
-              })
-              if(member && lastUsed) {
-                  let presence = (Date.now() - lastUsed) <= (3600000 * 4)
-                  if(presence && member.priorities) {
-                      member.priorities.forEach(p => {
-                          let priority = Object.assign({}, this.$store.getters.hashMap[p])
-                          if(!priority.dogers) {
-                              priority.dogers = []
-                          }
-                          priority.dogers.push(member.name)
-                          if(!news.some((sp, i) => {
-                              if(sp.taskId === p) {
-                                  news[i].weight += 1 / member.priorities.length
-                                  return true
-                              }
-                              return false
-                          })) {
-                              priority.weight = 1 / member.priorities.length
-                              news.push(priority)
-                          }
-                      })
-                  }
-              }
-          })
-          news = news.filter(c => {
-              if(!c.claimed) return true
-              return c.claimed.indexOf(this.$store.getters.member.memberId) === -1
-          })
-          news.sort((a, b) => {
-              return b.weight - a.weight
-          })
-          if(news.length < 1) return
-          let ndex = 0
-          let subpriorities = news[ndex].priorities.filter(tId => {
-              let subpriority = this.$store.getters.hashMap[tId]
-              if(!subpriority.claimed) return true
-              return subpriority.claimed.indexOf(this.$store.getters.member.memberId) === -1
-          })
-          if(!news[ndex].guild || subpriorities.length < 1) {
-              return news[ndex]
-          }
-          return this.$store.getters.hashMap[subpriorities[subpriorities.length - 1]]
-      },
       alldoged(){
           let news = []
           this.$store.getters.memberIds.forEach(mId => {

@@ -322,7 +322,7 @@ img
     width:100%
 
 .boatAll
-    margin: 0 1em 0 1em
+    margin: 0 1em 0 .55em
     height: 20px;
     position: relative
     margin-top: 1em
@@ -330,6 +330,7 @@ img
     opacity: .3
     z-index:9999999999999
     cursor: pointer
+    margin-top:.55em
 
 .boatR
     position: absolute

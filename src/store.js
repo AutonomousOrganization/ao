@@ -351,6 +351,31 @@ export default new Vuex.Store({
       liveConnections(state, getters){
           return state.ao.filter(r => r.state && r.state.cash && r.state.cash.alias)
       },
+      weights(state, getters){
+          let w = {}
+          getters.memberIds.forEach(mId => {
+              let member = getters.hashMap[mId]
+              member.priorities.forEach(p => {
+                  if (!w[p]) {
+                      w[p] = 1 / member.priorities.length
+                  } else {
+                      w[p] += (1 / member.priorities.length)
+                  }
+              })
+          })
+          return w
+      },
+      topcard(state, getters){
+          let topId
+          let topW = 0
+          Object.keys(getters.weights).forEach(tId => {
+              if (getters.weights[tId] > topW){
+                  topW = getters.weights[tId]
+                  topId = tId
+              }
+          })
+          return getters.hashMap[topId]
+      },
   },
   middlewares: [],
   strict: process.env.NODE_ENV !== 'production'
