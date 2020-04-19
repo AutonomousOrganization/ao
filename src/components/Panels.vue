@@ -4,8 +4,8 @@
     div(v-if='$store.getters.all.length < 1')
         img.bdoge.adjtooltip(@dblclick='getArchive'  @click='getOracle'  src='../assets/images/doge.svg')
         .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-            p.suggest none
-        h5 no cards
+            p.suggest add the first
+        h5 no sub cards
     div(v-else-if='$store.getters.member.stacks === 5 && requireFiveStacks')
       .row
         .four.columns

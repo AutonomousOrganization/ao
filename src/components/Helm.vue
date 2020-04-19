@@ -3,7 +3,7 @@ isUni<template lang='pug'>
 .helm(@contextmenu.prevent)
     button.moderight(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn' id='helmright'  @mousedown='$store.dispatch("flashHelm",1)')
         img.upg(:src='"../assets/images/" + futureMode + ".svg"')
-    button.topcenter.adjtooltip(id='helm'  :class='$store.state.upgrades.flashClasses'  @mousedown='$store.dispatch("flashHelm",1)')
+    button.topcenter.adjtooltip(id='helm'  :class='helmClasses'  @mousedown='$store.dispatch("flashHelm",1)')
         img.upg(v-if='$store.state.upgrades.mode !== "doge"'  :src='"../assets/images/" + $store.state.upgrades.mode + ".svg"')
     button.modeleft(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn'  id='helmleft'  :class='{ boat : $store.state.upgrades.mode === "badge" }'  @mousedown='$store.dispatch("flashHelm",1)')
         img.upg(:src='"../assets/images/" + pastMode + ".svg"')
@@ -165,6 +165,13 @@ export default {
         },
     },
     computed: {
+        helmClasses(){
+            let x = {
+                bull:this.$store.state.upgrades.dimension === "bull",
+                sun: this.$store.state.upgrades.dimension === "sun"
+            }
+            return _.merge(this.$store.state.upgrades.flashClasses, x)
+        },
         pastMode(){
             let newMode = this.$store.state.upgrades.modes.indexOf(this.$store.state.upgrades.mode) - 1
             if (newMode < 0){
@@ -202,6 +209,8 @@ export default {
 #helm
     cursor: pointer
     opacity: .3
+    :hover
+        opacity: 1
 
 .upg
     height: 2em
@@ -225,6 +234,12 @@ export default {
     border-bottom-left-radius: 50%
     border-bottom-right-radius: 50%
     border-top: none
+
+.topcenter.bull
+    background: lightteal
+
+.topcenter.sun
+    background: yellow
 
 .modeleft, .moderight
     position: fixed

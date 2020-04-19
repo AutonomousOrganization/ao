@@ -1,6 +1,6 @@
 <template lang='pug'>
 div
-  img.l(src="../assets/images/sun.svg"  ref='sun'  :class='{ bigger : isSun }')
+  img.l(src="../assets/images/sun.svg"  ref='sun'  :class='{ bigger : isSun, faded: $store.state.upgrades.dimension !== "sun" }')
   div.sunmenu(v-if='isSun && $store.getters.member.tooltips')
       p(@click='goFront("doge")'  :class='{ dabstination : $store.state.upgrades.mode === "doge" }')
           img.lil(src='../assets/images/doge.svg')
@@ -17,9 +17,6 @@ div
       p(@click='goFront("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
           img.lil(src='../assets/images/badge.svg')
           span Recent
-      p(@click='close(false)')
-          img.lil(src='../assets/images/uni.svg')
-          span close
       p.check.click(@click='toggleTooltips')
           img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
           img.checkmark(v-else, src='../assets/images/uncompleted.svg')
@@ -53,7 +50,7 @@ export default {
             mode = this.$store.state.upgrades.mode
         }
         this.$store.commit('setDimension', 1)
-       
+
 
         this.$router.push('/front/' + mode)
     },
@@ -89,10 +86,8 @@ export default {
     sunmc.on('tap', (e) => {
         if(!this.isSun) {
             this.goFront(false)
-
         } else {
-            this.nextMode()
-            this.goFront(false)
+            this.$router.push('/' + this.$store.state.upgrades.mode)
         }
         e.stopPropagation()
     })
@@ -131,6 +126,12 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours'
+
+.faded
+    opacity: 0.145654
+
+.faded:hover
+    opacity: 1
 
 .l
     position: fixed

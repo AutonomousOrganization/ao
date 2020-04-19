@@ -1,7 +1,7 @@
 <template lang='pug'>
 div
     div(ref='bull')
-        img.r(src="../assets/images/bull.svg"    :class='{ bigger : isBull }')
+        img.r(src="../assets/images/bull.svg"    :class='{ bigger : isBull, faded: $store.state.upgrades.dimension !== "bull" }')
     .bullmenu(v-if='isBull && $store.getters.member.tooltips')
         p(@click='goDash("doge")'  :class='{ dabstination : $store.state.upgrades.mode === "doge" }')
             img.lil(src='../assets/images/doge.svg')
@@ -18,9 +18,6 @@ div
         p(@click='goDash("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
             img.lil(src='../assets/images/badge.svg')
             span Accounts
-        p(@click='close(false)')
-            img.lil(src='../assets/images/uni.svg')
-            span close
         p.check.click(@click='toggleTooltips')
             img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
             img.checkmark(v-else, src='../assets/images/uncompleted.svg')
@@ -71,7 +68,7 @@ export default {
             mode = this.$store.state.upgrades.mode
         }
         this.$store.commit('setDimension', 2)
-       
+
 
         this.$router.push('/dash/' + mode)
     },
@@ -110,8 +107,7 @@ export default {
         if(!this.isBull) {
             this.goDash(false)
         } else {
-            this.nextMode()
-            this.goDash(false)
+            this.$router.push('/' + this.$store.state.upgrades.mode)
         }
         e.stopPropagation()
     })
@@ -148,6 +144,12 @@ export default {
 <style lang='stylus' scoped>
 @import '../styles/tooltips'
 @import '../styles/colours'
+
+.faded
+    opacity: 0.145654
+
+.faded:hover
+    opacity: 1
 
 p:hover
     background: rgba(255,255,255, 0.4)
