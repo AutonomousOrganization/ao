@@ -3,9 +3,7 @@
 .app
     div(:class='{sunbord: $store.state.upgrades.dimension === "sun", bullbord: $store.state.upgrades.dimension === "bull"}')
     contexts
-    sun
     helm
-    bull
     event-feed
     task-create
     auth(v-if='!$store.getters.isLoggedIn')
@@ -21,8 +19,6 @@
 <script>
 
 import EventFeed from './components/EventFeed'
-import Sun from './components/Sun'
-import Bull from './components/Bull'
 import Helm from './components/Helm'
 import Contexts from './components/Contexts'
 import TaskCreate from './components/TaskCreate'
@@ -54,7 +50,7 @@ export default {
 
     },
     components: {
-        EventFeed, Sun, Bull, Helm, TaskCreate, Contexts, Auth
+        EventFeed, Helm, TaskCreate, Contexts, Auth
     },
 }
 

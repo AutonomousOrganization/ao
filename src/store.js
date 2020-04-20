@@ -294,7 +294,6 @@ export default new Vuex.Store({
                   }
               })
           })
-          console.log('sendableGuilds ', guilds)
           return guilds
       },
       isLoggedIn(state, getters){

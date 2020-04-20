@@ -41,12 +41,22 @@ export default {
         GuildCreate
     },
     data() {
-        return {
-            showGuildCreate: false,
-            showSend:false,
-            toMember: this.$store.getters.recentMembers[0].memberId,
-            toGuild: this.$store.getters.topGuilds[0].taskId,
-            toAo:'',
+        if (this.$store.getters.recentMembers.length > 0 && this.$store.getters.topGuilds.length > 0){
+            return {
+                showGuildCreate: false,
+                showSend:false,
+                toMember: this.$store.getters.recentMembers[0].memberId,
+                toGuild: this.$store.getters.topGuilds[0].taskId,
+                toAo:'',
+            }
+        } else {
+          return {
+              showGuildCreate: false,
+              showSend:false,
+              toMember: '',
+              toGuild: '',
+              toAo:'',
+          }
         }
     },
     mounted() {
