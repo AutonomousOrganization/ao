@@ -8,7 +8,9 @@
         label.stash {{ $store.getters.inbox.length }}
     .topright
         div(@click='goCube'  :class='{here: $store.state.upgrades.mode === "timecube"}')
-            img.smallguild(src='../assets/images/timecube.svg')
+            img.smallguild.adjtooltip(src='../assets/images/timecube.svg')
+            .tooltiptext(v-if='$store.getters.member.tooltips')
+                p.suggest events
             label.stash {{ myEvents }}
     .row.center.clearboth(@click='goBoat'  :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
         img.logindicator(v-if='$store.getters.presentIds.indexOf(m.memberId) > -1', src='../assets/images/loggedIn.svg')
@@ -16,11 +18,15 @@
         label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }') {{ m.name }}
     .bottomleft
         div(@click='goBadge'  :class='{here: $store.state.upgrades.mode === "badge"}')
-            img.smallguild(src='../assets/images/badge.svg'  :class='{faded: card.deck.indexOf($store.getters.member.memberId) === -1}')
+            img.smallguild.adjtooltip(src='../assets/images/badge.svg'  :class='{faded: card.deck.indexOf($store.getters.member.memberId) === -1}')
+            .tooltiptext.v(v-if='$store.getters.member.tooltips')
+                p.suggest vouches
             div.stash {{nameList.length}}
     .bottomright
-        div(@click='goChest'  :class='{here: $store.state.upgrades.mode === "chest"}')
+        .tooltip(@click='goChest'  :class='{here: $store.state.upgrades.mode === "chest"}')
           img.smallguild(src='../assets/images/chest.svg')
+          .tooltiptext(v-if='$store.getters.member.tooltips')
+              p.suggest points
           label.stash(v-if='card.boost') {{ card.boost.toFixed(2) }}
           label.stash(v-else) 0
     .clearboth
@@ -155,6 +161,10 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/tooltips'
+
+.tooltiptext.v
+    position: absolute
+    left: 3em
 
 .row.center.clearboth
     cursor: pointer

@@ -8,12 +8,10 @@
     div
         .give(v-if='showSend')
             select(v-model='toMember')
-                option(disabled, value='') to account
-                option(v-for='n in $store.state.members', :value="n.memberId") {{ n.name }}
+                option(v-for='n in $store.getters.recentMembers', :value="n.memberId") {{ n.name }}
             button.small(@click='dispatchMakeEvent(passInfo)') show
         .play(v-if='showSend')
             select(v-model='toGuild')
-                option(disabled, value='') to tag
                 template(v-for='g in $store.getters.sendableGuilds')
                     option(:value="g.taskId") {{ g.guild }}
                     template(v-for='p in g.guilds')
@@ -46,8 +44,8 @@ export default {
         return {
             showGuildCreate: false,
             showSend:false,
-            toMember: '',
-            toGuild: '',
+            toMember: this.$store.getters.recentMembers[0].memberId,
+            toGuild: this.$store.getters.topGuilds[0].taskId,
             toAo:'',
         }
     },

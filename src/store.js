@@ -21,6 +21,34 @@ export default new Vuex.Store({
       sessions: modules.sessions,
   },
   getters: {
+      topGuilds(state, getters){
+          let guilds = []
+          let uniqueG = []
+          state.tasks.forEach((c, i) => {
+              if (c.guild){
+                  let l = uniqueG.indexOf(c.guild)
+                  if (guilds.indexOf(c.guild) === -1){
+                    guilds.push(c)
+                    uniqueG.push(c.guild)
+                  } else {
+                    let o = guilds[l]
+                    if (o.deck.length <= c.deck.length){
+                        guilds[l] = c
+                    }
+                  }
+              }
+          })
+          guilds.sort( (a, b) => b.deck.length - a.deck.length )
+          return guilds
+      },
+      recentMembers(state, getters){
+          let recentMembers = []
+          recentMembers = state.members.slice()
+          recentMembers.sort((a, b) => {
+              return b.lastUsed - a.lastUsed
+          })
+          return recentMembers
+      },
       matchCards(state, getters) {
           let cards = []
           let guilds = []

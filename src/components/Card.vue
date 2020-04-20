@@ -36,11 +36,11 @@
             .tooltiptext.correctspot(v-if='b.deck.length > 0')
                 current.block(v-for='memberId in b.deck'  :memberId='memberId')
         .singlebird(v-if='links.length + b.passed.length > 0'  @click='toggleBird')
-            .row.pad.centered(:class='{faded:!$store.state.upgrades.bird}')
-                span(v-if='links.length > 0')
+            .row.pad.centered()
+                span(v-if='links.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
                     img.send(src='../assets/images/ao.svg')
                     span {{ links.length}}
-                span(v-if='b.passed.length > 0')
+                span(v-if='b.passed.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
                     img.send(src='../assets/images/send.svg')
                     span {{ b.passed.length}}
 </template>

@@ -2,8 +2,8 @@
 
 #frontrecent
   hypercard.topmission(v-if='$store.getters.topcard'  :b='$store.getters.topcard'  :c='[$store.getters.topcard.taskId]'  :inId='$store.getters.member.memberId'  @click.capture.stop='goInNews($store.getters.topcard.taskId)')
-  .container(v-if='recentMembers.length > 0')
-    row(v-for="(m, i) in recentMembers", :m="m"  v-if="showTotal > i")
+  .container(v-if='$store.getters.recentMembers.length > 0')
+    row(v-for="(m, i) in $store.getters.recentMembers", :m="m"  v-if="showTotal > i")
     img.andThen(@click='andThen'  src='../assets/images/loader.svg')
   .container
     missions
@@ -52,20 +52,6 @@ export default {
           this.$router.push("/" + this.$store.state.upgrades.mode)
       },
   },
-  computed: {
-      recentMembers(){
-          let recentMembers = []
-          try {
-            recentMembers = this.$store.state.members.slice()
-            recentMembers.sort((a, b) => {
-                return b.lastUsed - a.lastUsed
-            })
-          } catch (err){
-              console.log("ddnn wrrk: ", err)
-          }
-          return recentMembers
-      }
-  }
 }
 
 </script>
