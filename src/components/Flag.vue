@@ -66,17 +66,14 @@ export default {
         mc.add(Press)
         mc.on('press', (e) => {
             switch(this.$store.state.upgrades.mode) {
-                case false:
-                    return
                 case 'doge':
                 case 'boat':
-                    this.dogeIt()
+                    this.pilePrioritized()
                     break
                 case 'badge':
-                    return
                 case 'chest':
-                    return
                 case 'timecube':
+                    this.flagIt()
                     return
             }
 
@@ -112,6 +109,17 @@ export default {
                 memberId:  this.$store.getters.member.memberId,
                 notes: ''
             })
+        },
+        pilePrioritized(){
+            let colorIds = this.$store.getters[this.b.color].map(t => t.taskId)
+            let isOneOf = colorIds.indexOf(this.b.taskId) > -1
+            if (this.$store.getters.member.stacks === 5 && isOneOf){
+                this.$store.dispatch("makeEvent", {
+                  type: 'pile-prioritized',
+                  tasks: colorIds,
+                  inId: this.$store.getters.contextCard.taskId,
+                })
+            }
         },
         togglePay(){
             this.isPayOpen = !this.isPayOpen
