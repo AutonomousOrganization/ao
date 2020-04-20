@@ -23,9 +23,7 @@ div
             img.checkmark(v-else, src='../assets/images/uncompleted.svg')
             span.space tips
     div(v-if='isBull')
-        status
         .satspot 1 = {{ $store.getters.satPointSpot.toLocaleString() }}&#12471;
-            //- span  1BTC = ${{ $store.state.cash.spot.toLocaleString() }}
         .logout(v-if='$store.getters.isLoggedIn'  @click="killSession") log out
 </template>
 

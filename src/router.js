@@ -12,7 +12,6 @@ import Reserve from './components/Reserve'
 
 import Oracle from './components/Oracle'
 import Port from './components/Port'
-import Recent from './components/Recent'
 import Bounties from './components/Bounties'
 import Upcoming from './components/Upcoming'
 
@@ -68,7 +67,7 @@ const routes =[{
   meta: { title: "Port cards" }
 },{
   path: '/front/badge',
-  component: Recent,
+  component: Port,
   meta: { title: "recent" }
 },{
   path: '/front/chest',

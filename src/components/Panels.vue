@@ -2,10 +2,9 @@
 
 .panel(:class='{ fullwidth : $store.getters.member.stacks === 1 || !requireFiveStacks }')
     div(v-if='$store.getters.all.length < 1')
-        img.bdoge.adjtooltip(@dblclick='getArchive'  @click='getOracle'  src='../assets/images/doge.svg')
+        h5.adjtooltip no sub cards
         .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
             p.suggest add the first
-        h5 no sub cards
     div(v-else-if='$store.getters.member.stacks === 5 && requireFiveStacks')
       .row
         .four.columns
@@ -103,6 +102,9 @@ export default {
 @import '../styles/skeleton'
 @import '../styles/button'
 @import '../styles/tooltips'
+
+h5.adjtooltip
+    margin-top:1.2em
 
 .two.columns, .stay
     height: 1em

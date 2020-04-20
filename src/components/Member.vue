@@ -16,7 +16,7 @@
         label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }') {{ m.name }}
     .bottomleft
         div(@click='goBadge'  :class='{here: $store.state.upgrades.mode === "badge"}')
-            img.smallguild(src='../assets/images/badge.svg')
+            img.smallguild(src='../assets/images/badge.svg'  :class='{faded: card.deck.indexOf($store.getters.member.memberId) === -1}')
             div.stash {{nameList.length}}
     .bottomright
         div(@click='goChest'  :class='{here: $store.state.upgrades.mode === "chest"}')
@@ -55,6 +55,9 @@ export default {
         card(){
             return this.$store.getters.contextCard
         },
+        isGrabbed(){
+          return this.card.deck.indexOf(this.$store.getters.member.memberId) >= 0
+        },
         isLoggedIn(){
             let isLoggedIn
             this.$store.state.sessions.forEach( s => {
@@ -83,7 +86,23 @@ export default {
             this.$router.push('/boat')
         },
         goBadge(){
-            this.$router.push('/badge')
+            if(this.$store.state.upgrades.mode !== 'badge') {
+                this.$router.push('/badge')
+            } else {
+                if (this.isGrabbed){
+                    this.$store.dispatch("makeEvent", {
+                      type: 'task-dropped',
+                      taskId: this.card.taskId,
+                      memberId: this.$store.getters.member.memberId,
+                    })
+                } else {
+                    this.$store.dispatch("makeEvent", {
+                      type: 'task-grabbed',
+                      taskId: this.card.taskId,
+                      memberId: this.$store.getters.member.memberId,
+                    })
+                }
+            }
         },
         goDoge(){
             this.$router.push('/doge')
