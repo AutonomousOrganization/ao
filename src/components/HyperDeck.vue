@@ -32,9 +32,10 @@
                 img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
                 .tooltiptext.correctspotleft(v-if='!$store.state.context.completed && $store.getters.member.tooltips')
                     p.suggest clear
-                img.completed.adjtooltip(src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
+                img.completed.adjtooltip(v-if='$store.state.context.completed'   src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
+                img.completed.adjtooltip(v-else   src='../assets/images/uncompleted.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
                 .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                    p.suggest show completed
+                    p.suggest view completed
     .agedbackground.translucent(:class='cardInputSty')
     .agedbackground.freshpaperbg(v-if='cardAge < 8')
     .agedbackground.weekoldpaperbg(v-else-if='cardAge < 30')

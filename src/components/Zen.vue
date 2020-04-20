@@ -1,7 +1,10 @@
 <template lang='pug'>
 
 .zen()
-    img.bdoge(v-if='$store.getters.inbox.length < 1'  @click='$router.push("/boat")'  src='../assets/images/doge.svg')
+    .tooltip.fw(v-if='$store.getters.inbox.length < 1'  @click='$router.push("/boat")')
+        img.bdoge(src='../assets/images/doge.svg')
+        .tooltiptext(v-if='$store.getters.member.tooltips')
+            p.suggest no mode active
     gift-box(v-else)
 </template>
 
@@ -21,6 +24,17 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
+
+@import '../styles/tooltips'
+
+.fw
+    width: 100%
+    cursor: pointer
+
+
+.tooltiptext
+    position: absolute
+    left: 50%
 
 .bdoge
     width: 100%

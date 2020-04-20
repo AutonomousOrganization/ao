@@ -1,12 +1,18 @@
 isUni<template lang='pug'>
 
 .helm(@contextmenu.prevent)
-    button.moderight(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn' id='helmright'  @mousedown='$store.dispatch("flashHelm",1)')
+    button.moderight.adjtooltip(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn' id='helmright'  @mousedown='$store.dispatch("flashHelm",1)')
         img.upg(:src='"../assets/images/" + futureMode + ".svg"')
+    .tooltiptext.r(v-if='$store.getters.member.tooltips')
+        p.suggest set mode {{futureMode}}
     button.topcenter.adjtooltip(id='helm'  :class='helmClasses'  @mousedown='$store.dispatch("flashHelm",1)')
         img.upg(v-if='$store.state.upgrades.mode !== "doge"'  :src='"../assets/images/" + $store.state.upgrades.mode + ".svg"')
-    button.modeleft(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn'  id='helmleft'  :class='{ boat : $store.state.upgrades.mode === "badge" }'  @mousedown='$store.dispatch("flashHelm",1)')
+    .tooltiptext(v-if='$store.getters.member.tooltips')
+        p.suggest next mode
+    button.modeleft.adjtooltip(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn'  id='helmleft'  :class='{ boat : $store.state.upgrades.mode === "badge" }'  @mousedown='$store.dispatch("flashHelm",1)')
         img.upg(:src='"../assets/images/" + pastMode + ".svg"')
+    .tooltiptext.l(v-if='$store.getters.member.tooltips')
+        p.suggest set mode {{pastMode}}
 </template>
 
 <script>
@@ -199,6 +205,21 @@ export default {
 @import '../styles/colours'
 @import '../styles/grid'
 @import '../styles/tooltips'
+
+.tooltiptext
+    position: absolute
+    left: 50%
+    z-index: 4000000
+    top: 2em
+
+.tooltiptext.l
+    left: calc(50% - 15em)
+    top: 2.7em
+
+.tooltiptext.r
+    left: calc(50% + 3em)
+    top: 2.7em
+
 
 @media only screen and (max-width: 550px) {
   .modeleft, .moderight {

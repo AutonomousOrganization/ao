@@ -1,8 +1,6 @@
 <template lang='pug'>
 
 .upgrades
-    points-set.fw(v-if='!$store.getters.contextMember'  :b='$store.getters.contextCard')
-    h5 Points: {{ b.boost }}
     div(v-if='$store.state.cash.info.alias')
         .togglepayments
             img.max(@click='togglePayment(0)'  src='../assets/images/bitcoin.svg'  :class='{thickborder: $store.state.upgrades.payment === "bitcoin"}')
@@ -19,6 +17,7 @@
             button.submode(@click='invoiceCreate') ♻️
     div(v-else)
         h5 payments disconnected
+    points-set.fw(v-if='!$store.getters.contextMember'  :b='$store.getters.contextCard')
 </template>
 
 <script>
