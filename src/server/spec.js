@@ -65,6 +65,21 @@ router.post('/events', (req, res, next)=>{
             req.body.blame,
             utils.buildResCallback(res)
           );
+
+          let spot = state.serverState.cash.spot
+          if (!spot || spot <= 0){
+              spot = 10000
+          }
+          console.log('using spot ', spot, req.body.value)
+          let sats = calculations.cadToSats(req.body.value, spot)
+          lightning.createInvoice(sats, "<3" +  uuidV1(), '~', 3600)
+              .then(result => {
+                  let addr = result['p2sh-segwit']
+                  events.invoiceCreated(req.body.taskId, result.bolt11, result.payment_hash)
+              })
+              .catch(err => {
+                  console.log({err})
+              });
         } else {
           res.status(400).send(errRes);
         }

@@ -1,8 +1,8 @@
 <template lang='pug'>
 
 .pointsset(ref='wholeForm')
-    input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue(false)')
-    button(@click.stop='setValue') {{ detectChange }}
+    input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
+    button(@click.stop='setValue') refresh
 </template>
 
 <script>
@@ -40,40 +40,13 @@ export default {
         })
     },
     methods: {
-        setValue(clear = true) {
-            if(this.b.completeValue === this.task.points) {
-                if(!clear) {
-                    this.$emit('closeit')
-                    return
-                }
-                this.task.points = 0
-                this.$store.dispatch("makeEvent", {
-                    type: 'task-valued',
-                    taskId: this.b.taskId,
-                    value: 0,
-                })
-
-                this.$emit('closeit')
-                return
-            }
-            this.$emit('closeit')
-
+        setValue() {
             this.$store.dispatch("makeEvent", {
                 type: 'task-valued',
                 taskId: this.b.taskId,
                 value: Number(this.task.points),
             })
         },
-    },
-    computed: {
-        detectChange(){
-            if(this.b.completeValue === this.task.points) {
-                return "clear"
-            } else if(this.b.completeValue && this.task.points) {
-                return "revalue"
-            }
-            return "value"
-        }
     },
 }
 

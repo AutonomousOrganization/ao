@@ -42,7 +42,7 @@
         .logout(v-if='$store.getters.isLoggedIn'  @click="killSession") log out
     img.l.adjtooltip(src="../assets/images/sun.svg"  ref='sun'  :class='{ bigger : isSun, faded: $store.state.upgrades.dimension !== "sun" }')
     .tooltiptext.s(v-if='$store.getters.member.tooltips')
-        p.suggest view ao
+        p.suggest overview ao
     div.sunmenu(v-if='isSun && $store.getters.member.tooltips')
         p(@click='goFront("doge")'  :class='{ dabstination : $store.state.upgrades.mode === "doge" }')
             img.lil(src='../assets/images/doge.svg')

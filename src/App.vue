@@ -35,18 +35,19 @@ export default {
         this.$store.dispatch("connectSocket")
         this.$store.dispatch('loadCurrent')
 
-        setTimeout(()=>{
-          let con = {}
-          try {
-            let context = window.localStorage.context
-            con = JSON.parse(context)
-          } catch(err){}
-          if (con.top && con.panel){
-            this.$store.commit('setTop', con.top)
-            this.$store.commit('setPanel', con.panel)
-            this.$store.commit('setParent', con.parent)
-          }
-        }, 1000)
+        // find this slow?
+        // setTimeout(()=>{
+        //   let con = {}
+        //   try {
+        //     let context = window.localStorage.context
+        //     con = JSON.parse(context)
+        //   } catch(err){}
+        //   if (con.top && con.panel){
+        //     this.$store.commit('setTop', con.top)
+        //     this.$store.commit('setPanel', con.panel)
+        //     this.$store.commit('setParent', con.parent)
+        //   }
+        // }, 1000)
 
     },
     components: {

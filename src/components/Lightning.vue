@@ -31,7 +31,6 @@
                         tag(:d='a')
                     .six.columns
                         label {{a}}
-      payments
   .row(v-else)
       img.bdoge(src='../assets/images/doge.svg')
       h5 no lightning node

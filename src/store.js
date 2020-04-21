@@ -357,7 +357,7 @@ export default new Vuex.Store({
           if (state.cash.spot > 0){
               return calculations.cadToSats(1, state.cash.spot)
           }
-          return 1000
+          return 10000
       },
       membersVouches(state, getters){
           let members = state.members.slice()

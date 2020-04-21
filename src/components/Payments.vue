@@ -1,35 +1,25 @@
 <template lang='pug'>
 
 .upgrades
-    div(v-if='$store.state.cash.info.alias')
-        .togglepayments
-            img.max(@click='togglePayment(0)'  src='../assets/images/bitcoin.svg'  :class='{thickborder: $store.state.upgrades.payment === "bitcoin"}')
-            img.max(@click='togglePayment(1)'  src='../assets/images/lightning.svg'  :class='{thickborder: $store.state.upgrades.payment === "lightning"}')
-        div(v-show='$store.state.upgrades.payment === "bitcoin"')
-            div(v-if='b.address')
-                pay-address(:address='b.address')
-        div(v-show='$store.state.upgrades.payment === "lightning"')
-            div(v-if='b.bolt11')
-                pay-req(:bolt11='b.bolt11')
-            span
-                label Change amount
-                input(v-model='payreqAmount')
-            button.submode(@click='invoiceCreate') ♻️
+    .payreq(v-if='$store.state.cash.info.alias && b.bolt11')
+        tag(:d='b.bolt11')
+        a(:href='"lightning:" + b.bolt11')
+            button Open Wallet
     div(v-else)
-        h5 payments disconnected
-    points-set.fw(v-if='!$store.getters.contextMember'  :b='$store.getters.contextCard')
+        h5(v-if='$store.state.cash.info.alias') no value
+        h5(v-else) payment node disconnected
+    points-set.fw(:b='$store.getters.contextCard')
 </template>
 
 <script>
 
 import calcs from '../calculations'
-import PayAddress from './PayAddress'
-import PayReq from './PayReq'
 import PointsSet from './PointsSet'
+import Tag from './Tag'
 
 export default {
     components:{
-      PayReq, PayAddress, PointsSet
+        PointsSet, Tag
     },
     mounted() {
         if (this.$router.currentRoute.path.split("/")[1] !== 'dash'){
@@ -80,6 +70,10 @@ export default {
         },
     },
     computed: {
+        satAmount(){
+            let found = this.b.bolt11
+            return found[0]
+        },
         b(){
             return this.$store.getters.contextCard
         },
@@ -152,5 +146,38 @@ h5
     opacity: 0.77
     height: 5em
     margin-top: 1em
+
+button
+    max-width: 232px
+
+.payreq
+    text-align: center
+    background-color: rgba(0,0,0,0)
+    border-radius: 0.5em
+    padding: 1em
+    margin-bottom: 1.654321em
+
+a
+    text-decoration: none
+    color: main
+
+.box
+    word-wrap:break-word
+    max-width: 500px
+    z-index: 100001
+    padding: 1em
+
+.paid
+    color: purple
+    font-size: 5em
+
+.small
+    font-size: .892em
+    word-wrap: break-word
+    word-break: break-all
+    background: lightGrey
+    color: main
+    padding: 1em
+    border-radius: 1em
 
 </style>

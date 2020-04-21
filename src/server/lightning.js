@@ -16,8 +16,8 @@ lightningRouter.post('/lightning/channel',(req, res) => {
         })
 })
 
-function createInvoice(amount, label, description, expiresInSec){
-    return client.invoice(amount * 1000, label, description, expiresInSec)
+function createInvoice(sat, label, description, expiresInSec){
+    return client.invoice(sat * 1000, label, description, expiresInSec)
 }
 
 function newAddress(){
