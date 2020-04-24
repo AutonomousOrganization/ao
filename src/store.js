@@ -21,6 +21,9 @@ export default new Vuex.Store({
       sessions: modules.sessions,
   },
   getters: {
+      bountyList(state, getters){
+          return state.tasks.filter(t => t.completeValue >= 1).sort((a,b) => b.completeValue - a.completeValue)
+      },
       topGuilds(state, getters){
           let guilds = []
           let uniqueG = []
@@ -59,6 +62,7 @@ export default new Vuex.Store({
           try {
               let regex = new RegExp(state.upgrades.search, 'i')
               state.tasks.forEach(t => {
+                  if (t.taskId === getters.contextCard.taskId) return //
                   if(t.guild && regex.test(t.guild)) {
                       guilds.push(t)
                   } else if(regex.test(t.name)) {
@@ -66,6 +70,7 @@ export default new Vuex.Store({
                   }
               })
               state.members.forEach(member => {
+
                   if(regex.test(member.name)) {
                       doges.push(member)
                   }

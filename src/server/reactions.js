@@ -1,6 +1,8 @@
 const { getResource } = require( './utils')
 const events = require( './events')
 const { serverState } = require( './state')
+const lightning = require('./lightning')
+
 
 function checkForChargedEvent( resourceId ){
     let charged
@@ -67,11 +69,40 @@ function reactions(ev){
                 break
             case 'resource-stocked':
                 break
-            case 'member-address-updated':
-                break
             case 'member-created':
                 break
             case 'resource-created':
+                break
+            case 'task-created':
+                lightning.newAddress()
+                    .then(result => {
+                        events.addressUpdated(
+                            ev.taskId,
+                            result['p2sh-segwit'],
+                        )
+                    })
+                    .catch(err => console.log("tcre newaddr", err))
+                break
+            case 'resource-created':
+                lightning.newAddress()
+                    .then(result => {
+                        events.addressUpdated(
+                            ev.resourceId,
+                            result['p2sh-segwit'],
+                        )
+                    })
+                    .catch(err => console.log("rcre newaddr", err))
+                break
+            case 'member-created':
+                lightning.newAddress()
+                    .then(result => {
+                        events.addressUpdated(
+                            ev.memberId,
+                            result['p2sh-segwit'],
+                            utils.buildResCallback(res)
+                        )
+                    })
+                    .catch(err => console.log("mcr newaddr", err))
                 break
         }
     })

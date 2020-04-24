@@ -1,10 +1,16 @@
 <template lang='pug'>
 
 .upgrades
+    .payreq(v-if='b.btcAddr')
+        tag(:d='b.btcAddr')
+        a(:href='"bitcoin:" + b.btcAddr')
+            button Open Wallet
+                img(src='../assets/images/bitcoin.svg')
     .payreq(v-if='$store.state.cash.info.alias && b.bolt11')
         tag(:d='b.bolt11')
         a(:href='"lightning:" + b.bolt11')
             button Open Wallet
+                img(src='../assets/images/lightning.svg')
     div(v-else)
         h5(v-if='$store.state.cash.info.alias') no value
         h5(v-else) payment node disconnected
@@ -34,54 +40,10 @@ export default {
         }
     },
     methods: {
-        togglePayment(x){
-            let payModes = ['bitcoin', 'lightning']
-            if(this.$store.state.upgrades.payment === payModes[x]) {
-                this.$store.commit("closePayMode")
-                return
-            }
-            this.$store.commit("setPayMode", x)
-            if(x === 0) {
-                if(!this.$store.getters.contextCard.address) {
-                    this.$store.dispatch('makeEvent', {
-                        type: 'address-updated',
-                        taskId: this.$store.getters.contextCard.taskId
-                    })
-                }
-            }
-            if (x === 1) {
-                this.invoiceCreate()
-            }
-        },
-        invoiceCreate(){
-          let spot = this.$store.state.cash.spot
-          let amount
-          if (!spot){
-              amount = parseInt(this.payreqAmount)
-          } else {
-              amount = calcs.cadToSats( this.payreqAmount, spot)
-          }
-          this.$store.dispatch('makeEvent', {
-            type: 'invoice-created',
-            taskId: this.b.taskId,
-            amount,
-            label: '<3'
-          })
-        },
     },
     computed: {
-        satAmount(){
-            let found = this.b.bolt11
-            return found[0]
-        },
         b(){
             return this.$store.getters.contextCard
-        },
-        addressUpdate(){
-            return {
-                type: 'address-updated',
-                taskId: this.b.taskId
-            }
         },
     },
 }
@@ -179,5 +141,9 @@ a
     color: main
     padding: 1em
     border-radius: 1em
+
+button
+    img
+        height: 1.3em
 
 </style>

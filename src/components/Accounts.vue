@@ -46,9 +46,6 @@
             .check.click
                 img.checkmark(src='../assets/images/completed.svg')
                 span.space show boats
-            .check.click
-                img.checkmark(src='../assets/images/completed.svg')
-                span.space lightning
     .list
         h4.yellowtx ({{coreMembers.length}}) active
         member-row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')
@@ -65,6 +62,7 @@
         label fob (optional)
         span.focus-border
     button(v-if='member.name.length > 0'  @click='newMember') create account
+    h5 create extra accounts per device 
 </template>
 
 <script>

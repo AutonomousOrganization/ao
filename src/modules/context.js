@@ -60,8 +60,8 @@ const actions = {
             commit("addParent", p)
         })
         // XXX should limit ??
-        window.localStorage.setItem("context", JSON.stringify(state))
-        console.log('attempt to save ', state)
+        // window.localStorage.setItem("context", JSON.stringify(state))
+        // console.log('attempt to save ', state)
     },
     goUp({commit}, pContext){
         console.log('goUp called')

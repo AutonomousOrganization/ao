@@ -13,19 +13,17 @@ const syncLink = new cron.CronJob({
 })
 
 function sync(){
-    console.log('sync trig')
     serverState.ao.forEach(a => {
         a.links.forEach(l => {
             let crawlered = calculations.crawler(serverState.tasks, l)
             let expectedHash = calculations.crawlerHash(serverState.tasks, l)
             connector.checkHash(a.address, a.outboundSecret, l, hashRes => {
-                console.log({expectedHash, hashRes})
                 if (expectedHash !== hashRes){
                     connector.postEvent(a.address, a.outboundSecret, {
                       type: 'tasks-received',
                       tasks: getList(crawlered)
                     }, (connectorRes) => {
-                      console.log("ao relay response", {connectorRes})
+                      // console.log("ao relay response", {connectorRes})
                     })
                 }
             })

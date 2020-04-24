@@ -309,37 +309,35 @@ function sessionKilled(session, callback) {
 }
 
 function taskCreated(name, color, deck, inId, memberId, callback) {
-  let h = crypto.createHash('sha256')
-  h.update(name)
-  let hash = h.digest('hex')
-  let isExist = false
+    let h = crypto.createHash('sha256')
+    h.update(name)
+    let hash = h.digest('hex')
+    let isExist = false
+    serverState.tasks.forEach( t => {
+        if (t.hash === hash){
+            isExist = true
+        }
+    })
+    if (isExist) return callback('exists')
 
-  serverState.tasks.forEach( t => {
-      if (t.hash === hash){
-          isExist = true
-      }
-  })
-
-  if (!isExist){
-      let newEvent = {
-          type: "task-created",
-          taskId: uuidV1(),
-          name,
-          color,
-          deck,
-          hash,
-          inId,
-          memberId,
-      }
-      dctrlDb.insertEvent(newEvent, callback)
-  }
+    let newEvent = {
+        type: "task-created",
+        taskId: uuidV1(),
+        name,
+        color,
+        deck,
+        hash,
+        inId,
+        memberId,
+    }
+    dctrlDb.insertEvent(newEvent, callback)
 }
 
-function addressUpdated(taskId, address, callback){
+function addressUpdated(taskId, btcAddr, callback){
       dctrlDb.insertEvent({
           type: "address-updated",
           taskId,
-          address,
+          btcAddr,
       }, callback)
 }
 

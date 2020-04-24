@@ -86,7 +86,7 @@ function cashMuts(cash, ev){
 				cash.outputs = ev.outputs
 				cash.channels = ev.channels
 				break
-			case "task-boosted":
+			case "task-boosted": // keep on card?
 				cash.usedTxIds.push(ev.txid)
 				break
 			case "task-boosted-lightning":
@@ -408,7 +408,7 @@ function tasksMuts(tasks, ev) {
         case "address-updated":
             tasks.forEach( t => {
                 if (t.taskId === ev.taskId){
-                    t.address = ev.address
+                    t.btcAddr = ev.btcAddr
                 }
             })
             break
@@ -690,11 +690,10 @@ function tasksMuts(tasks, ev) {
         case "task-boosted":
             tasks.forEach(task => {
                 if (task.taskId === ev.taskId) {
-                    let amount = parseFloat(ev.amount)
-                    let boost  = parseFloat(task.boost)
-                    if (amount > 0){
+                    let amount = Number(ev.amount)
+                    let boost  = Number(task.boost)
+                    if (amount + boost > 0){
                         task.boost = amount + boost
-                        task.address = ""
                     }
                 }
             })

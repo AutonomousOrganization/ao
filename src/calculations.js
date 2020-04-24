@@ -73,6 +73,11 @@ function blankMember(memberId, name, fob, secret, lastUsed){
       payments: 0,
       boats: true,
       action: false,
+      red: "#000000a0",
+      yellow: "#000000a0",
+      green: "#00f000a0",
+      purple: "#000000a0",
+      blue: "#000000a0",
     }
 }
 
@@ -82,8 +87,8 @@ function blankCard(taskId, name, color, deck = []) {
         color,
         deck,
         name: name.trim(),
-        address: '',
-        bolt11: '',
+        btcAddr: false,
+        bolt11: false,
         book: {},
         boost: 0,
         priorities: [],
@@ -98,14 +103,14 @@ function blankCard(taskId, name, color, deck = []) {
         highlights: [],
         claims: [],
         stackView: {
-            all: -1,
+            all: 0,
             red: -1,
             blue: -1,
-            yellow: -1,
-            green: -1,
-            purple: -1,
+            yellow: 0,
+            green: 0,
+            purple: 0,
         },
-        // actions: [], // 
+        // actions: [], //
         // clocks: [],
     }
     return newCard

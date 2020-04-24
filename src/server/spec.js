@@ -59,12 +59,18 @@ router.post('/events', (req, res, next)=>{
           validators.isTaskId(req.body.taskId, errRes) &&
           validators.isAmount(req.body.value, errRes)
         ) {
+
           events.taskValued(
             req.body.taskId,
             req.body.value,
             req.body.blame,
             utils.buildResCallback(res)
           );
+          if (req.body.value === 0){
+              events.invoiceCreated(req.body.taskId, false, false)
+              return
+          }
+
 
           let spot = state.serverState.cash.spot
           if (!spot || spot <= 0){
@@ -245,7 +251,7 @@ router.post('/events', (req, res, next)=>{
           ) {
               lightning.createInvoice(req.body.amount, "<3" +  uuidV1(), '~', 3600)
                   .then(result => {
-                      let addr = result['p2sh-segwit']
+                      // hash hash?
                       events.invoiceCreated(req.body.taskId, result.bolt11, result.payment_hash, utils.buildResCallback(res))
                   })
                   .catch(err => {
@@ -504,20 +510,6 @@ router.post('/events', (req, res, next)=>{
             res.status(400).send(errRes)
           }
           break
-      case 'address-updated':
-          if (validators.isTaskId(req.body.taskId, errRes)) {
-              lightning.newAddress()
-                  .then(result => {
-                      let addr = result['p2sh-segwit']
-                      events.addressUpdated(req.body.taskId, addr, utils.buildResCallback(res))
-                  })
-                  .catch(err => {
-                      res.status(200).send("attempt failed")
-                  });
-          } else {
-              res.status(400).send(errRes)
-          }
-          break
       case 'task-created':
           if (
             validators.isNotes(req.body.name, errRes) &&
@@ -525,14 +517,14 @@ router.post('/events', (req, res, next)=>{
             validators.isNotes(req.body.deck, errRes) &&
             validators.isTaskId(req.body.inId)
           ){
-            events.taskCreated(
-              req.body.name,
-              req.body.color,
-              req.body.deck,
-              req.body.inId,
-              req.body.blame,
-              utils.buildResCallback(res)
-            )
+              events.taskCreated(
+                  req.body.name,
+                  req.body.color,
+                  req.body.deck,
+                  req.body.inId,
+                  req.body.blame,
+                  utils.buildResCallback(res)
+              )
           } else {
             res.status(400).send(errRes)
           }

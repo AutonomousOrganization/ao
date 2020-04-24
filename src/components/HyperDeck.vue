@@ -50,14 +50,12 @@ import ResourceRow from './ResourceRow'
 import Context from './ContextRow'
 import Hypercard from "./Card"
 import Panels from './Panels'
-import GiftBox from './GiftBox'
-import Auth from './Auth'
 
 export default {
   components:{
       Hypercard,
       Panels, MemberRow,
-      ResourceRow, Context, Auth, GiftBox
+      ResourceRow, Context,
   },
   methods:{
       pilePrioritized() {

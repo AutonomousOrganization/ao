@@ -14,7 +14,6 @@ function postEvent(address, secret, body, callback){
       json: true,
     }, function (err, res, resBody) {
           if (err){
-              console.log("error res", err)
               return callback(err)
           }
           callback(resBody)
@@ -29,7 +28,6 @@ function checkHash(address, secret, taskId, callback){
       json: true,
     }, function (err, res, resBody) {
           if (err){
-              console.log("error res", err)
               return callback(err)
           }
           callback(resBody)
@@ -45,7 +43,6 @@ function getState(address, secret, callback){
       json: true
     }, function (err, res, resBody) {
           if (err){
-              console.log("error res", err)
               return callback(err)
           }
           callback(null, resBody)

@@ -41,8 +41,6 @@ import calculations from '../calculations'
 
 import Tag from './Tag'
 import LocalRemoteBar from './LocalRemoteBar'
-import Payments from './Payments'
-import PointsSet from './PointsSet'
 import request from 'superagent'
 
 export default {
@@ -57,7 +55,7 @@ export default {
         }
     },
     components:{
-         Tag, LocalRemoteBar, Payments, PointsSet
+         Tag, LocalRemoteBar,
     },
     computed: {
         unchanneled(){

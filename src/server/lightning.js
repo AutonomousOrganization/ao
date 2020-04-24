@@ -9,12 +9,27 @@ const {serverState} = require( './state')
 const client = new LightningClient(config.clightning.dir, true);
 
 lightningRouter.post('/lightning/channel',(req, res) => {
-    client.fundchannel(req.body.id, 'all')
+    client.fundchannel(req.body.id, 'all') // XXX
         .then(channel => {
             console.log(channel)
             res.send(true)
         })
 })
+
+function confirmTaskAddrs(){
+    serverState.tasks.forEach(t => {
+        if (!t.btcAddr){
+            newAddress()
+                .then(result => {
+                    allEvents.addressUpdated(
+                        t.taskId,
+                        result['p2sh-segwit'],
+                    )
+                })
+                .catch(err => console.log("confirm newaddr", err))
+        }
+    })
+}
 
 function createInvoice(sat, label, description, expiresInSec){
     return client.invoice(sat * 1000, label, description, expiresInSec)
@@ -30,6 +45,7 @@ function updateAll(){
 }
 
 function watchOnChain(){
+    confirmTaskAddrs()
     setInterval(updateAll, 1000 * 60 * 10)
     setTimeout( () => {
         updateAll()
@@ -45,8 +61,12 @@ function checkFunds(){
                 result.outputs.forEach( o => {
                     if (o.status === 'confirmed' && serverState.cash.usedTxIds.indexOf(o.txid) === -1){
                         serverState.tasks.forEach( t => {
-                            if (t.address === o.address){
-                                let cadAmt = calculations.satsToCad(o.value, serverState.cash.spot)
+                            if (t.btcAddr === o.address){
+                                let spot = serverState.cash.spot
+                                if (spot <= 0){
+                                    spot = 10000
+                                }
+                                let cadAmt = calculations.satsToCad(o.value, spot)
                                 allEvents.taskBoosted(t.taskId, cadAmt, o.txid)
                             }
                         })
@@ -70,7 +90,6 @@ function getInfo(){
                             channels: p.channels.length > 0
                         }
                     })
-                    console.log("lightning client result:", result)
                   } catch (err){
 
                   }
