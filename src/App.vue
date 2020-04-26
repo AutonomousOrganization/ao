@@ -53,6 +53,7 @@ export default {
 .app
     color: accent1
     font-weight: lighter
+    font-size: 1.41em
 
 .sunbord
     position: fixed

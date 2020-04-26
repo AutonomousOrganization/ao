@@ -38,27 +38,29 @@ function reactions(ev){
                         return true
                     }
                 })
-                console.log("got resourceId", resourceId)
-                serverState.resources.some(r => {
-                    if (r.resourceId === resourceId){
+                if (resourceId){
+                    console.log("got resourceId, attempting trigger", resourceId)
+                    serverState.resources.some(r => {
+                      if (r.resourceId === resourceId){
                         defaultPrice = r.charge
                         return true
-                    }
-                })
-                serverState.tasks.some(t => {
-                    if (ev.taskId === t.taskId){
+                      }
+                    })
+                    serverState.tasks.some(t => {
+                      if (ev.taskId === t.taskId){
                         let str = t.name
                         let cashTagLocation = str.search(/\$/)
                         let customPrice = parseFloat( str.slice(cashTagLocation + 1, cashTagLocation + 5) )
                         if (customPrice > 0){
-                            console.log("using custom price, ", customPrice)
-                            defaultPrice = customPrice
+                          console.log("using custom price, ", customPrice)
+                          defaultPrice = customPrice
                         }
                         let hopper = t.name.split(':')[0]
                         events.resourceUsed(resourceId, '', defaultPrice, hopper, console.log)
                         return true
-                    }
-                })
+                      }
+                    })
+                }
                 break
             case 'member-field-updated':
                 break

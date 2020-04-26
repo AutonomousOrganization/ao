@@ -63,7 +63,7 @@ const routes =[{
   meta: { title: "newspaper" }
 },{
   path: '/front/boat',
-  component: Port,
+  component: Oracle,
   meta: { title: "Port cards" }
 },{
   path: '/front/badge',

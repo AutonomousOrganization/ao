@@ -11,7 +11,7 @@ const client = new LightningClient(config.clightning.dir, true);
 lightningRouter.post('/lightning/channel',(req, res) => {
     client.fundchannel(req.body.id, 'all') // XXX
         .then(channel => {
-            console.log(channel)
+            console.log("channel funded", channel)
             res.send(true)
         })
 })
@@ -67,6 +67,7 @@ function checkFunds(){
                                     spot = 10000
                                 }
                                 let cadAmt = calculations.satsToCad(o.value, spot)
+                                console.log('cadamount from ', {cadAmt, spot}, o.value)
                                 allEvents.taskBoosted(t.taskId, cadAmt, o.txid)
                             }
                         })
@@ -111,6 +112,9 @@ function recordEveryInvoice(start){
         .then(invoice => {
             let satoshis = invoice.msatoshi / 1000
             let spot = serverState.cash.spot
+            if (spot <= 0){ // XXX keep doing this so ugly, should at least be in calcs
+                spot = 10000
+            }
             let cadAmt = calculations.satsToCad(satoshis, spot)
             serverState.tasks.forEach( t => {
                 if (t.payment_hash === invoice.payment_hash){

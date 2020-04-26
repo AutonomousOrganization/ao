@@ -81,6 +81,7 @@ label
     height: 4em
     width: 4em
     z-index: 10000000
+    opacity: 0.456
 
 .feed img
     height: 4em

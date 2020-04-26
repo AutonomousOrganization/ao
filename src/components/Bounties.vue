@@ -1,6 +1,5 @@
 <template lang='pug'>
 #frontbounties
-    h1 Bounties
     .row.pagemargins
         .three.columns
             div(v-for='(t, i) in row1'  :key='t.taskId'  @click='goInBounty(t)')

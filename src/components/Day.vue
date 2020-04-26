@@ -176,7 +176,7 @@ img.checkmark
     height: 2em
 
 img.completedcheckmark
-    height: 1.5em
+    height: .99em
 
 .clickable
     cursor: pointer
@@ -187,7 +187,7 @@ img.completedcheckmark
     margin-right: 0.13em
 
 img.completedcheckmark.smaller
-    height: 0.5em
+    height: 0.33em
 
 
 </style>

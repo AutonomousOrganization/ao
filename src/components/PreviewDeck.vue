@@ -127,7 +127,6 @@ export default {
     float: right;
     margin-left: .5em;
     margin-bottom: .5em;
-    opacity: .39;
     position: absolute;
     right: 3em;
     top: 2em;
@@ -140,6 +139,7 @@ export default {
     cursor: pointer
 
 .bead
+    opacity: .39;
     padding: 0
     margin:0
     height:.77em
@@ -149,10 +149,12 @@ export default {
     display: inline-block;
     border-width: 2px
     border-color: rgba(255, 255, 255, 0.11)
-    opacity: 0.77
     border-style: solid
     cursor: pointer
     z-index: 98
+
+.bead:hover
+    opacity: 1
 
 .tooltip
     position: relative

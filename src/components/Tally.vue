@@ -11,7 +11,6 @@
         img.chest(v-for='n in actions'  src='../assets/images/ao.svg')
         img(v-for='n in clm.xmark'  src='../assets/images/xmark.svg')
         img(v-for='n in clm.mark'  src='../assets/images/mark.svg')
-        span {{b.boost}}
     .tooltiptext(v-if='b.claimed.length > 0 || actions.length > 0')
         p(v-if='$store.getters.member.tooltips  &&  actions.length > 0') counting on:
         current(v-for='n in actions'  :memberId='n')

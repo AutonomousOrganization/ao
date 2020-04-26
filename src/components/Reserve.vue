@@ -2,16 +2,16 @@
 
 #home
   .container
-    h1.fw.center {{totalMembers + totalResources + totalGuilds + totalCards}} Points
+    h1.fw.center {{(totalMembers + totalResources + totalGuilds + totalCards).toLocaleString()}} Points
     .center
         img.point(src='../assets/images/loggedIn.svg')
-        span {{ totalMembers.toFixed(0) }} in accounts
+        span {{ totalMembers.toLocaleString() }} in accounts
         img.point(src='../assets/images/loader.svg')
-        span {{ totalResources.toFixed(0) }} in resources
+        span {{ totalResources.toLocaleString() }} in resources
         img.point(src='../assets/images/orb.svg')
-        span {{ totalCards + totalGuilds }} on cards
+        span {{ (totalCards + totalGuilds).toLocaleString() }} on cards
     .center
-        h4.yellowtx backing: {{ satPoint }} &#12471;
+        h4.yellowtx backing: {{ parseInt(satPoint).toLocaleString() }} &#12471; per point
     h3(v-for='n in funded.guilds.sort((a, b) => parseInt(a.boost) < parseInt(b.boost))') {{ n.boost.toFixed(0) }} - {{ n.guild }}
     .row.space
         .six.columns
@@ -38,19 +38,21 @@
     div(v-for='n in funded.members.sort((a, b) => parseInt(a.boost) < parseInt(b.boost))')
         span {{ n.boost.toFixed(0) }}
         current(:memberId='n.taskId')
+    div(v-for='n in funded.resources.sort((a, b) => parseInt(a.boost) < parseInt(b.boost))')
+        span {{ n.boost.toFixed(0) }}
+        currentr(:resourceId='n.taskId')
     template(v-for='n in funded.cards.sort((a, b) => parseInt(a.boost) < parseInt(b.boost))')
         p {{ n.boost }} - {{ n.name }}
             span(@click='burn(n.taskId)')
                 img.burn(src='../assets/images/goodbye.svg')
-    div(v-for='n in funded.resources.sort((a, b) => parseInt(a.boost) < parseInt(b.boost))')
-        span {{ n.boost.toFixed(0) }}
-        currentr(:resourceId='n.taskId')
 </template>
 
 <script>
-
+import Current from './Current'
+import Currentr from './Currentr'
 
 export default {
+    components: {Current, Currentr},
     data(){
         return {
             capAmt: '',
@@ -296,7 +298,7 @@ ul
     text-align: left
 
 img.point
-    height: 3em
+    height: 1.13em
 
 .burn
     height: 1em

@@ -27,18 +27,21 @@
                         current(:memberId='n[1]')
                 template(v-for='l in links')
                     .row.pad.centered
-                        h6 {{l.slice(0,8)}}
+                        h6 {{l}}
     div
         .scrol.faded(ref='scuttle')
             img.scrolly(src='../assets/images/downboat.svg'  :id='uuid')
-        .vine.faded(@click='goIn')
-            img.viney.adjtooltip(src='../assets/images/orb.svg')
+        .vine(@click='goIn')
+            span.faded(v-if='b.boost > 0') {{b.boost}}
+                img.chest(src='../assets/images/chest.svg')
+            img.viney.adjtooltip.faded(src='../assets/images/orb.svg')
             .tooltiptext.correctspot(v-if='b.deck.length > 0')
                 current.block(v-for='memberId in b.deck'  :memberId='memberId')
+
         .singlebird(v-if='links.length + b.passed.length > 0'  @click='toggleBird')
             .row.pad.centered()
                 span(v-if='links.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
-                    img.send(src='../assets/images/ao.svg')
+                    img.send(src='../assets/images/send.svg')
                     span {{ links.length}}
                 span(v-if='b.passed.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
                     img.send(src='../assets/images/send.svg')
@@ -335,6 +338,13 @@ label
 
 .vine
     width: 100%
+    text-align: right
+    span
+        padding-right: 1.2em
+
+
+img.chest
+    height: 1.2em
 
 .count
     float: right
