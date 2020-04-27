@@ -2,16 +2,16 @@
 #frontbounties
     .row.pagemargins
         .three.columns
-            div(v-for='(t, i) in row1'  :key='t.taskId'  @click='goInBounty(t)')
+            div(v-for='(t, i) in r.row1'  :key='t.taskId'  @click='goInBounty(t)')
                 hypercard.bounty(:b='t'  :key='t.taskId'  :c='pubGuildIds')
         .three.columns
-            div(v-for='(t, i) in row2'  :key='t.taskId'  @click='goInBounty(t)')
+            div(v-for='(t, i) in r.row2'  :key='t.taskId'  @click='goInBounty(t)')
                 hypercard.bounty(:b='t'  :key='t.taskId'  :c='pubGuildIds')
         .three.columns
-            div(v-for='(t, i) in row3'  :key='t.taskId'  @click='goInBounty(t)')
+            div(v-for='(t, i) in r.row3'  :key='t.taskId'  @click='goInBounty(t)')
                 hypercard.bounty(:b='t'  :key='t.taskId'  :c='pubGuildIds')
         .three.columns
-            div(v-for='(t, i) in row4'  :key='t.taskId'  @click='goInBounty(t)')
+            div(v-for='(t, i) in r.row4'  :key='t.taskId'  @click='goInBounty(t)')
                 hypercard.bounty(:b='t'  :key='t.taskId'  :c='pubGuildIds')
 </template>
 
@@ -21,27 +21,30 @@ import calculations from '../calculations'
 import Hypercard from "./Card"
 
 export default {
-    data(){
-        let row1 = []
-        let row2 = []
-        let row3 = []
-        let row4 = []
-        this.$store.getters.bountyList.forEach( (a, i) => {
-            let row = i % 4
-            if (row === 0){
-                row1.push(a)
-            }
-            if (row === 1){
-                row2.push(a)
-            }
-            if (row === 2){
-                row3.push(a)
-            }
-            if (row === 3){
-                row4.push(a)
-            }
-        })
-        return { row1, row2, row3, row4 }
+    computed:{
+        r(){
+          let row1 = []
+          let row2 = []
+          let row3 = []
+          let row4 = []
+          this.$store.getters.bountyList.forEach( (a, i) => {
+              let row = i % 4
+              if (row === 0){
+                  row1.push(a)
+              }
+              if (row === 1){
+                  row2.push(a)
+              }
+              if (row === 2){
+                  row3.push(a)
+              }
+              if (row === 3){
+                  row4.push(a)
+              }
+          })
+          return { row1, row2, row3, row4 }
+        }
+
     },
   components:{
       Hypercard,
@@ -89,7 +92,7 @@ export default {
 .bounty:hover
     border-style: dashed
     border-width: 3px
-    border-color: yellow
+    border-color: lightGrey
 
 h1
     color: yellow

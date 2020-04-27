@@ -20,7 +20,7 @@
     div
         .fadey(:class='{ cardInputSty, onestack : $store.getters.member.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
             .boatContainer
-                img.boatAll.faded.adjtooltip(@click='toggleStacks' src='../assets/images/orb.svg')
+                img.boatAll.faded.adjtooltip(@click='toggleStacks' src='../assets/images/orb.svg'  :class='{ro:$store.getters.member.stacks === 5}')
                 .tooltiptext.correctspottopleft(v-if='$store.getters.member.tooltips')
                     p(v-if='$store.getters.member.stacks === 5').suggest combine colors
                     p(v-else).suggest split colors
@@ -160,6 +160,9 @@ export default {
 @import '../styles/colours'
 @import '../styles/button'
 @import '../styles/tooltips'
+
+.ro
+    transform: rotate(100deg)
 
 .bluewx
     color: white

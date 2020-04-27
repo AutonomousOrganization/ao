@@ -13,7 +13,7 @@
                 h3(v-if='!open') {{ sanePosition + 1 }}
         .four.grid.horizcenter()
             .mandalign.tooltip(ref='mandelorb')
-                img(src='../assets/images/orb.svg')
+                img(src='../assets/images/orb.svg'  :class='{ro: open}')
                 .tooltiptext(v-if='$store.getters.member.tooltips')
                     p(v-if='!open').suggest open stack
                     p(v-else).suggest close stack
@@ -27,7 +27,7 @@
                 p.suggest next
     .open(v-if='open')
         div(v-for='(b, i) in c'  :key="b.taskId")
-            img.orby(v-if='i > 0'  src='../assets/images/orb.svg'  @click='orbswap(b.taskId)')
+            img.orby.fadey.ro(v-if='i > 0'  src='../assets/images/orb.svg'  @click='orbswap(b.taskId)')
             hypercard(:b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
     .box(v-else)
         hypercard(:b="c[sanePosition]"  :key="c[sanePosition].taskId"  :inId='taskId'  :c='panelIds')
@@ -286,9 +286,11 @@ export default {
 @import '../styles/button'
 @import '../styles/tooltips'
 
+.ro
+    transform: rotate(100deg)
 
 .orby
-    height: 2.2em
+    height: 2.02em
     margin-top: -1em
     margin-bottom: -1em
     margin-left: 4.45em
@@ -401,6 +403,8 @@ img
 
 .fadey
     opacity: 0.36
+    :hover
+        opacity: 0.996
 
 .box
     min-height: 1em
