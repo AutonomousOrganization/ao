@@ -54,19 +54,17 @@ import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
 
 import Tally from './Tally'
-import SimplePriorities from './SimplePriorities'
 import Linky from './Linky'
 import Current from './Current'
-import PreviewDeck from './PreviewDeck'
-
 import Bird from './Bird'
-import Flag from './Flag'
-import Coin from './Coin'
+import SimplePriorities from './SimplePriorities'
 
+import Flag from './Flag'
+import PreviewDeck from './PreviewDeck'
 
 export default {
     props: ['b', 'inId', 'c'],
-    components: { PreviewDeck, Bird, Flag, Coin, Linky, SimplePriorities, Current, Tally},
+    components: { PreviewDeck, Bird, Flag, Linky, SimplePriorities, Current, Tally},
     mounted() {
         let el2 = this.$refs.scuttle
 

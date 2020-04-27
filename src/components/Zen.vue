@@ -5,20 +5,25 @@
         img.bdoge(src='../assets/images/doge.svg')
         .tooltiptext(v-if='$store.getters.member.tooltips')
             p.suggest no mode active
-    gift-box(v-else)
+    div(v-else)
+        .row
+            .two.grid
+                img.gift(src='../assets/images/send.svg')
+            .eight.grid
+                hypercard(v-for='b in $store.getters.inbox'  :b='b'  :inId='$store.getters.member.memberId')
 </template>
 
 <script>
-import GiftBox from './GiftBox'
+import Hypercard from "./Card"
 
 export default {
-    components:{
-        GiftBox
-    },
     mounted() {
         this.$store.commit('setMode' , 0)
         this.$store.commit('setDimension' , 0)
         this.$store.dispatch('loaded')
+    },
+    components:{
+        Hypercard,
     },
 }
 </script>
@@ -27,10 +32,24 @@ export default {
 
 @import '../styles/tooltips'
 
+@import '../styles/colours'
+@import '../styles/skeleton'
+@import '../styles/grid'
+@import '../styles/button'
+
 .fw
     width: 100%
+    height: auto
     cursor: pointer
 
+.gift
+    display: inline
+    height: 5em
+    clear: none
+
+span
+    font-size: 1.321em
+    padding: .5em
 
 .tooltiptext
     position: absolute

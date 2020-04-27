@@ -22,11 +22,10 @@
 </template>
 
 <script>
-import Current from './CurrentChecks'
 import Linky from './Linky'
 export default {
     components:{
-        Linky,  Current,
+        Linky,
     },
     mounted() {
         this.$store.dispatch('loaded')

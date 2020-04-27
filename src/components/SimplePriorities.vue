@@ -11,7 +11,6 @@
 
 import Hypercard from './Card'
 import SimpleHyperpriority from './SimplePriority'
-import NotZen from './NotZen'
 
 export default {
   props: ['taskId'],
@@ -34,7 +33,7 @@ export default {
       }
   },
   components:{
-      SimpleHyperpriority, Hypercard, NotZen,
+      SimpleHyperpriority, Hypercard,
   },
 }
 

@@ -35,14 +35,11 @@
 <script>
 
 import PreviewDeck from './PreviewDeck'
-import Vouch from './Vouch'
 import Bird from './Bird'
-import NotZen from './NotZen'
-import GiftBox from './GiftBox'
 
 export default {
     props: ['m'],
-    components: {PreviewDeck, Vouch, Bird, NotZen, GiftBox},
+    components: {PreviewDeck, Bird},
     computed:{
         myEvents(){
             let total = 0

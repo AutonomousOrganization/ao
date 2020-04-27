@@ -16,12 +16,12 @@
 <script>
 import CurrentChecks from './CurrentChecks'
 import Current from './Current'
-import Coin from './Coin'
 import MemberRow from './MemberRow'
 import GuildCreate from './GuildCreate'
+
 export default {
     components:{
-        CurrentChecks, Current, Coin, MemberRow, GuildCreate
+        CurrentChecks, Current, MemberRow, GuildCreate
     },
     mounted() {
         this.$store.commit('setMode' , 4)

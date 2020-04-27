@@ -16,7 +16,9 @@
                   button(v-if='selectedPeer'   @click='requestChannel') Request Channel
           .six.columns.container
               p {{ $store.state.cash.info.num_active_channels }} Lightning Channels
-              local-remote-bar(v-for='n in $store.state.cash.channels', :c='n')
+              .localremote(v-for='n in $store.state.cash.channels')
+                  .localbar(:style='l(n)') &#12471; {{ parseFloat( n.channel_sat ).toLocaleString() }}
+                  .remotebar(:style='r(n)') &#12471; {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
               hr
               .row
                 .six.grid
@@ -40,7 +42,6 @@
 import calculations from '../calculations'
 
 import Tag from './Tag'
-import LocalRemoteBar from './LocalRemoteBar'
 import request from 'superagent'
 
 export default {
@@ -55,7 +56,7 @@ export default {
         }
     },
     components:{
-         Tag, LocalRemoteBar,
+         Tag,
     },
     computed: {
         unchanneled(){
@@ -77,10 +78,33 @@ export default {
                 .end((err, res)=>{
                     console.log("response from channel", res.body)
                 })
-        }
+        },
+        r(n){
+            let local = parseFloat( n.channel_sat )
+            let remote = parseFloat( n.channel_total_sat - n.channel_sat )
+
+            let capacity = local + remote
+            let remotePercent =  remote / capacity
+
+            let w = (remotePercent * 100).toFixed(7) + "%"
+            return {
+                width: w
+            }
+        },
+        l(n){
+          let local = parseFloat( n.channel_sat )
+          let remote = parseFloat( n.channel_total_sat - n.channel_sat )
+
+          let capacity = local + remote
+          let localPercent =  n.channel_sat / capacity
+
+          let w = (localPercent * 100).toFixed(7) + "%"
+          return {
+              width: w
+          }
+        },
     }
 }
-
 </script>
 
 <style lang='stylus' scoped>
@@ -152,7 +176,6 @@ p
 .fr
     float: right
 
-
 .local
     margin: 0
     background: wrexpurple
@@ -198,4 +221,25 @@ h5
     opacity: 0.77
     height: 5em
     margin-top: 1em
+
+.localremote
+    width: 100%
+    height: 2em
+
+.localbar
+    height: 2em
+    background: wrexpurple
+    float: left
+    color: white
+    text-align: center
+
+.remotebar
+    height: 2em
+    background: wrexgreen
+    float: right
+    color: white
+    text-align: center
+
+
+
 </style>

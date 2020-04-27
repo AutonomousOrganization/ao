@@ -62,7 +62,10 @@ export default {
             return this.$store.getters.contextCard
         },
         subguilds() {
-            return this.$store.state.tasks.filter(p => p.guild && this.b.subTasks.concat(this.b.priorities, this.b.completed).indexOf(p.taskId) > -1)
+            return this.$store.state.tasks.filter(p => {
+                p.guild &&
+                this.b.subTasks.concat(this.b.priorities, this.b.completed).indexOf(p.taskId) > -1
+            })
         },
     },
 }
