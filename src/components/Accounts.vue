@@ -30,22 +30,15 @@
             .check.click(@click='toggleTooltips')
                 img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space show tips
-            .check.click(@click='toggleTooltips')
-                img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
+                span.space show tooltips
+            .check.click(@click='toggleGuides')
+                img.checkmark(v-if='$store.getters.member.guides'  src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space show long press tips
+                span.space show guide boats
             .check.click(@click='toggleMuted')
                 img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space play sounds
-            .check.click(@click='toggleStacks')
-                img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
-                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space split stacks
-            .check.click
-                img.checkmark(src='../assets/images/completed.svg')
-                span.space show boats
     .list
         h4.yellowtx ({{coreMembers.length}}) active
         member-row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')
@@ -62,7 +55,7 @@
         label fob (optional)
         span.focus-border
     button(v-if='member.name.length > 0'  @click='newMember') create account
-    h5 create extra accounts per device 
+    h5 create extra accounts per device
 </template>
 
 <script>
@@ -109,6 +102,14 @@ export default {
                 type: "member-field-updated",
                 field: 'muted',
                 newfield: !this.$store.getters.member.muted,
+                memberId: this.$store.getters.member.memberId
+            })
+        },
+        toggleGuides(){
+            this.$store.dispatch('makeEvent', {
+                type: "member-field-updated",
+                field: 'guides',
+                newfield: !this.$store.getters.member.guides,
                 memberId: this.$store.getters.member.memberId
             })
         },

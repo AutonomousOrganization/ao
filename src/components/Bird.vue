@@ -3,7 +3,7 @@
 .bird(ref='wholeBird')
     div(ref='bird')
         div.birdy.faded.smallguild(v-if='!showSend && b.guild || showGive && b.guild'  :class='{ open : showSend }')
-        img.birdy.faded(v-else-if='!showSend && !b.guild' src='../assets/images/send.svg')
+        img.birdy.faded(v-else-if='!showSend && !b.guild' src='../assets/images/send.svg'  :class='{hidden:!$store.getters.member.guides}')
         img.birdy(v-else  src='../assets/images/sendselected.svg')
     div
         .give(v-if='showSend')
@@ -248,5 +248,8 @@ label
     height: 2.3em
     position: relative
     top: -0.07em
+
+.hidden
+    opacity: 0
 
 </style>

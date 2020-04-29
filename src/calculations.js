@@ -73,6 +73,7 @@ function blankMember(memberId, name, fob, secret, lastUsed){
       payments: 0,
       boats: true,
       action: false,
+      guides:true,
       red: "#000000a0",
       yellow: "#000000a0",
       green: "#00f000a0",

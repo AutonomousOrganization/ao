@@ -26,7 +26,7 @@
                     p(v-else).suggest split colors
                 img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='pilePrioritized')
                 .tooltiptext.correctspottop(v-if='$store.getters.member.tooltips')
-                    p.suggest boat all
+                    p.suggest task all
             panels
             .faded
                 img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')

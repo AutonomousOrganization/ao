@@ -1,10 +1,10 @@
 <template lang='pug'>
 .flag(v-if="$store.getters.memberCard")
     .flaggy(:id='uuid'  :class='flagClass')
-        img(v-if='$store.state.upgrades.mode === "badge"'  src='../assets/images/badge.svg')
-        img(v-else-if='$store.state.upgrades.mode === "chest"'  src='../assets/images/chest.svg')
-        img(v-else-if='$store.state.upgrades.mode === "timecube"' src='../assets/images/timecube.svg')
-        img.svgwhite.faded(v-else, src='../assets/images/upboat.svg')
+        img(v-if='$store.state.upgrades.mode === "badge"'  src='../assets/images/badge.svg'  :class='{hidden:!$store.getters.member.guides}')
+        img(v-else-if='$store.state.upgrades.mode === "chest"'  src='../assets/images/chest.svg'  :class='{hidden:!$store.getters.member.guides}')
+        img(v-else-if='$store.state.upgrades.mode === "timecube"' src='../assets/images/timecube.svg'  :class='{hidden:!$store.getters.member.guides}')
+        img.svgwhite.faded(v-else, src='../assets/images/upboat.svg'  :class='{hidden:!$store.getters.member.guides}')
     .opened
         resource-book(v-if='isCubeOpen'  :tId='b.taskId')
         guild-create(:editing='isPayOpen'  :b='b')
@@ -292,4 +292,9 @@ export default {
 
 .opened
     float: left
+
+.hidden
+    opacity: 0
+
+
 </style>

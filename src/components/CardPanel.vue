@@ -5,14 +5,14 @@
     .row.ptr(v-show="c.length > 1"  ref='swipebar')
         .three.grid.tooltip(ref='previous')
             span &nbsp;
-            img.fl(v-if='!open'  src='../assets/images/back.svg')
+            img.fl(v-if='!open'  src='../assets/images/back.svg'  :class='{hidden:!$store.getters.member.guides}')
             .tooltiptext(v-if='$store.getters.member.tooltips')
                 p.suggest previous
         .one.grid.horizcenter()
             .box.verticalcenter
                 h3(v-if='!open') {{ sanePosition + 1 }}
         .four.grid.horizcenter()
-            .mandalign.tooltip(ref='mandelorb')
+            .mandalign.tooltip(@click='toggleOpen')
                 img(src='../assets/images/orb.svg'  :class='{ro: open}')
                 .tooltiptext(v-if='$store.getters.member.tooltips')
                     p(v-if='!open').suggest open stack
@@ -22,7 +22,7 @@
                 h3(v-if='!open') {{ c.length }}
         .three.grid.tooltip(ref='next')
             span &nbsp;
-            img.fr(v-if='!open'  src='../assets/images/forward.svg')
+            img.fr(v-if='!open'  src='../assets/images/forward.svg'  :class='{hidden:!$store.getters.member.guides}')
             .tooltiptext(v-if='$store.getters.member.tooltips')
                 p.suggest next
     .open(v-if='open')
@@ -298,12 +298,12 @@ export default {
 #tasks
     width: 100%
     color: lightGrey
-    border-bottom: solid;
-    border-left: solid;
-    border-right: solid;
-    border-bottom: 20px;
-    border-radius: 40px 40px 0px 0px;
-    border-color: rgba(255, 255,255, .17)
+    // border-bottom: solid;
+    // border-left: solid;
+    // border-right: solid;
+    // border-bottom: 20px;
+    // border-radius: 40px 40px 0px 0px;
+    // border-color: rgba(255, 255,255, .17)
 
 tr
     border-color: accent4
@@ -379,11 +379,6 @@ img
     margin-bottom: -.6em
     opacity: 0.4;
     margin-bottom: -.6em;
-    border-top: solid;
-    border-left: solid;
-    border-right: solid;
-    border-bottom: 20px;
-    border-radius: 40px 40px 0px 0px;
 
 
 .fr
@@ -429,4 +424,8 @@ img
 
 .center
     text-align: center
+
+.hidden
+    opacity: 0
+
 </style>

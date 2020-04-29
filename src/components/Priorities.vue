@@ -12,7 +12,7 @@
                   p.suggest claim checkmark
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId')
               div(v-if='i > 0')
-                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='prioritized(t)')
+                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='prioritized(t)'  :class='{hidden:!$store.getters.member.guides}')
                   .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
                       p.suggest up boat
               div(v-else-if='hasCompleted(t)')
@@ -20,7 +20,7 @@
                   .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
                       p.suggest to completed pile
               div(v-else)
-                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='refocused(t)')
+                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='refocused(t)'  :class='{hidden:!$store.getters.member.guides}')
                   .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
                       p.suggest return to table
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
@@ -32,7 +32,7 @@
     div.clearboth
     div
         img.boatAll.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='pileRefocused')
-        .tooltiptext.correctspot2(v-if='$store.getters.member.tooltips')
+        .tooltiptext.correctspot2(v-if='$store.getters.member.tooltips'  :class='{hidden:!$store.getters.member.guides}')
             p.suggest refocus all
 </template>
 
@@ -342,5 +342,8 @@ img
 
 .closedcard
     padding-right:3em
+
+.hidden
+    opacity: 0
 
 </style>

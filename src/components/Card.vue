@@ -30,14 +30,13 @@
                         h6 {{l}}
     div
         .scrol.faded(ref='scuttle')
-            img.scrolly(src='../assets/images/downboat.svg'  :id='uuid')
+            img.scrolly(src='../assets/images/downboat.svg'  :id='uuid'    :class='{hidden:!$store.getters.member.guides}')
         .vine(@click='goIn')
             span.faded(v-if='b.boost > 0') {{b.boost}}
                 img.chest(src='../assets/images/chest.svg')
-            img.viney.adjtooltip.faded(src='../assets/images/orb.svg')
+            img.viney.adjtooltip.faded(src='../assets/images/orb.svg'  :class='{hidden:!$store.getters.member.guides}')
             .tooltiptext.correctspot(v-if='b.deck.length > 0')
                 current.block(v-for='memberId in b.deck'  :memberId='memberId')
-
         .singlebird(v-if='links.length + b.passed.length > 0'  @click='toggleBird')
             .row.pad.centered()
                 span(v-if='links.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
@@ -645,4 +644,9 @@ label
     position: absolute
     right: 2.5em
     top: 0.85em
+
+.hidden
+    opacity: 0
+
+
 </style>

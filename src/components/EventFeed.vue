@@ -30,7 +30,18 @@ export default {
                 if (this.$store.state.upgrades.dimension !== 'unicorn'){
                     this.$router.push("/" + this.$store.state.upgrades.mode)
                 }
-            } else if (ev.taskId){
+            }
+            if (ev.subTask){
+                this.$store.dispatch('goIn', {
+                    parents: [this.$store.getters.contextCard.taskId],
+                    panel: [ev.subTask],
+                    top: 0
+                })
+                if (this.$store.state.upgrades.dimension !== 'unicorn'){
+                    this.$router.push("/" + this.$store.state.upgrades.mode)
+                }
+            }
+            if  (ev.taskId){
                 this.$store.dispatch('goIn', {
                     parents: [this.$store.getters.contextCard.taskId],
                     panel: [ev.taskId],
@@ -39,7 +50,8 @@ export default {
                 if (this.$store.state.upgrades.dimension !== 'unicorn'){
                     this.$router.push("/" + this.$store.state.upgrades.mode)
                 }
-            } else if (ev.memberId){
+            }
+            if (ev.memberId){
                 this.$store.dispatch('goIn', {
                     parents: [this.$store.getters.contextCard.taskId],
                     panel: [ev.memberId],

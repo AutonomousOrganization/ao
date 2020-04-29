@@ -24,6 +24,7 @@ module.exports = {
           val === 'tooltips' ||
           val === 'stacks' ||
           val === 'action' ||
+          val === 'guides' ||
           val === 'payments'
       )
       if (!isField) {
