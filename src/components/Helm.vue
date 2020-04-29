@@ -6,63 +6,53 @@
     .tooltiptext.r(v-if='$store.getters.member.tooltips')
         p.suggest set mode {{futureMode}}
     button.topcenter.adjtooltip(id='helm'  :class='helmClasses'  @mousedown='$store.dispatch("flashHelm",1)')
-        img.upg(v-if='$store.state.upgrades.mode !== "doge"'  :src='"../assets/images/" + $store.state.upgrades.mode + ".svg"')
+        img.upg(:src='"../assets/images/" + $store.state.upgrades.mode + ".svg"')
     .tooltiptext.m(v-if='$store.getters.member.tooltips')
         p.suggest next mode
     button.modeleft.adjtooltip(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn'  id='helmleft'  :class='{ boat : $store.state.upgrades.mode === "badge" }'  @mousedown='$store.dispatch("flashHelm",1)')
         img.upg(:src='"../assets/images/" + pastMode + ".svg"')
     .tooltiptext.l(v-if='$store.getters.member.tooltips')
         p.suggest set mode {{pastMode}}
-    div()
-        img.r.adjtooltip(ref='bull'  src="../assets/images/bull.svg"    :class='{ bigger : isBull, faded: $store.state.upgrades.dimension !== "bull" }')
-        .tooltiptext.b(v-if='$store.getters.member.tooltips')
-            p.suggest manage ao
-    .bullmenu(v-if='isBull && $store.getters.member.tooltips')
-        p(@click='goDash("doge")'  :class='{ dabstination : $store.state.upgrades.mode === "doge" }')
-            img.lil(src='../assets/images/doge.svg')
-            span Access
-        p(@click='goDash("boat")'  :class='{ dabstination : $store.state.upgrades.mode === "boat" }')
-            img.lil(src='../assets/images/boat.svg')
-            span Connect
-        p(@click='goDash("timecube")'  :class='{ dabstination : $store.state.upgrades.mode === "timecube" }')
-            img.lil(src='../assets/images/timecube.svg')
-            span Reserve
-        p(@click='goDash("chest")'  :class='{ dabstination : $store.state.upgrades.mode === "chest" }')
-            img.lil(src='../assets/images/chest.svg')
-            span Wallet
-        p(@click='goDash("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
-            img.lil(src='../assets/images/badge.svg')
-            span Accounts
-        p.check.click(@click='toggleTooltips')
-            img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
-            img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-            span.space tips
     div(v-if='isBull')
         .satspot 1 = {{ $store.getters.satPointSpot.toLocaleString() }}&#12471;
         .logout(v-if='$store.getters.isLoggedIn'  @click="killSession") log out
     img.l.adjtooltip(src="../assets/images/sun.svg"  ref='sun'  :class='{ bigger : isSun, faded: $store.state.upgrades.dimension !== "sun" }')
     .tooltiptext.s(v-if='$store.getters.member.tooltips')
         p.suggest overview ao
-    div.sunmenu(v-if='isSun && $store.getters.member.tooltips')
-        p(@click='goFront("doge")'  :class='{ dabstination : $store.state.upgrades.mode === "doge" }')
+        div
+          p(@click='goFront("doge")'  :class='{ dabstination : $store.state.upgrades.mode === "doge" && isSun }')
+              img.lil(src='../assets/images/doge.svg')
+              span Oracle
+          p(@click='goFront("boat")'  :class='{ dabstination : $store.state.upgrades.mode === "boat" && isSun }')
+              img.lil(src='../assets/images/boat.svg')
+              span Port
+          p(@click='goFront("timecube")'  :class='{ dabstination : $store.state.upgrades.mode === "timecube" && isSun }')
+              img.lil(src='../assets/images/timecube.svg')
+              span Events
+          p(@click='goFront("chest")'  :class='{ dabstination : $store.state.upgrades.mode === "chest" && isSun }')
+              img.lil(src='../assets/images/chest.svg')
+              span Bounties
+          p(@click='goFront("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" && isSun }')
+              img.lil(src='../assets/images/badge.svg')
+              span Tags
+    img.r.adjtooltip(ref='bull'  src="../assets/images/bull.svg"    :class='{ bigger : isBull, faded: $store.state.upgrades.dimension !== "bull" }')
+    .tooltiptext.b(v-if='$store.getters.member.tooltips')
+        p.suggest manage ao
+        p(@click='goDash("doge")'  :class='{ dabstination : $store.state.upgrades.mode === "doge" && isBull }')
             img.lil(src='../assets/images/doge.svg')
-            span Oracle
-        p(@click='goFront("boat")'  :class='{ dabstination : $store.state.upgrades.mode === "boat" }')
+            span Access
+        p(@click='goDash("boat")'  :class='{ dabstination : $store.state.upgrades.mode === "boat" && isBull }')
             img.lil(src='../assets/images/boat.svg')
-            span Port
-        p(@click='goFront("timecube")'  :class='{ dabstination : $store.state.upgrades.mode === "timecube" }')
+            span Connect
+        p(@click='goDash("timecube")'  :class='{ dabstination : $store.state.upgrades.mode === "timecube" && isBull }')
             img.lil(src='../assets/images/timecube.svg')
-            span Events
-        p(@click='goFront("chest")'  :class='{ dabstination : $store.state.upgrades.mode === "chest" }')
+            span Reserve
+        p(@click='goDash("chest")'  :class='{ dabstination : $store.state.upgrades.mode === "chest" && isBull }')
             img.lil(src='../assets/images/chest.svg')
-            span Bounties
-        p(@click='goFront("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" }')
+            span Wallet
+        p(@click='goDash("badge")'  :class='{ dabstination : $store.state.upgrades.mode === "badge" && isBull }')
             img.lil(src='../assets/images/badge.svg')
-            span Tags
-        p.check.click(@click='toggleTooltips')
-            img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
-            img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-            span.space tips
+            span Accounts
 </template>
 
 <script>
@@ -591,6 +581,8 @@ p:hover
 
 .dabstination
     font-weight: bold
+    background: lightGrey
+    color: black
 
 .closemenu
     align-content: center

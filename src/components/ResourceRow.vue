@@ -99,6 +99,10 @@ export default {
 @import '../styles/grid'
 @import '../styles/tooltips'
 @import '../styles/button'
+
+.redtx
+    font-size: 0.6em
+
 .smallguild
     height: 2em
 

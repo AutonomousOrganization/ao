@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .current(v-if='memberId')
-    img.checkmark.clickable(v-if='isCompleted' src='../assets/images/completed.svg'   @click='uncheck')
+    img.checkmark.clickable(v-if='isCompleted'  src='../assets/images/completed.svg'   @click='uncheck')
     img.checkmark.clickable(v-else  src='../assets/images/uncompleted.svg'  @click='complete')
     span.completedmarks
         span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ name }}

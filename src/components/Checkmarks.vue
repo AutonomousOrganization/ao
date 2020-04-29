@@ -11,17 +11,17 @@
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
         current-checks(:memberId='n')
       guild-create(editing='1'  :b='$store.getters.contextCard')
+      div
 </template>
 
 <script>
 import CurrentChecks from './CurrentChecks'
-import Current from './Current'
 import MemberRow from './MemberRow'
 import GuildCreate from './GuildCreate'
 
 export default {
     components:{
-        CurrentChecks, Current, MemberRow, GuildCreate
+        CurrentChecks, MemberRow, GuildCreate
     },
     mounted() {
         this.$store.commit('setMode' , 4)

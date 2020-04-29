@@ -4,7 +4,7 @@
     h1.fw.center {{resources.length}} resource
         span(v-if='resources.length > 1') s
     p.redtx(v-if='$store.getters.member.active <= 0')
-        span inactive accounts cannot access resources
+        span inactive account
     .list(v-if='isLoggedIn  && resources.length > 0'  :class='{faded: $store.getters.member.active <= 0 }')
         row(v-for="r in resources", :r="r", :c='panel')
     .padding
