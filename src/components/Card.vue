@@ -72,6 +72,8 @@ export default {
         let Tap = new Hammer.Tap({ time: 400 })
         let Press = new Hammer.Press({ time: 500 })
         mc.add([Press, Tap])
+        Press.recognizeWith([Tap])
+        Press.requireFailure([Tap])
 
         mc.on('tap', (e) => {
             let parentId = this.$store.state.context.parent[this.$store.state.context.parent.length-1]
