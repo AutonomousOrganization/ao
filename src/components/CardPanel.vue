@@ -286,6 +286,9 @@ export default {
 @import '../styles/button'
 @import '../styles/tooltips'
 
+.one
+    cursor:pointer
+
 .ro
     transform: rotate(100deg)
 

@@ -4,28 +4,32 @@
     .endpadtwo
         ul.none
           template(v-for='g in (showAllGuilds ? missions : missions.slice(0, 5))')
-              li.spaced
-                  span(@click='goIn(g.taskId)')
-                      img.floatleft(src='../assets/images/badge.svg')
-                  span(@click='goIn(g.taskId)')
-                      span.nl.gui.yellowtx {{ g.guild }}
-                  span.tooltip(v-for='c in completions(g)'  @click='goIn(c.taskId, g.taskId)'  :class='{ padleft : getSubPriorities(g.taskId).length > 0 }')
-                      img.plain.checkmark(src='../assets/images/completed.svg'  :class="cardInputSty(c.color)")
-                      linky.tooltiptext(:x='c.name')
-                  .description
-                      linky(:x='g.name')
-                      span.projectlist.aproject(v-if='g.guilds && g.guilds.length >= 1'  v-for='(p, i) in g.guilds'  @click='goIn(p.taskId, g.taskId)')
-                          img(src='../assets/images/badge.svg'  :class='{ first : i === 0 }')
-                          span(:class='cardInputSty(p.color)') {{ p.guild }}
+              .row
+                  .three.grid
+                      span(@click='goIn(g.taskId)')
+                          img.floatleft(src='../assets/images/badge.svg')
+                      span(@click='goIn(g.taskId)')
+                          span.nl.gui.yellowtx {{ g.guild }}
+                  .nine.grid
+                      .fw(v-for='c in completions(g)'  @click='goIn(c.taskId, g.taskId)'  :class='{ padleft : getSubPriorities(g.taskId).length > 0 }')
+                        .tooltip
+                          img.plain.checkmark(src='../assets/images/completed.svg')
+                          current(:memberId='c.memberId')
+                          linky.tooltiptext(:x='c.name')
+                  //- .description
+                  //-     span.projectlist.aproject(v-if='g.guilds && g.guilds.length >= 1'  v-for='(p, i) in g.guilds'  @click='goIn(p.taskId, g.taskId)')
+                  //-         img(src='../assets/images/badge.svg'  :class='{ first : i === 0 }')
+                  //-         span(:class='cardInputSty(p.color)') {{ p.guild }}
           .more(v-if='missions.length > 5 && !showAllGuilds'  @click='toggleGuilds') +{{ $store.getters.myGuilds.length - 5 }}
           .more(v-else-if='missions.length > 5 && showAllGuilds'  @click='toggleGuilds') (^_^)
 </template>
 
 <script>
 import Linky from './Linky'
+import Current from './Current'
 export default {
     components:{
-        Linky,
+        Linky,Current,
     },
     mounted() {
         this.$store.dispatch('loaded')
@@ -64,15 +68,17 @@ export default {
         },
         completions(guild){
             let completions = []
+            let now = Date.now()
             let allTasks = guild.subTasks.concat(guild.priorities).concat(guild.completed)
             allTasks.forEach(t => {
                 let task = this.$store.getters.hashMap[t]
-                if(!task || !task.claimed) return
-                if(task.claimed.indexOf(this.$store.getters.member.memberId) > -1) {
-                    if(completions.indexOf(task) === -1) {
-                        completions.push(task)
+                if(!task || !task.claims) return
+                task.claims.forEach(cEv => {
+                    if (now - cEv.timestamp < 1000 * 60 * 60 * 100){
+                        cEv.name = task.name
+                        completions.push(cEv)
                     }
-                }
+                })
             })
             return completions
         },
@@ -143,6 +149,9 @@ export default {
 @import '../styles/tooltips'
 @import '../styles/spinners'
 
+.fw
+    width: 100%
+
 .nl
     text-decoration:none
 
@@ -185,8 +194,6 @@ h3
 
 .grid
     height: 4em
-    text-align: center
-
 
 .mainbg
     background: main

@@ -2,6 +2,9 @@
 
 #frontrecent
   hypercard.topmission(v-if='$store.getters.topcard'  :b='$store.getters.topcard'  :c='[$store.getters.topcard.taskId]'  :inId='$store.getters.member.memberId'  @click.capture.stop='goInNews($store.getters.topcard.taskId)')
+  div(v-else).topmissionexplainer.tooltip
+      span no top task
+      .tooltiptext use account tasks to influence this
   .container(v-if='$store.getters.recentMembers.length > 0')
     row(v-for="(m, i) in $store.getters.recentMembers", :m="m"  v-if="showTotal > i")
     img.andThen(@click='andThen'  src='../assets/images/loader.svg')
@@ -63,6 +66,7 @@ export default {
 @import '../styles/button'
 @import '../styles/breakpoints'
 @import '../styles/title'
+@import '../styles/tooltips'
 
 h1
     color: yellow
@@ -80,5 +84,17 @@ h1
     transform: translateX(-50%)
     margin-bottom: 4em
     margin-top: 4em
+
+.topmissionexplainer
+    padding:3em
+    margin-left: 50%
+    transform: translateX(-50%)
+    margin-bottom: 4em
+    margin-top: 4em
+    background: lightGrey
+    color: main
+
+
+
 
 </style>
