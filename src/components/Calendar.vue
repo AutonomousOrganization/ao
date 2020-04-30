@@ -21,6 +21,8 @@
             .tooltip(v-if='n.type === "task-claimed"')
                 current(:memberId='n.memberId')
                 span {{ new Date(n.timestamp).toString().slice(15,21) }} - {{ getFromMap(n.taskId).name }}
+            .tooltip(v-if='n.type === "task-booked"')
+                span {{ new Date(n.timestamp).toString().slice(15,21) }} - {{ getFromMap(n.taskId).name }}
         img.bdoge(src='../assets/images/doge.svg'  @click='chooseDay(false)')
     .buffer
 </template>
@@ -86,7 +88,7 @@ export default {
   },
   computed: {
     selectedDaysEvs(){
-        return this.eventsByDay[this.chosenDay]
+        return _.uniqBy(this.eventsByDay[this.chosenDay], u => u.timestamp).sort((a, b) => a.timestamp - b.timestamp)
     },
     today(){
         return getDMY(Date.now())
@@ -139,17 +141,17 @@ export default {
         let sunTasks = []
         if (this.$store.state.upgrades.dimension === 'sun'){
             this.$store.state.members.forEach(m => {
+                sunTasks.push( m.memberId )
                 let sun = this.$store.getters.hashMap[m.memberId]
-                sunTasks.push( sun )
                 allTasks = allTasks.concat(sun.subTasks).concat(sun.priorities).concat(sun.completed)
             })
         }
 
+        allTasks = _.uniq(allTasks.concat(sunTasks))
         return allTasks
             .map(tId => {
                 return this.$store.getters.hashMap[tId]
             })
-            .concat(sunTasks)
     },
     firstDay(){
       let date = new Date(this.year, this.month, 1)
@@ -182,6 +184,9 @@ export default {
 @import '../styles/colours';
 @import '../styles/skeleton';
 @import '../styles/tooltips';
+
+.tooltip
+    color: lightGrey
 
 h5
     text-align: center
