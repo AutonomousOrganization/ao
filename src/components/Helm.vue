@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.helm(@contextmenu.prevent)
+.helm
     button.moderight.adjtooltip(v-if='$store.state.upgrades.mode || !$store.getters.isLoggedIn' id='helmright'  @mousedown='$store.dispatch("flashHelm",1)')
         img.upg(:src='"../assets/images/" + futureMode + ".svg"')
     .tooltiptext.r(v-if='$store.getters.member.tooltips')

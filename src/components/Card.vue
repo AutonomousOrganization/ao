@@ -7,11 +7,11 @@
     bird(:b='b', :inId='inId')
     flag(:b='b', :inId='inId')
     tally(:b='b')
-    .dogecoin.tooltip(v-if='w > 0')
+    .dogecoin.tooltip(v-if='w > 0 && $store.state.upgrades.dimension === "sun"')
         img(v-for='n in parseInt(Math.floor(w))'  src='../assets/images/sun.svg')
         img(v-if='w % 1 > 0 || w < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/sun.svg')
     .buffertop
-      preview-deck(v-if='$store.getters.contextCard.taskId !== b.taskId'  :task='b')
+      preview-deck(:task='b')
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member')
           current(v-else  :memberId='member.memberId')
@@ -71,7 +71,8 @@ export default {
         // find out if this is a subtask that breaks it?
         let Tap = new Hammer.Tap({ time: 400 })
         let Press = new Hammer.Press({ time: 500 })
-        mc.add([Tap, Press])
+        mc.add([Press, Tap])
+
         mc.on('tap', (e) => {
             let parentId = this.$store.state.context.parent[this.$store.state.context.parent.length-1]
             if (this.$store.getters.member.action === this.b.taskId){
@@ -117,16 +118,43 @@ export default {
                   taskId: this.b.taskId,
                 })
             }
+            console.log('tap handled')
             e.stopPropagation()
         })
+
         mc.on('press', (e) => {
-            this.$store.dispatch("makeEvent", {
-              type: 'task-popped',
-              taskId: this.b.taskId,
-              inId: this.$store.getters.contextCard.taskId,
-            })
+            console.log('press also trig trig')
+            if (this.b.taskId === this.$store.getters.contextCard.taskId){
+                let parentId = this.$store.state.context.parent[this.$store.state.context.parent.length-1]
+                this.$store.dispatch("makeEvent", {
+                  type: 'task-popped',
+                  taskId: this.b.taskId,
+                  inId: parentId,
+                })
+                let newPanel = _.filter(this.$store.state.context.panel, tId => tId !== this.b.taskId)
+                let newTop = Math.min(this.$store.state.context.top, newPanel.length -1)
+                if (newPanel.length > 0){
+                    this.$store.commit('setPanel', newPanel)
+                    this.$store.commit('setTop', newTop)
+                } else {
+                    this.$store.dispatch('goUp', {
+                      target: parentId,
+                      panel: [parentId],
+                      top: 0
+                    })
+                }
+                return
+            }else {
+                this.$store.dispatch("makeEvent", {
+                  type: 'task-popped',
+                  taskId: this.b.taskId,
+                  inId: this.$store.getters.contextCard.taskId,
+                })
+            }
+
             e.stopPropagation()
         })
+
         let el = this.$refs.wholeCard
         if(!el) return
         let mc2 = Propagating(new Hammer.Manager(el))

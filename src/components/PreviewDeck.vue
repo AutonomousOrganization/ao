@@ -90,22 +90,22 @@ export default {
           return tasks
       },
       red(){
-          return this.deck.filter( c => { if(!c) { return false } return c.color === 'red' } ).reverse().slice(0, 5)
+          return this.deck.filter( c => { if(!c) { return false } return c.color === 'red' } ).reverse().slice(0, 3)
       },
       yellow(){
-          return this.deck.filter( c => { if(!c) { return false } return c.color === 'yellow' } ).reverse().slice(0, 5)
+          return this.deck.filter( c => { if(!c) { return false } return c.color === 'yellow' } ).reverse().slice(0, 3)
       },
       blue(){
-          return this.deck.filter( c => { if(!c) { return false } return c.color === 'blue' } ).reverse().slice(0, 5)
+          return this.deck.filter( c => { if(!c) { return false } return c.color === 'blue' } ).reverse().slice(0, 3)
       },
       purple(){
-          return this.deck.filter( c => { if(!c) { return false } return c.color === 'purple' } ).reverse().slice(0, 5)
+          return this.deck.filter( c => { if(!c) { return false } return c.color === 'purple' } ).reverse().slice(0, 3)
       },
       green(){
-          return this.deck.filter( c => { if(!c) { return false } return c.color === 'green' } ).reverse().slice(0, 5)
+          return this.deck.filter( c => { if(!c) { return false } return c.color === 'green' } ).reverse().slice(0, 3)
       },
       topPriorities(){
-          return this.task.priorities.slice(0, 5).reverse()
+          return this.task.priorities.slice(0, 3).reverse()
       },
   },
   components:{

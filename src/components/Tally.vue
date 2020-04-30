@@ -8,7 +8,7 @@
         span(v-if='cardStart').points {{ cardStart.days.toFixed(1) }} days
         img.chest(v-if='cardStart'  src='../assets/images/timecube.svg')
         span.hide(v-if='b.claimed.length > 0') -
-        img.chest(v-for='n in actions'  src='../assets/images/ao.svg')
+        current.chest(v-for='n in actions'  :memberId='n')
         img(v-for='n in clm.xmark'  src='../assets/images/xmark.svg')
         img(v-for='n in clm.mark'  src='../assets/images/mark.svg')
     .tooltiptext(v-if='b.claimed.length > 0 || actions.length > 0')

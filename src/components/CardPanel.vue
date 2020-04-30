@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-#tasks(@contextmenu.capture.prevent  v-if='c && c.length > 0')
+#tasks(v-if='c && c.length > 0')
     .spaceroom(v-if='c.length < 2')
     .row.ptr(v-show="c.length > 1"  ref='swipebar')
         .three.grid.tooltip(ref='previous')
@@ -8,16 +8,16 @@
             img.fl(v-if='!open'  src='../assets/images/back.svg'  :class='{hidden:!$store.getters.member.guides}')
             .tooltiptext(v-if='$store.getters.member.tooltips')
                 p.suggest previous
-        .one.grid.horizcenter()
+        .one.grid.horizcenter(@click='first')
             .box.verticalcenter
                 h3(v-if='!open') {{ sanePosition + 1 }}
         .four.grid.horizcenter()
-            .mandalign.tooltip(@click='toggleOpen')
+            .mandalign.tooltip(ref='mandelorb')
                 img(src='../assets/images/orb.svg'  :class='{ro: open}')
                 .tooltiptext(v-if='$store.getters.member.tooltips')
                     p(v-if='!open').suggest open stack
                     p(v-else).suggest close stack
-        .one.grid.horizcenter()
+        .one.grid.horizcenter(@click='last')
             .box.verticalcenter
                 h3(v-if='!open') {{ c.length }}
         .three.grid.tooltip(ref='next')
