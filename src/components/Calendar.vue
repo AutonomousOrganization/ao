@@ -6,20 +6,28 @@
             img(src='../assets/images/back.svg')
         .inline
             .soft {{ monthName }} - {{year}}
+                span(v-if='chosenDay') - {{ chosenDay }}
         .inline(@click='nextMonth')
             img(src='../assets/images/forward.svg')
-    .calmonth(v-if='areEvs')
+    .calmonth(v-if='areEvs  &&  !chosenDay')
         .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
         .placeholder(v-for='placeholder in firstDay')
-        day(v-for='day in days', :day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
+        div(v-for='day in days'  @click='chooseDay(day)')
+            day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
     div(v-else)
-        img.bdoge(src='../assets/images/doge.svg')
-        h5 none {{monthName}}
+        h5 {{monthName}} {{chosenDay}}
+            span(v-if='!areEvs') none
+        div(v-for='n in selectedDaysEvs')
+            .tooltip(v-if='n.type === "task-claimed"')
+                current(:memberId='n.memberId')
+                span {{ new Date(n.timestamp).toString().slice(15,21) }} - {{ getFromMap(n.taskId).name }}
+        img.bdoge(src='../assets/images/doge.svg'  @click='chooseDay(false)')
     .buffer
 </template>
 
 <script>
 import Day from './Day.vue'
+import Current from './Current.vue'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -30,15 +38,21 @@ function getDMY(ts){
 }
 
 export default {
-  data(){
-
-  },
   props: ['inId'],
   components: {
-    Day
+    Day, Current
   },
   methods: {
+      getFromMap(taskId){
+          return this.$store.getters.hashMap[taskId]
+      },
+      chooseDay(x){
+          this.chosenDay = x
+      },
       nextMonth(){
+          if (this.chosenDay){
+              return this.chosenDay ++
+          }
           if (this.month == 11){
             this.year++
             this.month = 0
@@ -48,6 +62,9 @@ export default {
           }
       },
       prevMonth(){
+          if (this.chosenDay){
+              return this.chosenDay --
+          }
           if (this.month == 0){
               this.year--
               this.month = 11
@@ -68,6 +85,9 @@ export default {
       }
   },
   computed: {
+    selectedDaysEvs(){
+        return this.eventsByDay[this.chosenDay]
+    },
     today(){
         return getDMY(Date.now())
     },
@@ -151,7 +171,8 @@ export default {
     return {
       DAYS_OF_WEEK:['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
       month,
-      year
+      year,
+      chosenDay: false,
     }
   },
 }
@@ -160,6 +181,7 @@ export default {
 <style lang='stylus' scoped>
 @import '../styles/colours';
 @import '../styles/skeleton';
+@import '../styles/tooltips';
 
 h5
     text-align: center
