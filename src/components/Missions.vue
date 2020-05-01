@@ -3,7 +3,7 @@
 .missions
     .endpadtwo
         ul.none
-          template(v-for='g in (showAllGuilds ? missions : missions.slice(0, 5))')
+          template(v-for='g in missions')
               .row
                   .three.grid
                       span(@click='goIn(g.taskId)')
@@ -13,20 +13,21 @@
                   .nine.grid
                       .fw(v-for='c in completions(g)'  @click='goIn(c.taskId, g.taskId)'  :class='{ padleft : getSubPriorities(g.taskId).length > 0 }')
                         .tooltip
-                          img.plain.checkmark(src='../assets/images/completed.svg')
                           current(:memberId='c.memberId')
-                          linky.tooltiptext(:x='c.name')
+                          span.sml - {{c.name}}
                   //- .description
                   //-     span.projectlist.aproject(v-if='g.guilds && g.guilds.length >= 1'  v-for='(p, i) in g.guilds'  @click='goIn(p.taskId, g.taskId)')
                   //-         img(src='../assets/images/badge.svg'  :class='{ first : i === 0 }')
                   //-         span(:class='cardInputSty(p.color)') {{ p.guild }}
-          .more(v-if='missions.length > 5 && !showAllGuilds'  @click='toggleGuilds') +{{ $store.getters.myGuilds.length - 5 }}
-          .more(v-else-if='missions.length > 5 && showAllGuilds'  @click='toggleGuilds') (^_^)
+          //- .more(v-if='missions.length > 5 && !showAllGuilds'  @click='toggleGuilds') +{{ $store.getters.myGuilds.length - 5 }}
+          //- .more(v-else-if='missions.length > 5 && showAllGuilds'  @click='toggleGuilds') (^_^)
 </template>
 
 <script>
 import Linky from './Linky'
 import Current from './Current'
+import calcs from '../calculations'
+
 export default {
     components:{
         Linky,Current,
@@ -133,6 +134,7 @@ export default {
                   }
               })
           })
+          console.log('got missions', guilds.length)
           return guilds
         },
     },
@@ -148,6 +150,12 @@ export default {
 @import '../styles/button'
 @import '../styles/tooltips'
 @import '../styles/spinners'
+
+.sml
+    font-size: .73em
+
+.tooltip
+    color: lightGrey
 
 .fw
     width: 100%
@@ -192,12 +200,8 @@ h3
     text-align: left
     font-family: 'Open Sans', light, sans-serif;
 
-.grid
-    height: 4em
-
 .mainbg
     background: main
-
 
 .lightbg
     background: softGrey
@@ -255,9 +259,6 @@ h3
 .gui
     font-size: 1.5em
     cursor: pointer
-
-.row .three
-    height: 5em
 
 .dogep
     height: 6em

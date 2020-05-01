@@ -2,7 +2,9 @@
 
 .memberrow.membershipcard(v-if='card'  @dblclick='goIn')
     .row.center
-        label.hackername {{ r.name }}
+        label.hackername
+            img.smallguild(src='../assets/images/loader.svg')
+            span {{ r.name }}
             span(v-if='r.charged > 0') - {{r.charged}}
         img.goodbye(v-if='!isAnyOptions' @click='resourcePurged'  src='../assets/images/goodbye.svg')
         br
@@ -14,9 +16,11 @@
                     span Your balance {{ $store.getters.memberCard.boost }}
         code(v-if='isAnyOptions && !cantAfford').redtx warning: live resources
     .bottomleft(v-if='r.charged')
+    .bottomright(@click='goIn')
+      div(v-if='card.boost > 0')
         img.smallguild(src='../assets/images/chest.svg')
         p.stash {{ card.boost }}
-    .bottomright(@click='goIn')
+      div(v-else)
         img.smallguild(src='../assets/images/orb.svg')
     .clearboth
 </template>
@@ -90,6 +94,9 @@ export default {
                 })
                 if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
                     this.$store.commit("setMode", 1)
+                }
+                if (this.card.boost > 0){
+                    this.$store.commit("setMode", 3)
                 }
                 this.$router.push('/' + this.$store.state.upgrades.mode)
             }

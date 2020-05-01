@@ -5,27 +5,28 @@
         .inline(@click='prevMonth')
             img(src='../assets/images/back.svg')
         .inline
-            .soft {{ monthName }} - {{year}}
-                span(v-if='chosenDay') - {{ chosenDay }}
+            .soft
+                h5 {{ monthName }} - {{year}}
+                    span(v-if='chosenDay') - {{ chosenDay }}
         .inline(@click='nextMonth')
             img(src='../assets/images/forward.svg')
     .calmonth(v-if='areEvs  &&  !chosenDay')
         .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
         .placeholder(v-for='placeholder in firstDay')
-        div(v-for='day in days'  @click='chooseDay(day)')
+        div.deh(v-for='day in days'  @click='chooseDay(day)')
             day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
     div(v-else)
+        div(v-for='n in selectedDaysEvs'  @click='goIn(n.taskId)')
+            .tooltip(v-if='n.type === "task-claimed"')
+                current(:memberId='n.memberId')
+                span {{ new Date(n.timestamp).toString().slice(15,21) }} - {{ getFromMap(n.taskId).name }}
+            .tooltip(v-if='n.name')
+                span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ n.name }}
+        img.bdoge(src='../assets/images/doge.svg'  @click='chooseDay(false)')
         h5
             span(v-if='!areEvs') none
             span  {{monthName}}
             span(v-if='chosenDay')  {{chosenDay}}
-        div(v-for='n in selectedDaysEvs')
-            .tooltip(v-if='n.type === "task-claimed"')
-                current(:memberId='n.memberId')
-                span {{ new Date(n.timestamp).toString().slice(15,21) }} - {{ getFromMap(n.taskId).name }}
-            .tooltip(v-if='n.type === "task-booked"')
-                span {{ new Date(n.timestamp).toString().slice(15,21) }} - {{ getFromMap(n.taskId).name }}
-        img.bdoge(src='../assets/images/doge.svg'  @click='chooseDay(false)')
     .buffer
 </template>
 
@@ -47,15 +48,36 @@ export default {
     Day, Current
   },
   methods: {
+      goIn(taskId){
+          let panel = [taskId]
+          let parents = []
+          let top = 0
+
+          if (this.$store.getters.contextCard.taskId){
+              parents.push(this.$store.getters.contextCard.taskId)
+          } else if (this.$store.getters.memberCard.taskId){
+              parents.push(this.$store.getters.memberCard.taskId)
+          }
+          this.$store.dispatch("goIn", {
+              parents,
+              top,
+              panel
+          })
+          if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
+              this.$store.commit("setMode", 1)
+          }
+          this.$router.push("/" + this.$store.state.upgrades.mode)
+      },
       getFromMap(taskId){
           return this.$store.getters.hashMap[taskId]
       },
       chooseDay(x){
-          this.chosenDay = x
+          console.log('dispatching choose day')
+          this.$store.commit('chooseDay', x)
       },
       nextMonth(){
           if (this.chosenDay){
-              return this.chosenDay ++
+              return this.$store.commit('chooseDay', this.chosenDay + 1)
           }
           if (this.month == 11){
             this.year++
@@ -67,7 +89,7 @@ export default {
       },
       prevMonth(){
           if (this.chosenDay){
-              return this.chosenDay --
+              return this.$store.commit('chooseDay', this.chosenDay - 1)
           }
           if (this.month == 0){
               this.year--
@@ -89,8 +111,13 @@ export default {
       }
   },
   computed: {
+    chosenDay(){
+        return this.$store.state.upgrades.chosenDay
+    },
     selectedDaysEvs(){
-        return _.uniqBy(this.eventsByDay[this.chosenDay], u => u.timestamp).sort((a, b) => a.timestamp - b.timestamp)
+        let selectDays = _.uniqBy(this.eventsByDay[this.chosenDay], u => u.timestamp)
+        selectDays.sort((a, b) => a.timestamp - b.timestamp)
+        return selectDays
     },
     today(){
         return getDMY(Date.now())
@@ -176,7 +203,6 @@ export default {
       DAYS_OF_WEEK:['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
       month,
       year,
-      chosenDay: false,
     }
   },
 }
@@ -187,8 +213,12 @@ export default {
 @import '../styles/skeleton';
 @import '../styles/tooltips';
 
+.deh
+    cursor: pointer
+
 .tooltip
     color: lightGrey
+    cursor: pointer
 
 h5
     text-align: center

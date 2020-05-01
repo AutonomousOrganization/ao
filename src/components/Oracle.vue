@@ -7,7 +7,7 @@
       .tooltiptext use account tasks to influence this
   .container(v-if='$store.getters.recentMembers.length > 0')
     row(v-for="(m, i) in $store.getters.recentMembers", :m="m"  v-if="showTotal > i")
-    img.andThen(@click='andThen'  src='../assets/images/loader.svg')
+    img.andThen(v-if='showTotal < $store.getters.recentMembers.length'  @click='andThen'  src='../assets/images/orb.svg')
   .container
     missions
   status

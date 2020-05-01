@@ -11,6 +11,7 @@ const state = {
     bird: false,
     barking: false,
     pinging: false,
+    chosenDay: false,
     flashClasses: {
         flash: false,
         half: false,
@@ -20,6 +21,10 @@ const state = {
 }
 
 const mutations = {
+    chooseDay(state, x){
+        state.chosenDay = x
+        console.log(state.chosenDay, 'chosen')
+    },
     setSearch(state, x){
         state.search = x
     },

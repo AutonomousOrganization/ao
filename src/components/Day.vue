@@ -1,8 +1,7 @@
 <template lang="pug">
 .day
     .date {{ day }}
-    router-link(to='/doge')
-        img.today(v-if='isToday'  src='../assets/images/uni.svg')
+    img.today(v-if='isToday'  src='../assets/images/uni.svg')
     span(v-for='t in ev')
         .tooltip.upgrade(v-if='t.type !== "task-claimed"')
             img.upgrade(@click="goIn(t.taskId)"  src='../assets/images/timecube.svg'  :class='styl(t.color)')

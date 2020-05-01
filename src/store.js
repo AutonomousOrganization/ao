@@ -219,7 +219,7 @@ export default new Vuex.Store({
               }
               return true
           })
-          my = _.filter(my, st => !my.some(t => t.subTasks.concat(t.priorities, t.completed).indexOf(st.taskId) > -1))
+          // my = _.filter(my, st => !my.some(t => t.subTasks.concat(t.priorities, t.completed).indexOf(st.taskId) > -1))
           my.forEach(g => {
               g.tempLastClaimed = 0
               let completions = g.completed.map(t => getters.hashMap[t])
