@@ -48,6 +48,9 @@ export default {
       createAccount(){
           request.get('/newaccount/' + this.name)
               .end((err, res) => {
+                  if (err) {
+                      return this.err = err.message
+                  }
                   this.setAuth(res.body.token, res.body.session)
               })
       },

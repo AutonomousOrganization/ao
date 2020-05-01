@@ -1,6 +1,11 @@
 <template lang='pug'>
 
-.current(v-if='memberId')
+.current(v-if='memberId'  :key='counter')
+    span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }} days,
+    span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }}:
+    span(v-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }}:
+    span(v-if='clockworkblue.minutes > 0 && clockworkblue.seconds > 0 && clockworkblue.seconds < 10') 0
+    span(v-if='clockworkblue.seconds > 0') {{ Number(clockworkblue.seconds.toFixed(0)) }}
     img.checkmark.clickable(v-if='isCompleted'  src='../assets/images/completed.svg'   @click='uncheck')
     img.checkmark.clickable(v-else  src='../assets/images/uncompleted.svg'  @click='complete')
     span.completedmarks
@@ -17,6 +22,15 @@
 import Linky from './Linky'
 
 export default {
+  data(){
+      let x = {
+          counter: 0,
+      }
+      setInterval(()=>{ // total rerender not great
+          x.counter ++
+      }, 12345)
+      return x
+  },
   props: ['memberId'],
   components: { Linky },
   methods: {
@@ -62,6 +76,45 @@ export default {
     },
   },
   computed:{
+    clockworkblue(){
+        this.counter // 
+        let active = false
+        let totalms = 0
+        this.$store.getters.contextCard.actions.forEach(a => {
+            if (a && this.memberId === a.memberId){
+                totalms = a.total
+                if (a.isActive){
+                    active = a.timestamp
+                    console.log('set active for ', {a})
+                }
+            }
+        })
+
+        if (active){
+            totalms += (Date.now() - active)
+        }
+
+        let days = 0
+        while (totalms > 1000 * 60 * 60 * 24){
+            days ++
+            totalms -= 1000 * 60 * 60 * 24
+        }
+        let hours = 0
+        while (totalms > 1000 * 60 * 60){
+            hours ++
+            totalms -= 1000 * 60 * 60
+        }
+
+        let minutes = 0
+        while (totalms > 1000 * 60){
+            minutes ++
+            totalms -= 1000 * 60
+        }
+
+        let seconds = totalms / 1000
+
+        return {days, hours, minutes, seconds, active}
+    },
     name(){
         let memberId = this.memberId
         let name = false

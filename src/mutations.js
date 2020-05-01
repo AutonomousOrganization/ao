@@ -270,6 +270,36 @@ function sessionsMuts(sessions, ev){
 
 function tasksMuts(tasks, ev) {
     switch (ev.type) {
+        case "member-field-updated":
+            if (ev.field === 'action'){
+                tasks.forEach(task => {
+                    if(task.taskId === ev.newfield) {
+                        let editInline = task.actions.some(a => {
+                            if (a.memberId === ev.memberId){
+                                a.isActive = true
+                                a.timestamp = ev.timestamp
+                                return true
+                            }
+                        })
+                        if (!editInline){
+                            task.actions.push({
+                                memberId: ev.memberId,
+                                timestamp: ev.timestamp,
+                                isActive: true,
+                                total: 0
+                            })
+                        }
+                    } else {
+                        task.actions.forEach(a => {
+                            if (a.memberId === ev.memberId && a.isActive){
+                                a.isActive = false
+                                a.total += (ev.timestamp - a.timestamp)
+                            }
+                        })
+                    }
+                })
+            }
+            break
         case "task-seized":
             let pirate
             tasks.forEach(task => {
@@ -428,7 +458,6 @@ function tasksMuts(tasks, ev) {
                     if (task.deck.indexOf(ev.fromMemberId) === -1){
                         task.deck.push(ev.fromMemberId)
                     }
-
                 }
             })
             break

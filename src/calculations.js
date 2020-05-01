@@ -97,6 +97,7 @@ function blankCard(taskId, name, color, deck = []) {
         completed: [],
         claimed: [],
         passed: [],
+        actions: [],
         guild: false,
         lastClaimed: 0,
         completeValue: 0,

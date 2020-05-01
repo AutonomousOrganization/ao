@@ -6,12 +6,11 @@
             img.bdoge(src='../assets/images/doge.svg')
             h5 no vouches
         div(v-else)
-            member-row(v-for='n in $store.getters.contextCard.deck'  :m='getMemberCard(n)')
+            member-row(v-for='n in $store.getters.contextCard.deck'  :m='getMemberCard(n)'  :key='n')
     div(v-else)
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
         current-checks(:memberId='n')
       guild-create(editing='1'  :b='$store.getters.contextCard')
-      div
 </template>
 
 <script>
