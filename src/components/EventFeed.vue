@@ -4,11 +4,8 @@
   transition(name='fade' v-for='(e, i) in eventstream'  :key="i")
       .feed.wiggle(v-if='e.showEvent'  v-bind:style="{ left: e.randomX }"  @click='goTo(e)')
           img.bubble(src='../assets/images/down.svg')
-          .float(:style='{ color: e.randomColors[0], left: e.randomXs[0], top: e.randomYs[0] }') {{ e.type.replace('-', ' ') }}
-              br
-              span(:style='{ color: e.randomColors[1], left: e.randomXs[1], top: e.randomYs[1] }') {{ e.meme }}
-          .float(v-if='e.type==="task-created"') {{ e.name }}
-      div(v-else) test
+          .float(:style='{ color: e.randomColors[0], left: e.randomXs[0], top: e.randomYs[0] }') {{ e.meme }}
+              span(v-if='e.type==="task-created"'  :style='{ color: e.randomColors[1], left: e.randomXs[1], top: e.randomYs[1] }') -{{ e.name }}
 </template>
 
 <script>
@@ -61,7 +58,6 @@ export default {
                     this.$router.push("/" + this.$store.state.upgrades.mode)
                 }
             }
-            // XXX should switch mode / location more specifically on events such as resource-booked
         }
     }
 }

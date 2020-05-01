@@ -13,7 +13,7 @@
     .buffertop
       preview-deck(:task='b')
       .cardbody
-          linky.cardhud(:x='b.name' v-if='!member')
+          linky.cardhud(@click='setAction'  :x='b.name' v-if='!member')
           current(v-else  :memberId='member.memberId')
     div(v-if='b.taskId !== $store.getters.member.action  && b.taskId !== $store.getters.contextCard.taskId')
         simple-priorities(:taskId="b.taskId", :inId='b.taskId')
@@ -30,13 +30,13 @@
                         h6 {{l}}
     div
         .scrol.faded(ref='scuttle')
-            img.scrolly(src='../assets/images/downboat.svg'  :id='uuid'    :class='{hidden:!$store.getters.member.guides}')
+            img.scrolly(src='../assets/images/downboat.svg'  :class='{hidden:!$store.getters.member.guides}')
         .vine(@click='goIn')
             span.faded(v-if='b.boost > 0') {{b.boost}}
                 img.chest(src='../assets/images/chest.svg')
             img.viney.adjtooltip.faded(src='../assets/images/orb.svg'  :class='{hidden:!$store.getters.member.guides}')
             .tooltiptext.correctspot(v-if='b.deck.length > 0')
-                current.block(v-for='memberId in b.deck'  :memberId='memberId')
+                current.block(v-for='memberId in b.deck'  :memberId='memberId'  :key='memberId')
         .singlebird(v-if='links.length + b.passed.length > 0'  @click='toggleBird')
             .row.pad.centered()
                 span(v-if='links.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
@@ -88,7 +88,6 @@ export default {
                   subTask: this.b.taskId,
                   taskId: this.inId,
                 })
-                this.$store.commit('setAction', false)
             } else if (this.inId){
                 this.$store.dispatch("makeEvent", {
                   type: 'task-de-sub-tasked',
@@ -161,13 +160,21 @@ export default {
         if(!el) return
         let mc2 = Propagating(new Hammer.Manager(el))
 
+        let singleTap = new Hammer.Tap({ event: 'singletap', time: 400 })
         let doubleTap = new Hammer.Tap({ event: 'doubletap', taps: 2, time: 400, interval: 400 })
         let longPress = new Hammer.Press({ time: 600 })
 
-        mc2.add([doubleTap, longPress])
+        mc2.add([doubleTap, singleTap, longPress])
 
-        longPress.recognizeWith([doubleTap])
-        longPress.requireFailure([doubleTap])
+        doubleTap.recognizeWith(singleTap)
+        singleTap.requireFailure(doubleTap)
+        longPress.requireFailure([singleTap, doubleTap])
+        longPress.recognizeWith([singleTap, doubleTap])
+        longPress.requireFailure([singleTap, doubleTap])
+
+        mc2.on('singletap', (e) => {
+            this.setAction()
+        })
 
         mc2.on('doubletap', (e) => {
             this.goIn()
@@ -179,6 +186,23 @@ export default {
         })
     },
     methods: {
+        setAction(){
+            if (this.$store.getters.member.action === this.b.taskId){
+                return this.$store.dispatch("makeEvent", {
+                    type: 'member-field-updated',
+                    field: 'action',
+                    newfield: false,
+                    memberId: this.$store.getters.member.memberId,
+                })
+            }
+
+            this.$store.dispatch("makeEvent", {
+                type: 'member-field-updated',
+                field: 'action',
+                newfield: this.b.taskId,
+                memberId: this.$store.getters.member.memberId,
+            })
+        },
         toggleBird(){
             this.$store.commit('toggleBird')
         },
@@ -239,9 +263,6 @@ export default {
               .catch(err => {
                   console.log('failed to copy: ' + this.b.name, {err}) // XXX firefox, null error
               })
-        },
-        deaction(){
-          this.$store.commit("setAction", false)
         },
     },
     computed: {

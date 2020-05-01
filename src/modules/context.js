@@ -36,11 +36,7 @@ const mutations = {
 
 const actions = {
     loaded({commit, state, getters, dispatch}){
-
         dispatch('flashHelm', 1)
-        setTimeout(()=>{
-          commit("setAction", false)
-        }, 333)
         let isMuted = getters.member.muted
         if (!isMuted){
           try {
@@ -51,9 +47,6 @@ const actions = {
     },
     goIn({commit, state, dispatch}, pContext ){
         console.log('goIn hit', pContext)
-        setTimeout(()=>{
-          commit("setAction", false)
-        }, 333)
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
         pContext.parents.forEach(p => {
@@ -65,9 +58,6 @@ const actions = {
     },
     goUp({commit}, pContext){
         console.log('goUp called')
-        setTimeout(()=>{
-            commit("setAction", false)
-        }, 333)
         commit("goToParent", pContext.target)
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)

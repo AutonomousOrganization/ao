@@ -47,8 +47,9 @@ const mutations = {
         for(let i = 0; i < 2; i++) newBubble.randomXs.push(Math.floor(Math.random() * 100) + '%')
         for(let i = 0; i < 2; i++) newBubble.randomYs.push(Math.floor(Math.random() * 100) + '%')
 
-        let notTheseOnes = ["funds-set", "get-node-info", 'member-field-updated', 'task-touched', 'task-swapped', 'address-updated']
-        if (notTheseOnes.indexOf(newBubble.type) === -1){
+        // let notTheseOnes = ["funds-set", "get-node-info", 'member-field-updated', 'task-touched', 'task-swapped', 'address-updated', 'invoice-created', 'task-valued', 'task-de-sub-tasked', 'task-prioritized']
+        let onlyThese = ['task-created']
+        if (onlyThese.indexOf(newBubble.type) > -1){
             if (state.every(e => e.timestamp !== ev.timestamp)){
                 state.push(newBubble)
             }

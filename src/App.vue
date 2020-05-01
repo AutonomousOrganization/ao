@@ -9,11 +9,7 @@
     auth(v-if='!$store.getters.isLoggedIn')
     router-view
     .breathingroom
-    .agedbackground.translucent(:class='cardInputSty')
-    .agedbackground.freshpaperbg(v-if='cardAge < 8')
-    .agedbackground.weekoldpaperbg(v-else-if='cardAge < 30')
-    .agedbackground.montholdpaperbg(v-else-if='cardAge < 90')
-    .agedbackground.threemontholdpaperbg(v-else='cardAge >= 90')
+    .agedbackground.translucent
 </template>
 
 <script>
@@ -28,7 +24,6 @@ export default {
     mounted() {
         let token = window.localStorage.token
         let session = window.localStorage.session
-
         if (token && session){
             this.$store.commit('setAuth', {token, session})
         }

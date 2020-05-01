@@ -22,7 +22,9 @@ export default new Vuex.Store({
   },
   getters: {
       bountyList(state, getters){
-          return state.tasks.filter(t => t.completeValue >= 1).sort((a,b) => b.completeValue - a.completeValue)
+          return state.tasks
+              .filter(t => t.completeValue >= 1 && getters.memberIds.indexOf(t.taskId) === -1)
+              .sort((a,b) => b.completeValue - a.completeValue)
       },
       topGuilds(state, getters){
           let guilds = []

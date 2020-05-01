@@ -160,13 +160,12 @@ export default {
             })
         },
         deaction(){
-            console.log('deaction called?')
-            this.$store.dispatch("makeEvent", {
-                type: 'member-field-updated',
-                field: 'action',
-                newfield: false,
-                memberId: this.$store.getters.member.memberId,
-            })
+            // this.$store.dispatch("makeEvent", {
+            //     type: 'member-field-updated',
+            //     field: 'action',
+            //     newfield: false,
+            //     memberId: this.$store.getters.member.memberId,
+            // })
         },
         setAction(){
             this.$store.dispatch("makeEvent", {
