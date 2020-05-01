@@ -3,15 +3,19 @@
 .memberrow.membershipcard(v-if='card'  @dblclick='goIn')
     .row.center
         label.hackername {{ r.name }}
+            span(v-if='r.charged > 0') - {{r.charged}}
         img.goodbye(v-if='!isAnyOptions' @click='resourcePurged'  src='../assets/images/goodbye.svg')
         br
         code(v-if='!isAnyOptions'  @click='goIn') create button with task inside card
-        div(v-for='o in optionList')
-            button(@click='use(o[0])'  :class='cardInputSty(o[2])') {{ o[1] }}
-        code(v-if='isAnyOptions').redtx warning: buttons trigger resources
+        code(v-if='cantAfford').redtx not enough points
+        div(v-for='o in optionList'  :class='{faded: cantAfford}')
+            button.tooltip(@click='use(o[0])'  :class='cardInputSty(o[2])') {{ o[1] }}
+                .tooltiptext
+                    span Your balance {{ $store.getters.memberCard.boost }}
+        code(v-if='isAnyOptions && !cantAfford').redtx warning: live resources
     .bottomleft(v-if='r.charged')
         img.smallguild(src='../assets/images/chest.svg')
-        p.stash {{r.charged}}
+        p.stash {{ card.boost }}
     .bottomright(@click='goIn')
         img.smallguild(src='../assets/images/orb.svg')
     .clearboth
@@ -23,6 +27,9 @@ export default {
     props: ['r', 'c'],
     components: { },
     computed:{
+        cantAfford(){
+            return this.$store.getters.memberCard.boost < this.r.charged
+        },
         isAnyOptions(){
             return this.optionList.length > 0
         },
@@ -77,7 +84,7 @@ export default {
             let top = this.c.indexOf(this.r.resourceId)
             if (top > -1){
                 this.$store.dispatch("goIn", {
-                    parents: [],
+                    parents: [this.$store.getters.contextCard.taskId],
                     panel: this.c,
                     top,
                 })

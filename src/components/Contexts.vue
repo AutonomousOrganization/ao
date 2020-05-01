@@ -11,7 +11,6 @@
 
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
-
 import ContextRow from './ContextRow'
 
 export default {

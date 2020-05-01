@@ -4,10 +4,12 @@
     .popup
         .here
             span.front(v-if='isMember')  {{ isMember }}
+            span.front(v-else-if='isResource')  {{ isResource }}
             span.front(v-else-if='card.guild')  {{ card.guild }}
             linky.front(v-else  :x='name'  :key='name')
     img.front(v-if='card.guild'  src="../assets/images/badge.svg")
     img.front(v-if='isMember' src="../assets/images/loggedIn.svg")
+    img.front(v-if='isResource' src="../assets/images/loader.svg")
     div.right.front(v-if='card.book.startTs')
         tally(:b='card')
     .hyperpaper.freshpaper(v-if='cardAge < 8')
@@ -25,6 +27,16 @@ export default {
     props: ['taskId'],
     components: { Linky, Tally },
     computed: {
+        isResource(){
+            let is = false
+            this.$store.state.resources.some(m => {
+                if (m.resourceId === this.taskId){
+                    is = m.name
+                    return true
+                }
+            })
+            return is
+        },
         isMember(){
             let is = false
             this.$store.state.members.some(m => {

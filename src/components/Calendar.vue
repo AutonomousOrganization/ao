@@ -15,8 +15,10 @@
         div(v-for='day in days'  @click='chooseDay(day)')
             day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
     div(v-else)
-        h5 {{monthName}} {{chosenDay}}
+        h5
             span(v-if='!areEvs') none
+            span  {{monthName}}
+            span(v-if='chosenDay')  {{chosenDay}}
         div(v-for='n in selectedDaysEvs')
             .tooltip(v-if='n.type === "task-claimed"')
                 current(:memberId='n.memberId')
