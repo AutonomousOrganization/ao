@@ -14,7 +14,8 @@
       preview-deck(:task='b')
       .cardbody
           linky.cardhud(@click='setAction'  :x='b.name' v-if='!member')
-          current(v-else  :memberId='member.memberId')
+          span.sml
+              current(v-for='n in actions'  :memberId='n')
     div(v-if='b.taskId !== $store.getters.member.action  && b.taskId !== $store.getters.contextCard.taskId')
         simple-priorities(:taskId="b.taskId", :inId='b.taskId')
     .passed
@@ -266,6 +267,13 @@ export default {
         },
     },
     computed: {
+        actions(){
+            let a = []
+            this.$store.state.members.forEach(m => {
+                if (m.action ===this.b.taskId) a.push(m.memberId)
+            })
+            return a
+        },
         w(){
             return this.$store.getters.weights[this.b.taskId]
         },
@@ -322,6 +330,9 @@ export default {
 @import '../styles/button'
 @import '../styles/spinners'
 @import '../styles/tooltips'
+
+.sml
+    font-size: .73em
 
 .faded
     opacity: .1

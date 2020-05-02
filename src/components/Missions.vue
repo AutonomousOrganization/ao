@@ -13,8 +13,8 @@
                   .nine.grid
                       .fw(v-for='c in completions(g)'  @click='goIn(c.taskId, g.taskId)'  :class='{ padleft : getSubPriorities(g.taskId).length > 0 }')
                         .tooltip
-                          current(:memberId='c.memberId')
-                          span.sml - {{c.name}}
+                          span.sml {{c.name}}
+                              current(:memberId='c.memberId')
                   //- .description
                   //-     span.projectlist.aproject(v-if='g.guilds && g.guilds.length >= 1'  v-for='(p, i) in g.guilds'  @click='goIn(p.taskId, g.taskId)')
                   //-         img(src='../assets/images/badge.svg'  :class='{ first : i === 0 }')
