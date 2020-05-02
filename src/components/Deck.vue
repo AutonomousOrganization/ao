@@ -1,7 +1,7 @@
 <template lang='pug'>
 .deck(:key='$store.getters.contextCard.taskId')
     .paperwrapper.padsides
-        .card.openwidth(:class='{ adjustwidth : !$store.getters.contextMember }')
+        .card.openwidth(:class='{ adjustwidth : !$store.getters.contextMember, closedwidth : $store.state.upgrades.mode === "doge"  && $store.getters.inbox.length === 0}')
             member-row(v-if='$store.getters.contextMember', :m='$store.getters.contextMember'  :key='card.taskId')
             resource-row(v-if='$store.getters.contextResource'   :r='$store.getters.contextResource'  :key='card.taskId')
             .centerer
@@ -15,7 +15,7 @@
                 context(:taskId='n')
             .centerer
                 .more.aftermore(v-if='panelSplit.after.length > 5') +{{ panelSplit.after.length - 5 }}
-        .upgradesbar
+        .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"  ||  $store.getters.inbox.length > 0')
             router-view
     div
         .fadey(:class='{ cardInputSty, onestack : $store.getters.member.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')

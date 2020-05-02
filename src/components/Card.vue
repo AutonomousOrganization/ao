@@ -37,7 +37,7 @@
             img.viney.adjtooltip.faded(src='../assets/images/orb.svg'  :class='{hidden:!$store.getters.member.guides}')
             .tooltiptext.correctspot(v-if='b.deck.length > 0')
                 current.block(v-for='memberId in b.deck'  :memberId='memberId'  :key='memberId')
-        .singlebird(v-if='links.length + b.passed.length > 0'  @click='toggleBird')
+        .singlebird(v-if='links.length + b.passed.length > 0'  @click='toggleBird'  v-show='!$store.state.upgrades.bird')
             .row.pad.centered()
                 span(v-if='links.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
                     img.send(src='../assets/images/send.svg')

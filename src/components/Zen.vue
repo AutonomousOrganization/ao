@@ -44,8 +44,9 @@ export default {
 
 .gift
     display: inline
-    height: 5em
+    height: 4.1em
     clear: none
+    opacity: 0.41
 
 span
     font-size: 1.321em
