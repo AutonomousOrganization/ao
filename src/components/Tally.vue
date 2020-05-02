@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.tally
+.tally(@click='setAction')
     span.adjtooltip
         span.faded
             span.points(v-if='b.completeValue > 0') {{ b.completeValue }}
@@ -24,7 +24,33 @@ import Current from './Current'
 export default {
     props: ['b'],
     components: { Current },
+    methods:{
+      setAction(){
+          if (this.$store.getters.member.action === this.b.taskId){
+              return this.$store.dispatch("makeEvent", {
+                  type: 'member-field-updated',
+                  field: 'action',
+                  newfield: false,
+                  memberId: this.$store.getters.member.memberId,
+              })
+          }
+
+          this.$store.dispatch("makeEvent", {
+              type: 'member-field-updated',
+              field: 'action',
+              newfield: this.b.taskId,
+              memberId: this.$store.getters.member.memberId,
+          })
+      },
+    },
     computed: {
+      actions(){
+          let a = []
+          this.$store.state.members.forEach(m => {
+              if (m.action ===this.b.taskId) a.push(m.memberId)
+          })
+          return a
+      },
       clm(){
           let mark = 0
           let xmark = 0
@@ -71,11 +97,15 @@ export default {
 .hide
     opacity: 0
 
+.hide:hover
+    opacity: 0.25654
+
 .tally
     padding-right: 0.5em
     padding-left: 0.5em
     font-size: 1em
-
+    min-height: 2em
+    min-width: 7em
 img
     height: 1em
     position: relative

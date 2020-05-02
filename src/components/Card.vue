@@ -56,9 +56,10 @@ import Propagating from 'propagating-hammerjs'
 import Tally from './Tally'
 import Linky from './Linky'
 import Current from './Current'
-import Bird from './Bird'
 import SimplePriorities from './SimplePriorities'
 
+// consume
+import Bird from './Bird'
 import Flag from './Flag'
 import PreviewDeck from './PreviewDeck'
 
@@ -161,21 +162,21 @@ export default {
         if(!el) return
         let mc2 = Propagating(new Hammer.Manager(el))
 
-        let singleTap = new Hammer.Tap({ event: 'singletap', time: 400 })
+        // let singleTap = new Hammer.Tap({ event: 'singletap', time: 400 })
         let doubleTap = new Hammer.Tap({ event: 'doubletap', taps: 2, time: 400, interval: 400 })
         let longPress = new Hammer.Press({ time: 600 })
 
-        mc2.add([doubleTap, singleTap, longPress])
+        mc2.add([doubleTap, longPress])
 
-        doubleTap.recognizeWith(singleTap)
-        singleTap.requireFailure(doubleTap)
-        longPress.requireFailure([singleTap, doubleTap])
-        longPress.recognizeWith([singleTap, doubleTap])
-        longPress.requireFailure([singleTap, doubleTap])
-
-        mc2.on('singletap', (e) => {
-            this.setAction()
-        })
+        // doubleTap.recognizeWith(singleTap)
+        // singleTap.requireFailure(doubleTap)
+        // longPress.requireFailure([singleTap, doubleTap])
+        // longPress.recognizeWith([singleTap, doubleTap])
+        // longPress.requireFailure([singleTap, doubleTap])
+        //
+        // mc2.on('singletap', (e) => {
+        //     // this.setAction()
+        // })
 
         mc2.on('doubletap', (e) => {
             this.goIn()
@@ -183,6 +184,7 @@ export default {
         })
 
         mc2.on('press', (e) => {
+
             this.copyCardToClipboard()
         })
     },
@@ -710,5 +712,8 @@ label
 .hidden
     opacity: 0
 
+
+.hidden:hover
+    opacity: 0.25654
 
 </style>
