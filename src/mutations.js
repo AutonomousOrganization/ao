@@ -55,6 +55,13 @@ function aoMuts(aos, ev) {
                 aos.push(newEv)
             }
             break
+        case "ao-link-disconnected":
+            aos.forEach( (ao, i) => {
+                if (ao.address === ev.address) {
+                    ao.links = _.filter(ao.links, a => a !== ev.taskId)
+                }
+            })
+            break
         case "ao-disconnected":
             aos.forEach( (ao, i) => {
                 if (ao.address === ev.address) {

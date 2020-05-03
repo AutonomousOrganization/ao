@@ -14,6 +14,7 @@ import Oracle from './components/Oracle'
 import Port from './components/Port'
 import Bounties from './components/Bounties'
 import Upcoming from './components/Upcoming'
+import Tags from './components/Tags'
 
 import Checkmarks from './components/Checkmarks'
 import Payments from './components/Payments'
@@ -60,14 +61,14 @@ const routes =[{
 },{
   path: '/front/doge',
   component: Oracle,
-  meta: { title: "newspaper" }
+  meta: { title: "oracle" }
 },{
   path: '/front/boat',
-  component: Oracle,
-  meta: { title: "Port cards" }
+  component: Port,
+  meta: { title: "port" }
 },{
   path: '/front/badge',
-  component: Port,
+  component: Tags,
   meta: { title: "recent" }
 },{
   path: '/front/chest',

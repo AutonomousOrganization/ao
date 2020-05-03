@@ -22,6 +22,20 @@ router.post('/events', (req, res, next) => {
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+      case "ao-link-disconnected":
+          if (
+            validators.isTaskId(req.body.taskId, errRes) &&
+            validators.isAddress(req.body.address, errRes)
+          ) {
+            events.aoLinkDisconnected(
+                req.body.taskId,
+                req.body.address,
+                utils.buildResCallback(res)
+            )
+          } else {
+            res.status(400).send(errRes);
+          }
+          break
       case "task-seized":
           if (
             validators.isTaskId(req.body.taskId, errRes) &&

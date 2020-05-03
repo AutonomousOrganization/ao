@@ -12,7 +12,7 @@
       img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg' ref='checkbox')
       img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg' ref='checkbox')
       tally.right.front.lesspadding(:b='card')
-      linky.cardname.front(:x='card.name'  :key='name')
+      linky.cardname.front(:x='card.name.slice(0,111)'  :key='name')
 </template>
 
 <script>

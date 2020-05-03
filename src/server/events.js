@@ -5,6 +5,15 @@ const crypto = require('crypto')
 const { serverState } = require('./state')
 const dctrlDb = require('./dctrlDb')
 
+function aoLinkDisconnected(taskId, address, callback){
+    let newEvent = {
+        type: "ao-link-disconnected",
+        taskId,
+        address,
+    }
+    dctrlDb.insertEvent(newEvent, callback)
+}
+
 function taskSeized(taskId, inId, callback){
   let newEvent = {
       type: "task-seized",
@@ -547,6 +556,7 @@ function memberCharged(memberId, charged, notes, callback) {
 }
 
 module.exports = {
+    aoLinkDisconnected,
     highlighted,
     memberCharged,
     aoOutboundConnected,

@@ -296,5 +296,6 @@ export default {
 .hidden
     opacity: 0
 
-
+.hidden:hover
+    opacity: 0.25654
 </style>
