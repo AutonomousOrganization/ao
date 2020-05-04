@@ -16,11 +16,17 @@
         div.deh(v-for='day in days'  @click='chooseDay(day)')
             day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
     div(v-else)
-        div(v-for='n in selectedDaysEvs'  @click='goIn(n.taskId)')
-            .tooltip(v-if='n.type === "task-claimed"')
+        div(v-for='n in selectedDaysEvs'  )
+            .tooltip(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
                 current(:memberId='n.memberId')
-                span {{ new Date(n.timestamp).toString().slice(15,21) }} - {{ getFromMap(n.taskId).name }}
-            .tooltip(v-if='n.name')
+                span {{ new Date(n.timestamp).toString().slice(15,21) }}
+                span - {{ getFromMap(n.taskId).name }}
+            .tooltip(v-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
+                current(:memberId='n.memberId')
+                span {{ new Date(n.timestamp).toString().slice(15,21) }}
+                currentr(:resourceId='n.resourceId')
+                span - {{ n.notes }}
+            .tooltip(v-if='n.name'  @click='goIn(n.taskId)')
                 span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ n.name }}
         img.bdoge(src='../assets/images/doge.svg'  @click='chooseDay(false)')
         h5
@@ -33,6 +39,7 @@
 <script>
 import Day from './Day.vue'
 import Current from './Current.vue'
+import Currentr from './Currentr.vue'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -45,7 +52,7 @@ function getDMY(ts){
 export default {
   props: ['inId'],
   components: {
-    Day, Current
+    Day, Currentr, Current
   },
   methods: {
       goIn(taskId){

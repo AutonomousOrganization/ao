@@ -757,14 +757,18 @@ function tasksMuts(tasks, ev) {
         case "resource-used":
             tasks.forEach(task => {
                 let charged = parseFloat(ev.charged)
-                if (charged > 0){
-                  if (task.taskId === ev.memberId){
-                        task.boost -= charged
-                  }
-                  if (task.taskId === ev.resourceId){
-                        task.boost += charged
-                  }
-                }
+                    if (task.taskId === ev.memberId){
+                        if (charged > 0){
+                            task.boost -= charged
+                        }
+                        task.claims.push(ev) //
+                    }
+                    if (task.taskId === ev.resourceId){
+                        if (charged > 0){
+                            task.boost += charged
+                        }
+                        task.claims.push(ev) //
+                    }
             })
             break
         case "invoice-created":

@@ -273,7 +273,8 @@ export default {
         matchCard(){
             let foundId
             this.$store.state.tasks.filter(t => {
-                if(t.name === this.task.name.trim()) {
+                let trimmy = this.task.name.trim()
+                if(t.name === trimmy || t.guild === trimmy) {
                     foundId = t.taskId
                 }
             })

@@ -2,7 +2,7 @@
 
 span.current
     img.onlineicon(src='../assets/images/loader.svg')
-    span(v-if='resourceId && name') {{ name }}
+    span {{ name }}
 </template>
 
 <script>
@@ -18,6 +18,7 @@ export default {
                 name = r.name
             }
         })
+        console.log('calculated in currentr:', {name, resourceId})
         return name
     },
   }

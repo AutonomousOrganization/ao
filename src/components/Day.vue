@@ -3,14 +3,20 @@
     .date {{ day }}
     img.today(v-if='isToday'  src='../assets/images/uni.svg')
     span(v-for='t in ev')
-        .tooltip.upgrade(v-if='t.type !== "task-claimed"')
+        .tooltip.upgrade(v-if='!t.type')
             img.upgrade(@click="goIn(t.taskId)"  src='../assets/images/timecube.svg'  :class='styl(t.color)')
             .tooltiptext
                 .until {{ cardDate(t) }}
                 span(v-if='checkIsMember(t.name)')
                     current(:memberId='t.name')
                 linky(v-else  :x='t.name')
-        span.tooltip.plain.completedcheckmark(v-else  @click='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
+        .tooltip.upgrade(v-else-if='t.type === "resource-used"')
+            img.completedcheckmark(@click="goIn(t.resourceId)"  src='../assets/images/loader.svg'  :class='styl(t.color)')
+            .tooltiptext
+                current(:memberId='t.memberId')
+                currentr(:resourceId='t.resourceId')
+                span {{t.notes}}
+        span.tooltip.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @click='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
             img.completedcheckmark(:class='{smaller: ev.length > 15}'  src='../assets/images/completed.svg')
             .tooltiptext
                 current(:memberId='t.memberId')
@@ -22,6 +28,7 @@
 import _ from 'lodash'
 import Linky from './Linky'
 import Current from './Current'
+import Currentr from './Currentr'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -34,7 +41,7 @@ function getDMY(ts){
 }
 
 export default {
-    components: { Linky, Current },
+    components: { Linky, Current, Currentr },
     props: ['day', 'month', 'year', 'inId', 'ev', 'isToday'],
     methods: {
         styl(color){

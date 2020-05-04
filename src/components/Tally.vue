@@ -106,6 +106,7 @@ export default {
     font-size: 1em
     min-height: 2em
     min-width: 7em
+    cursor: pointer
 img
     height: 1em
     position: relative
