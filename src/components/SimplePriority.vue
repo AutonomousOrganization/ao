@@ -23,7 +23,6 @@ import Linky from './Linky'
 import Hypercard from './Card'
 import Tally from './Tally'
 
-
 export default {
     props: ['taskId', 'inId', 'c'],
     components: { Hypercard, Linky, Tally },
@@ -67,7 +66,6 @@ export default {
     },
     methods: {
       goIn(taskId){
-
           let panel = [taskId]
           let parents = [  ]
           let top = 0
@@ -96,7 +94,6 @@ export default {
           this.$router.push("/" + this.$store.state.upgrades.mode)
       },
       complete(){
-
           this.$store.dispatch("makeEvent", {
               type: 'task-claimed',
               inId: this.inId,
@@ -140,22 +137,6 @@ export default {
                 return t.taskId === this.taskId
             })
         },
-        cardStart(){
-            // XXX recalc on nav
-            if ( this.card.book.startTs ){
-              let now = Date.now()
-              let msTill = this.card.book.startTs - now
-              // XXX TODO
-              let days = msTill / (1000 * 60 * 60 * 24)
-              let hours = 0
-              let minutes = 0
-              return {
-                  days,
-                  hours,
-                  minutes
-              }
-            }
-        },
         cardInputSty() {
           return {
               redwx : this.card.color == 'red',
@@ -168,7 +149,7 @@ export default {
         },
         cardAge(){
           let now = Date.now()
-          let msSince = now - this.c.timestamp
+          let msSince = now - this.card.timestamp
           let days = msSince / (1000 * 60 * 60 * 24)
           return days
         },

@@ -1,7 +1,7 @@
 <template lang='pug'>
 
-.tally(@click='setAction')
-    span.adjtooltip
+.tally.tooltip(@click='setAction')
+    span
         span.faded
             span.points(v-if='b.completeValue > 0') {{ b.completeValue }}
             img.chest(v-if='b.completeValue > 0'  src='../assets/images/completed.svg')

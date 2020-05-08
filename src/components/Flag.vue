@@ -6,7 +6,7 @@
         img(v-else-if='$store.state.upgrades.mode === "timecube"' src='../assets/images/timecube.svg'  :class='{hidden:!$store.getters.member.guides}')
         img.svgwhite.faded(v-else, src='../assets/images/upboat.svg'  :class='{hidden:!$store.getters.member.guides}')
     .opened
-        resource-book(v-if='isCubeOpen'  :tId='b.taskId')
+        resource-book(v-if='isCubeOpen'  :tId='b.taskId'  :showSet='true')
         guild-create(:editing='isPayOpen'  :b='b')
         points-set(v-if='isChestOpen'  :b='b')
 </template>

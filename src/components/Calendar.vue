@@ -21,12 +21,12 @@
                 current(:memberId='n.memberId')
                 span {{ new Date(n.timestamp).toString().slice(15,21) }}
                 span - {{ getFromMap(n.taskId).name }}
-            .tooltip(v-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
+            .tooltip(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
                 current(:memberId='n.memberId')
                 span {{ new Date(n.timestamp).toString().slice(15,21) }}
                 currentr(:resourceId='n.resourceId')
                 span - {{ n.notes }}
-            .tooltip(v-if='n.name'  @click='goIn(n.taskId)')
+            .tooltip(v-else-if='n.name'  @click='goIn(n.taskId)')
                 span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ n.name }}
         img.bdoge(src='../assets/images/doge.svg'  @click='chooseDay(false)')
         h5

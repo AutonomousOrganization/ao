@@ -35,7 +35,7 @@ const HOUR = 1000 * 60 * 60
 const HALFDAY = HOUR * 12
 
 export default {
-    props:['tId'],
+    props:['tId', 'showSet'],
     methods: {
         book(){
             console.log("current start", this.calcTime.start)
@@ -60,7 +60,7 @@ export default {
         let d = new Date()
 
         return {
-            showSetTime: false,
+            showSetTime: this.showSet,
             ymd: '',
             hour: 1,
             meridiem : 'pm',
